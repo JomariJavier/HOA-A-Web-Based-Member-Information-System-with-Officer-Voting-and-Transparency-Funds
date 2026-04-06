@@ -1,0 +1,68 @@
+====================================================================
+HOA SYSTEM: POST-SETUP VERIFICATION & TROUBLESHOOTING
+====================================================================
+Follow these steps to ensure your local environment is 100% working.
+
+--------------------------------------------------------------------
+PART 1: VERIFICATION TEST CASES
+--------------------------------------------------------------------
+
+TEST CASE 1: The "Heartbeat" Check
+1. Start the backend (.\mvnw spring-boot:run).
+2. Open your browser and go to: http://localhost:8080/api/members/test
+3. EXPECTED: You should see the text "Member API is Live and Reachable!"
+   PROVES: The backend is running and the Security "Bouncer" is letting you in.
+
+TEST CASE 2: The "Full-Stack" Loop
+1. Start the frontend (npm run dev).
+2. Go to: http://localhost:5173
+3. Enter "Test Member 101" in the input box and click "Add Member".
+4. EXPECTED: The name should appear in the list on the screen.
+5. OPEN pgAdmin 4 -> hoa_db -> Tables -> members. Right-click -> View Data.
+6. EXPECTED: "Test Member 101" should be a row in the table.
+   PROVES: React -> Spring Boot -> PostgreSQL are all talking to each other.
+
+TEST CASE 3: The Persistence Check
+1. STOP the backend terminal (Ctrl + C).
+2. START the backend again (.\mvnw spring-boot:run).
+3. Refresh the React page (http://localhost:5173).
+4. EXPECTED: "Test Member 101" is STILL there.
+   PROVES: Data is saved in the database, not just temporary memory.
+
+--------------------------------------------------------------------
+PART 2: COMMON ERRORS & SOLUTIONS (WE'VE ALREADY FACED THESE!)
+--------------------------------------------------------------------
+
+ERROR A: ".\mvnw is not recognized as a cmdlet/function..."
+- SYMPTOM: You try to run the backend and PowerShell gives a red error.
+- CAUSE: You are in the wrong folder. The `mvnw` file only lives in the 
+  root of the 'backend' folder.
+- SOLUTION: Right-click the 'backend' folder in VS Code and select 
+  "Open in Integrated Terminal", then try again.
+
+ERROR B: "Package 'main.java.com.hoa...' does not match..."
+- SYMPTOM: Red squiggly lines on the first line of every Java file.
+- CAUSE: VS Code is confused about where the project starts.
+- SOLUTION: 
+  1. Open ONLY the 'backend' folder as your VS Code workspace.
+  2. Press Ctrl+Shift+P -> "Java: Clean Java Language Server Workspace" -> Restart.
+
+ERROR C: "CORS Policy Blocked" or "401 Unauthorized"
+- SYMPTOM: React says "Failed to fetch" and F12 Console shows Red Text.
+- CAUSE: The Spring Security "Bouncer" is blocking the request because 
+  the URL isn't on the "Permitted" list.
+- SOLUTION: Check 'SecurityConfig.java'. Ensure your path (e.g., /api/members/**) 
+  is included in the `.requestMatchers().permitAll()` section.
+
+ERROR D: "Database 'hoa_db' does not exist"
+- SYMPTOM: Backend terminal shows a "Connection Refused" error on startup.
+- CAUSE: You forgot to create the database in pgAdmin.
+- SOLUTION: Open pgAdmin, right-click 'Databases', and Create a database named 'hoa_db'.
+
+ERROR E: "Unexpected end of JSON input"
+- SYMPTOM: The React page crashes or shows a "SyntaxError".
+- CAUSE: The backend sent an error (like a 401 or 500) instead of data. 
+  React tried to read the error as a list and failed.
+- SOLUTION: Check the Backend terminal for errors first. If the backend 
+  isn't happy, the frontend won't be either!
+====================================================================
