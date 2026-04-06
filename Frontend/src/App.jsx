@@ -2,38 +2,62 @@ import { useState, useEffect } from 'react'
 import './App.css'
 
 function App() {
-  const [connectionData, setConnectionData] = useState([]);
-  const [error, setError] = useState(null);
+  const [members, setMembers] = useState([]);
+  const [newName, setNewName] = useState("");
+
+  // Function to fetch members from Backend
+  const fetchMembers = () => {
+    fetch('http://localhost:8080/api/members')
+      .then(res => res.json())
+      .then(data => setMembers(data))
+      .catch(err => console.error("Error fetching:", err));
+  };
 
   useEffect(() => {
-    // Fetching data from our Spring Boot API
-    fetch('http://localhost:8080/api/test/connection')
-      .then(response => {
-        if (!response.ok) throw new Error('Network response was not ok');
-        return response.json();
-      })
-      .then(data => setConnectionData(data))
-      .catch(err => setError(err.message));
+    fetchMembers();
   }, []);
+
+  // Function to handle form submission
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    if (!newName) return;
+
+    fetch('http://localhost:8080/api/members', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ name: newName })
+    })
+    .then(() => {
+      setNewName(""); // Clear input
+      fetchMembers(); // Refresh list
+    })
+    .catch(err => console.error("Error saving:", err));
+  };
 
   return (
     <div className="App">
-      <h1>HOA System Connection Test</h1>
+      <h1>HOA Member Manager</h1>
       
+      <form onSubmit={handleSubmit}>
+        <input 
+          type="text" 
+          value={newName} 
+          onChange={(e) => setNewName(e.target.value)} 
+          placeholder="Enter member name"
+        />
+        <button type="submit">Add Member</button>
+      </form>
+
       <div className="card">
-        {error ? (
-          <p style={{ color: 'red' }}>Error connecting to backend: {error}</p>
-        ) : (
+        <h3>Member List (from PostgreSQL)</h3>
+        {members.length === 0 ? <p>No members found.</p> : (
           <ul>
-            {connectionData.map((item, index) => (
-              <li key={index}>{item}</li>
+            {members.map(m => (
+              <li key={m.id}>{m.name} - <strong>{m.status}</strong></li>
             ))}
           </ul>
         )}
       </div>
-      <p className="read-the-docs">
-        If you see "Backend Status: Online", your stack is correctly wired!
-      </p>
     </div>
   )
 }
