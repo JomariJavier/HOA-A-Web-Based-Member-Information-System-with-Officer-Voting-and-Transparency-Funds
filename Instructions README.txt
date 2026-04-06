@@ -17,9 +17,9 @@ PHASE 1: CORE SOFTWARE INSTALLATIONS (The Engines)
 You need to download and install these foundational tools. Leave all 
 installers on their "Default" settings unless specified.
 
-1. Git (Version Control)
-   - Why: To clone our code and push your changes to GitHub.
-   - Link: https://git-scm.com/download/win
+1. GitHub Desktop
+   - Why: Our visual tool for syncing code. No typing commands needed.
+   - Link: https://desktop.github.com/
 
 2. Node.js (LTS Version)
    - Why: Needed to run our React Frontend and manage 'npm' packages.
@@ -59,13 +59,13 @@ For Database:
 5. "PostgreSQL" by Chris Kolkman (Allows you to view tables inside VS Code)
 
 --------------------------------------------------------------------
-PHASE 3: CLONING THE REPOSITORY
+PHASE 3: CLONING THE PROJECT (Via GitHub Desktop)
 --------------------------------------------------------------------
-1. Open Windows PowerShell or Terminal.
-2. Navigate to where you want the project (e.g., `cd Documents`).
-3. Run the clone command:
-   git clone [INSERT_YOUR_GITHUB_REPO_LINK_HERE]
-4. Open the cloned folder in VS Code (File -> Open Folder).
+1. Open GitHub Desktop and Sign In to your GitHub account.
+2. Go to File -> Clone Repository.
+3. Select the "URL" tab and paste our project link.
+4. Choose a "Local Path" (e.g., Documents/Projects). Click Clone.
+5. Once finished, click "Open in Visual Studio Code" inside the app.
 
 --------------------------------------------------------------------
 PHASE 4: DATABASE SETUP
@@ -86,7 +86,7 @@ We need to connect your local code to your local database.
 
 1. In VS Code, go to: Backend/src/main/resources/application.properties
 2. Find the line: `spring.datasource.password=...`
-3. Change it to the password you set for PostgreSQL in Phase 1. Save the file.
+3. Change it to the PASSWORD YOU SET for PostgreSQL in Phase 1. Save the file.
 4. Right-click the "Backend" folder in VS Code and select "Open in Integrated Terminal".
 5. Run this command to download Java dependencies and start the server:
    .\mvnw clean spring-boot:run
