@@ -3,7 +3,7 @@ package com.hoa.backend;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import main.java.com.hoa.backend.MemberRepository;
+import com.hoa.backend.MemberRepository;
 
 import java.util.List;
 
