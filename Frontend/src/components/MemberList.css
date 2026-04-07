@@ -324,3 +324,69 @@
     cursor: pointer;
     font-weight: 600;
 }
+
+/* Toolbar positioning */
+.search-and-filter {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    margin-bottom: 20px;
+}
+
+.search-wrapper {
+    flex: 1;
+    max-width: 500px;
+    position: relative;
+}
+
+.filter-container {
+    margin-left: 20px;
+}
+
+/* Sidebar Adjustment */
+.nav-item {
+    font-size: 13px; /* Slightly smaller for the longer names */
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+/* Detail View Refinement */
+.details-list {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    margin-top: 20px;
+}
+
+.detail-row {
+    display: flex;
+    border-bottom: 1px solid #f0f0f0;
+    padding-bottom: 8px;
+}
+
+.detail-row label {
+    width: 180px;
+    font-weight: bold;
+    color: #4a5568;
+}
+
+.detail-row span, .detail-row p {
+    color: #2d3748;
+    margin: 0;
+}
+
+.full-width-row {
+    flex-direction: column;
+    border-bottom: none;
+}
+
+.full-width-row p {
+    margin-top: 10px;
+    background: #f8fafc;
+    padding: 15px;
+    border-radius: 6px;
+}
+
+.text-right { text-align: right; }

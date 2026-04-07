@@ -10,43 +10,38 @@ export default function MemberList() {
     
     // Filter State
     const [showFilter, setShowFilter] = useState(false);
-    const [filterRole, setFilterRole] = useState('All'); // 'All', 'Officer', 'Member'
+    const [filterRole, setFilterRole] = useState('All');
 
     useEffect(() => {
+        // Placeholders matching the Figma structure
         const fakeData = [
             { 
-                id: "2024-001", firstName: "Emmanuel", lastName: "Consencino", middleName: "A", suffix: "",
-                gender: "Male", civilStatus: "Single", occupation: "Software Engineer", 
-                email: "emman@example.com", phone: "09123456789", income: "50,000",
-                birthDate: "1998-05-20", birthPlace: "Manila",
-                address: "Blk 1 Lot 2, Phase 1", status: "Active", role: "Officer"
+                id: "2024-001", 
+                fullName: "Emmanuel A. Consencino", 
+                birthDate: "1998-05-20", 
+                hoaAddress: "Blk 1 Lot 2, Phase 1", 
+                dateRegistered: "2024-01-15",
+                maritalStatus: "Single",
+                familyMembers: "Staff: Maria Santos, Dependent: Jose Consencino",
+                role: "Officer"
             },
             { 
-                id: "2024-002", firstName: "Lara Shane", lastName: "Eduarte", middleName: "T", suffix: "",
-                gender: "Female", civilStatus: "Single", occupation: "Accountant", 
-                email: "lara@example.com", phone: "09987654321", income: "45,000",
-                birthDate: "1999-11-12", birthPlace: "Quezon City",
-                address: "Blk 3 Lot 4, Phase 2", status: "Active", role: "Member"
+                id: "2024-002", 
+                fullName: "Lara Shane T. Eduarte", 
+                birthDate: "1999-11-12", 
+                hoaAddress: "Blk 3 Lot 4, Phase 2", 
+                dateRegistered: "2024-02-10",
+                maritalStatus: "Single",
+                familyMembers: "None",
+                role: "Member"
             }
         ];
         setMembers(fakeData);
     }, []);
 
-    // --- LOGIC ---
-    const filteredMembers = members.filter(member => {
-        const matchesSearch = `${member.firstName} ${member.lastName}`.toLowerCase().includes(searchTerm.toLowerCase()) ||
-                             member.address.toLowerCase().includes(searchTerm.toLowerCase());
-        const matchesFilter = filterRole === 'All' || member.role === filterRole;
-        return matchesSearch && matchesFilter;
-    });
-
     const handleViewDetails = (member) => {
         setSelectedMember(member);
         setView('info');
-    };
-
-    const handleOpenRegistration = () => {
-        setView('registration');
     };
 
     // --- RENDER PIECES ---
@@ -54,33 +49,33 @@ export default function MemberList() {
     const renderMemberTable = () => (
         <>
             <div className="content-header">
-                <h2>Homeowner Directory</h2>
-                {/* Registration button available in List view */}
-                <button className="add-member-btn" onClick={handleOpenRegistration}>+ Add New Member</button>
+                <h2>Member Directory</h2>
+                <button className="add-member-btn" onClick={() => setView('registration')}>+ Add New Member</button>
             </div>
             
             <div className="toolbar">
-                <div className="search-wrapper">
-                    <span className="search-icon">🔍</span>
-                    <input 
-                        type="text" 
-                        placeholder="Search by name, ID, or address..." 
-                        value={searchTerm}
-                        onChange={(e) => setSearchTerm(e.target.value)}
-                    />
-                </div>
-
-                <div className="filter-container">
-                    <button className="filter-btn" onClick={() => setShowFilter(!showFilter)}>
-                        <span>Inline Filter</span> ⚙️
-                    </button>
-                    {showFilter && (
-                        <div className="filter-popup">
-                            <div className="filter-option" onClick={() => {setFilterRole('All'); setShowFilter(false);}}>All</div>
-                            <div className="filter-option" onClick={() => {setFilterRole('Officer'); setShowFilter(false);}}>Officer</div>
-                            <div className="filter-option" onClick={() => {setFilterRole('Member'); setShowFilter(false);}}>Member</div>
-                        </div>
-                    )}
+                <div className="search-and-filter">
+                    <div className="search-wrapper">
+                        <span className="search-icon">🔍</span>
+                        <input 
+                            type="text" 
+                            placeholder="Search members..." 
+                            value={searchTerm}
+                            onChange={(e) => setSearchTerm(e.target.value)}
+                        />
+                    </div>
+                    <div className="filter-container">
+                        <button className="filter-btn" onClick={() => setShowFilter(!showFilter)}>
+                             Filter ⚙️
+                        </button>
+                        {showFilter && (
+                            <div className="filter-popup">
+                                <div className="filter-option" onClick={() => {setFilterRole('All'); setShowFilter(false);}}>All</div>
+                                <div className="filter-option" onClick={() => {setFilterRole('Officer'); setShowFilter(false);}}>Officer</div>
+                                <div className="filter-option" onClick={() => {setFilterRole('Member'); setShowFilter(false);}}>Member</div>
+                            </div>
+                        )}
+                    </div>
                 </div>
             </div>
 
@@ -90,19 +85,19 @@ export default function MemberList() {
                         <tr>
                             <th>Member ID</th>
                             <th>Full Name</th>
-                            <th>Address/Location</th>
+                            <th>HOA Address</th>
                             <th>Role</th>
-                            <th className="text-center">Action</th>
+                            <th className="text-right">Action</th>
                         </tr>
                     </thead>
                     <tbody>
-                        {filteredMembers.map((member) => (
+                        {members.map((member) => (
                             <tr key={member.id}>
                                 <td className="id-cell">{member.id}</td>
-                                <td className="name-cell">{member.firstName} {member.lastName}</td>
-                                <td>{member.address}</td>
+                                <td className="name-cell">{member.fullName}</td>
+                                <td>{member.hoaAddress}</td>
                                 <td>{member.role}</td>
-                                <td className="text-center">
+                                <td className="text-right">
                                     <button className="view-btn" onClick={() => handleViewDetails(member)}>
                                         View Details
                                     </button>
@@ -118,19 +113,24 @@ export default function MemberList() {
     const renderMemberInfo = () => (
         <div className="member-info-view">
             <div className="content-header">
-                <button className="back-link" onClick={() => setView('list')}>← Back to Member List</button>
-                <button className="add-member-btn" onClick={handleOpenRegistration}>+ Add New Member</button>
+                <button className="back-link" onClick={() => setView('list')}>← Back to List</button>
+                <button className="add-member-btn" onClick={() => setView('registration')}>+ Add New Member</button>
             </div>
-            <div className="info-grid">
+            <div className="info-grid-simple">
                 <div className="info-section">
-                    <h3>Personal Information</h3>
-                    <div className="details-grid">
-                        <div className="detail-item"><label>Full Name</label><p>{selectedMember.firstName} {selectedMember.lastName}</p></div>
-                        <div className="detail-item"><label>Gender</label><p>{selectedMember.gender}</p></div>
-                        <div className="detail-item"><label>Birth Date</label><p>{selectedMember.birthDate}</p></div>
-                        <div className="detail-item"><label>Role</label><p>{selectedMember.role}</p></div>
+                    <h3>Member Details</h3>
+                    <div className="details-list">
+                        <div className="detail-row"><label>Full Name:</label> <span>{selectedMember.fullName}</span></div>
+                        <div className="detail-row"><label>Birthdate:</label> <span>{selectedMember.birthDate}</span></div>
+                        <div className="detail-row"><label>HOA Address:</label> <span>{selectedMember.hoaAddress}</span></div>
+                        <div className="detail-row"><label>Date Registered:</label> <span>{selectedMember.dateRegistered}</span></div>
+                        <div className="detail-row"><label>Marital Status:</label> <span>{selectedMember.maritalStatus}</span></div>
+                        <div className="detail-row full-width-row"><label>Family Members:</label> <p>{selectedMember.familyMembers}</p></div>
                     </div>
                 </div>
+            </div>
+            <div className="form-actions">
+                 <button className="edit-btn">Edit Record</button>
             </div>
         </div>
     );
@@ -138,47 +138,27 @@ export default function MemberList() {
     const renderRegistration = () => (
         <div className="registration-view">
             <div className="content-header">
-                <h2>Member Registration</h2>
+                <h2>New Member Registration</h2>
             </div>
             <form className="registration-form">
                 <div className="form-grid">
-                    <div className="form-group">
-                        <label>Full Name</label>
-                        <input type="text" placeholder="Enter name" />
+                    <div className="form-group"><label>Full Name</label><input type="text" /></div>
+                    <div className="form-group"><label>Birthdate</label><input type="date" /></div>
+                    <div className="form-group"><label>HOA Address</label><input type="text" /></div>
+                    <div className="form-group"><label>Gender</label>
+                        <select><option>Male</option><option>Female</option></select>
                     </div>
-                    <div className="form-group">
-                        <label>Birthdate</label>
-                        <input type="date" />
-                    </div>
-                    <div className="form-group">
-                        <label>HOA Address</label>
-                        <input type="text" placeholder="Block/Lot/Phase" />
-                    </div>
-                    <div className="form-group">
-                        <label>Gender</label>
-                        <select>
-                            <option>Male</option>
-                            <option>Female</option>
-                            <option>Other</option>
-                        </select>
-                    </div>
-                    <div className="form-group">
-                        <label>Marital Status</label>
-                        <select>
-                            <option>Single</option>
-                            <option>Married</option>
-                            <option>Widowed</option>
-                        </select>
+                    <div className="form-group"><label>Marital Status</label>
+                        <select><option>Single</option><option>Married</option></select>
                     </div>
                     <div className="form-group full-width">
                         <label>Family Members (including staff)</label>
-                        <textarea placeholder="List family members and staff details..."></textarea>
+                        <textarea placeholder="List details..."></textarea>
                     </div>
                 </div>
-                
                 <div className="form-actions">
-                    <button type="button" className="btn-back" onClick={() => setView('list')}>Back</button>
-                    <button type="button" className="btn-register" onClick={() => {alert('Member Registered!'); setView('list');}}>Register</button>
+                    <button type="button" className="btn-back" onClick={() => setView('list')}>Cancel</button>
+                    <button type="button" className="btn-register" onClick={() => setView('list')}>Register Member</button>
                 </div>
             </form>
         </div>
@@ -187,19 +167,20 @@ export default function MemberList() {
     return (
         <div className="pis-layout">
             <aside className="pis-sidebar">
-                <div className="sidebar-logo">HOA System</div>
+                <div className="sidebar-logo">HOA Portal</div>
                 <nav>
-                    <div className={`nav-item ${view === 'list' ? 'active' : ''}`} onClick={() => setView('list')}>Member List</div>
-                    <div className={`nav-item ${view === 'registration' ? 'active' : ''}`} onClick={() => setView('registration')}>Registration</div>
-                    <div className="nav-item">Voting System</div>
-                    <div className="nav-item">Funds Management</div>
+                    <div className="nav-item">Dashboard</div>
+                    <div className={`nav-item ${view !== 'registration' ? 'active' : ''}`} onClick={() => setView('list')}>HOA Personal Information</div>
+                    <div className="nav-item">Project Management</div>
+                    <div className="nav-item">HOA Voting Room</div>
+                    <div className="nav-item">Public Relations Room</div>
                 </nav>
             </aside>
 
             <main className="pis-main">
                 <header className="pis-top-header">
-                    <div className="breadcrumb">PIS / {view === 'list' ? 'Member List' : view === 'info' ? 'Member Info' : 'Registration'}</div>
-                    <div className="user-profile">Admin User</div>
+                    <div className="breadcrumb">PIS / {view === 'list' ? 'Member List' : view === 'info' ? 'Member Details' : 'Registration'}</div>
+                    <div className="user-profile">Admin Mode</div>
                 </header>
 
                 <section className="pis-content-card">
