@@ -7,6 +7,21 @@ export default function MemberList() {
     const [members, setMembers] = useState([]);
     const [searchTerm, setSearchTerm] = useState("");
     const [selectedMember, setSelectedMember] = useState(null);
+
+    const [newMember, setNewMember] = useState({
+    fullName: '',
+    birthDate: '',
+    hoaAddress: '',
+    gender: 'Male',
+    maritalStatus: 'Single',
+    familyMembers: '',
+    role: 'Member'
+});
+
+const handleChange = (e) => {
+    const { name, value } = e.target;
+    setNewMember(prev => ({ ...prev, [name]: value }));
+};
     
     // Filter State
     const [showFilter, setShowFilter] = useState(false);
@@ -140,23 +155,70 @@ const handleRegisterSubmit = async (formData) => {
             </div>
             <form className="registration-form">
                 <div className="form-grid">
-                    <div className="form-group"><label>Full Name</label><input type="text" /></div>
-                    <div className="form-group"><label>Birthdate</label><input type="date" /></div>
-                    <div className="form-group"><label>HOA Address</label><input type="text" /></div>
-                    <div className="form-group"><label>Gender</label>
-                        <select><option>Male</option><option>Female</option></select>
+                    <div className="form-group">
+                        <label>Full Name</label>
+                        <input 
+                            type="text" 
+                            name="fullName" 
+                            value={newMember.fullName} 
+                            onChange={handleChange} 
+                            placeholder="Enter name" 
+                        />
                     </div>
-                    <div className="form-group"><label>Marital Status</label>
-                        <select><option>Single</option><option>Married</option></select>
+                    <div className="form-group">
+                        <label>Birthdate</label>
+                        <input 
+                            type="date" 
+                            name="birthDate" 
+                            value={newMember.birthDate} 
+                            onChange={handleChange} 
+                        />
+                    </div>
+                    <div className="form-group">
+                        <label>HOA Address</label>
+                        <input 
+                            type="text" 
+                            name="hoaAddress" 
+                            value={newMember.hoaAddress} 
+                            onChange={handleChange} 
+                            placeholder="Block/Lot/Phase" 
+                        />
+                    </div>
+                    <div className="form-group">
+                        <label>Gender</label>
+                        <select name="gender" value={newMember.gender} onChange={handleChange}>
+                            <option value="Male">Male</option>
+                            <option value="Female">Female</option>
+                        </select>
+                    </div>
+                    <div className="form-group">
+                        <label>Marital Status</label>
+                        <select name="maritalStatus" value={newMember.maritalStatus} onChange={handleChange}>
+                            <option value="Single">Single</option>
+                            <option value="Married">Married</option>
+                        </select>
                     </div>
                     <div className="form-group full-width">
                         <label>Family Members (including staff)</label>
-                        <textarea placeholder="List details..."></textarea>
+                        <textarea 
+                            name="familyMembers" 
+                            value={newMember.familyMembers} 
+                            onChange={handleChange} 
+                            placeholder="List details..."
+                        ></textarea>
                     </div>
                 </div>
+                
                 <div className="form-actions">
                     <button type="button" className="btn-back" onClick={() => setView('list')}>Cancel</button>
-                    <button type="button" className="btn-register" onClick={() => setView('list')}>Register Member</button>
+                    {/* This button now actually sends the 'newMember' state to the backend */}
+                    <button 
+                        type="button" 
+                        className="btn-register" 
+                        onClick={() => handleRegisterSubmit(newMember)}
+                    >
+                        Register Member
+                    </button>
                 </div>
             </form>
         </div>
