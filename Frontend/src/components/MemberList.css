@@ -153,3 +153,174 @@
 
 .view-btn:hover { background: #ebf8ff; }
 .text-center { text-align: center; }
+
+/* Member Info Specific Styles */
+.back-link {
+    background: none;
+    border: none;
+    color: #3182ce;
+    cursor: pointer;
+    font-weight: 600;
+    padding: 0;
+    font-size: 16px;
+}
+
+.back-link:hover { text-decoration: underline; }
+
+.info-section {
+    margin-top: 20px;
+    padding-bottom: 20px;
+    border-bottom: 1px solid #edf2f7;
+}
+
+.info-section h3 {
+    font-size: 18px;
+    color: #2d3748;
+    margin-bottom: 20px;
+    border-left: 4px solid #4fd1c5;
+    padding-left: 10px;
+}
+
+.details-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 20px;
+}
+
+.detail-item label {
+    display: block;
+    font-size: 12px;
+    color: #718096;
+    text-transform: uppercase;
+    font-weight: bold;
+    margin-bottom: 4px;
+}
+
+.detail-item p {
+    margin: 0;
+    font-size: 15px;
+    color: #2d3748;
+    font-weight: 500;
+}
+
+.full-width {
+    grid-column: 1 / -1;
+}
+
+.action-buttons button {
+    margin-left: 10px;
+    padding: 8px 16px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-weight: 600;
+}
+
+.edit-btn { background: #3182ce; color: white; border: none; }
+.print-btn { background: white; border: 1px solid #e2e8f0; color: #4a5568; }
+
+/* Filter Styling */
+.filter-container {
+    position: relative;
+    display: inline-block;
+}
+
+.filter-btn {
+    background: #edf2f7;
+    border: 1px solid #e2e8f0;
+    padding: 10px 15px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.filter-popup {
+    position: absolute;
+    top: 45px;
+    right: 0;
+    background: white;
+    border: 1px solid #e2e8f0;
+    border-radius: 8px;
+    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+    z-index: 100;
+    width: 150px;
+    overflow: hidden;
+}
+
+.filter-option {
+    padding: 10px 15px;
+    cursor: pointer;
+    font-size: 14px;
+}
+
+.filter-option:hover {
+    background-color: #f7fafc;
+    color: #3182ce;
+}
+
+/* Registration Form Styling */
+.registration-form {
+    margin-top: 20px;
+}
+
+.form-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+}
+
+.form-group {
+    display: flex;
+    flex-direction: column;
+}
+
+.form-group label {
+    font-size: 13px;
+    font-weight: 700;
+    color: #4a5568;
+    margin-bottom: 8px;
+}
+
+.form-group input, .form-group select, .form-group textarea {
+    padding: 10px;
+    border: 1px solid #e2e8f0;
+    border-radius: 6px;
+    font-size: 14px;
+}
+
+.form-group textarea {
+    height: 100px;
+    resize: none;
+}
+
+.full-width {
+    grid-column: 1 / -1;
+}
+
+.form-actions {
+    margin-top: 30px;
+    display: flex;
+    justify-content: flex-end;
+    gap: 15px;
+}
+
+.btn-back {
+    background: #e2e8f0;
+    border: none;
+    padding: 10px 25px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-weight: 600;
+}
+
+.btn-register {
+    background: #3182ce;
+    color: white;
+    border: none;
+    padding: 10px 25px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-weight: 600;
+}
