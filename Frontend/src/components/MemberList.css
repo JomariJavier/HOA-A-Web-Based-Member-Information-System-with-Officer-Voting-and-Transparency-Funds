@@ -389,4 +389,13 @@
     border-radius: 6px;
 }
 
-.text-right { text-align: right; }
+/* This ensures the 'Action' text and any button in that column align to the right edge */
+.text-right {
+    text-align: right !important;
+    padding-right: 20px !important; /* This creates a consistent 'gutter' on the right */
+}
+
+/* This ensures the button specifically moves to the right side of the cell */
+.text-right .view-btn {
+    display: inline-block;
+}
