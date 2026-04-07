@@ -12,32 +12,30 @@ export default function MemberList() {
     const [showFilter, setShowFilter] = useState(false);
     const [filterRole, setFilterRole] = useState('All');
 
-    useEffect(() => {
-        // Placeholders matching the Figma structure
-        const fakeData = [
-            { 
-                id: "2024-001", 
-                fullName: "Emmanuel A. Consencino", 
-                birthDate: "1998-05-20", 
-                hoaAddress: "Blk 1 Lot 2, Phase 1", 
-                dateRegistered: "2024-01-15",
-                maritalStatus: "Single",
-                familyMembers: "Staff: Maria Santos, Dependent: Jose Consencino",
-                role: "Officer"
-            },
-            { 
-                id: "2024-002", 
-                fullName: "Lara Shane T. Eduarte", 
-                birthDate: "1999-11-12", 
-                hoaAddress: "Blk 3 Lot 4, Phase 2", 
-                dateRegistered: "2024-02-10",
-                maritalStatus: "Single",
-                familyMembers: "None",
-                role: "Member"
-            }
-        ];
-        setMembers(fakeData);
-    }, []);
+    // 1. Update the Fetch logic
+useEffect(() => {
+    fetch('http://localhost:8080/api/members')
+        .then(res => res.json())
+        .then(data => setMembers(data))
+        .catch(err => console.error("Error fetching members:", err));
+}, [view]); // Refresh when we go back to the list view
+
+// 2. Update the Registration submit logic
+const handleRegisterSubmit = async (formData) => {
+    try {
+        const response = await fetch('http://localhost:8080/api/members', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(formData)
+        });
+        if(response.ok) {
+            alert("Member successfully registered!");
+            setView('list');
+        }
+    } catch (error) {
+        console.error("Registration failed:", error);
+    }
+};
 
     const handleViewDetails = (member) => {
         setSelectedMember(member);

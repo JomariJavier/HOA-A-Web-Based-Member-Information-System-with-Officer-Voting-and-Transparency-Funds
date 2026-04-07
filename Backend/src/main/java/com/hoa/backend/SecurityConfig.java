@@ -19,17 +19,18 @@ public class SecurityConfig {
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
-        http
-            .cors(withDefaults()) // Enable CORS
-            .csrf(csrf -> csrf.disable()) // Disable CSRF for testing (important for React POST/PUT)
-            // Inside your filterChain method
-                .authorizeHttpRequests(auth -> auth
-                    .requestMatchers("/api/test/**", "/api/members/**").permitAll() // Add /api/members/**
-                    .anyRequest().authenticated()
-                )
-            .httpBasic(withDefaults()); // Still allow standard login for other parts
-
-        return http.build();
+        // Inside your securityFilterChain bean
+    http
+        .cors(cors -> cors.configurationSource(request -> {
+            var corsConfiguration = new org.springframework.web.cors.CorsConfiguration();
+            corsConfiguration.setAllowedOrigins(java.util.List.of("http://localhost:5173"));
+            corsConfiguration.setAllowedMethods(java.util.List.of("GET", "POST", "PUT", "DELETE"));
+            corsConfiguration.setAllowedHeaders(java.util.List.of("*"));
+            return corsConfiguration;
+        }))
+        .csrf(csrf -> csrf.disable()) // Disable CSRF for easier development testing
+        .authorizeHttpRequests(auth -> auth.anyRequest().permitAll()); // Allow all for now
+    return http.build();
     }
 
     @Bean
