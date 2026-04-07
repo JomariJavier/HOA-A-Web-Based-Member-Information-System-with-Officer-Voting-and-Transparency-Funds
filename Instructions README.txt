@@ -26,9 +26,9 @@ installers on their "Default" settings unless specified.
    - Link: https://nodejs.org/en/download
    - Check: Open Command Prompt and type `node -v`. It should show a version number.
 
-3. Java Development Kit (JDK 26)
+3. Java Development Kit (JDK 25)
    - Why: The programming language for our Spring Boot Backend.
-   - Link: https://www.oracle.com/java/technologies/downloads/#jdk26-windows
+   - Link: https://www.oracle.com/java/technologies/downloads/#jdk25-windows
    - Check: Open Command Prompt and type `java -version`.
 
 4. PostgreSQL & pgAdmin 4
