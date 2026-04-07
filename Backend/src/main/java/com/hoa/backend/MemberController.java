@@ -26,8 +26,8 @@ public class MemberController {
     }
 
     // Save a new member (from the Registration form)
-    @PostMapping
-    public Member registerMember(@RequestBody Member member) {
+   @PostMapping
+        public Member registerMember(@RequestBody Member member) { // @RequestBody is CRITICAL
         return memberRepository.save(member);
-    }
+}
 }
