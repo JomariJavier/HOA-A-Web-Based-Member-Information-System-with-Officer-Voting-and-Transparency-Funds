@@ -21,6 +21,8 @@ public class Election {
     
     private String status;
 
+    private String description;
+
     @OneToMany(mappedBy = "election", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Candidate> nominees = new ArrayList<>();
 
@@ -40,6 +42,9 @@ public class Election {
 
     public String getStatus() { return status; }
     public void setStatus(String status) { this.status = status; }
+
+    public String getDescription() { return description; }
+    public void setDescription(String description) { this.description = description; }
 
     public List<Candidate> getNominees() { return nominees; }
     public void setNominees(List<Candidate> nominees) { 

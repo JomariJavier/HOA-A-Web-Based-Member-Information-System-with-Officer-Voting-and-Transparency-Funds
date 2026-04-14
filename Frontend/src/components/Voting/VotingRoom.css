@@ -4,6 +4,74 @@
     display: flex;
     flex-direction: column;
     gap: 24px;
+    max-width: 1100px;
+    margin: 0 auto;
+}
+
+/* --- Universal Header & Toggle --- */
+.pis-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 24px;
+    max-width: 1100px;
+    margin: 0 auto 24px auto;
+}
+
+.admin-toggle-wrapper {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    background: var(--m3-surface-variant);
+    padding: 8px 16px;
+    border-radius: 20px;
+}
+
+.toggle-switch {
+    position: relative;
+    display: inline-block;
+    width: 44px;
+    height: 24px;
+}
+
+.toggle-switch input {
+    opacity: 0;
+    width: 0;
+    height: 0;
+}
+
+.slider {
+    position: absolute;
+    cursor: pointer;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background-color: var(--m3-outline);
+    transition: .3s;
+    border-radius: 24px;
+}
+
+.slider:before {
+    position: absolute;
+    content: "";
+    height: 18px;
+    width: 18px;
+    left: 3px;
+    bottom: 3px;
+    background-color: white;
+    transition: .3s;
+    border-radius: 50%;
+}
+
+input:checked + .slider {
+    background-color: var(--m3-primary);
+}
+
+input:checked + .slider:before {
+    transform: translateX(20px);
+}
+
+.voting-main-content {
+    max-width: 1100px;
+    margin: 0 auto;
 }
 
 /* --- View 1: Election List --- */
@@ -155,99 +223,168 @@
     margin: 0;
 }
 
-.m3-radio-indicator {
-    width: 20px;
-    height: 20px;
-    border-radius: 10px;
-    border: 2px solid var(--m3-outline);
+/* --- Identity Card Refinements --- */
+.m3-avatar-circular-large {
+    width: 48px;
+    height: 48px;
+    border-radius: 24px;
+    background: var(--m3-primary-container);
+    color: var(--m3-on-primary-container);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 20px;
+    font-weight: 600;
+    flex-shrink: 0;
+}
+
+.m3-selection-indicator {
     display: flex;
     align-items: center;
     justify-content: center;
     flex-shrink: 0;
 }
 
-.m3-card-selected .m3-radio-indicator {
+.m3-radio-outer {
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    border: 2px solid var(--m3-outline);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s ease;
+}
+
+.m3-radio-outer-selected {
     border-color: var(--m3-primary);
 }
 
 .m3-radio-inner {
-    width: 10px;
-    height: 10px;
-    border-radius: 5px;
-    background: transparent;
-    transition: background 0.2s;
-}
-
-.m3-radio-checked {
+    width: 0;
+    height: 0;
+    border-radius: 50%;
     background: var(--m3-primary);
+    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
-/* --- View 3: Admin Create Poll Form --- */
-.m3-surface-container-high {
-    background: var(--m3-surface-variant);
-    border-radius: 24px;
-    padding: 32px;
-    max-width: 800px;
+.m3-radio-inner-selected {
+    width: 14px;
+    height: 14px;
 }
 
-.m3-form-row {
+.m3-fab-bottom-right {
+    position: fixed;
+    bottom: 24px;
+    right: 24px;
+    z-index: 100;
+}
+
+
+/* --- Segmented Form & Elevated Cards --- */
+.m3-segmented-form {
     display: flex;
-    gap: 24px;
-    margin-top: 24px;
-}
-.m3-form-row > * {
-    flex: 1;
+    flex-direction: column;
+    gap: 32px;
 }
 
-.m3-supporting-text {
-    font-size: 12px;
-    color: var(--m3-on-surface-variant);
-    margin-top: 4px;
+.m3-form-section {
+    background: var(--m3-surface);
+    border-radius: 20px;
+    overflow: hidden;
+    border: 1px solid var(--m3-outline-variant);
 }
 
-.m3-nominee-section {
-    margin-top: 40px;
+.m3-elevated-card {
+    box-shadow: 0 1px 3px rgba(0,0,0,0.05);
 }
 
-.m3-section-header {
+.m3-section-header-pill {
+    background: var(--m3-primary-container);
+    color: var(--m3-on-primary-container);
+    padding: 12px 24px;
+}
+
+.m3-card-content {
+    padding: 24px;
+}
+
+.m3-nominee-entry-box {
+    background: var(--m3-surface-container-low);
+    border-radius: 12px;
+    padding: 16px;
+    margin-bottom: 16px;
+    border: 1px solid var(--m3-outline-variant);
+}
+
+.m3-nominee-header {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin-bottom: 24px;
+    margin-bottom: 12px;
 }
 
-.m3-limit-text {
-    color: var(--m3-error);
-}
-
-.m3-dynamic-list {
-    display: flex;
-    flex-direction: column;
-    gap: 16px;
-}
-
-.m3-nominee-box {
+.m3-nominee-fields {
     display: grid;
-    grid-template-columns: 1fr 2fr auto;
+    grid-template-columns: 1fr 2fr;
     gap: 16px;
-    align-items: start;
-    background: var(--m3-surface);
-    padding: 16px;
-    border-radius: 12px;
-    border: 1px solid var(--m3-outline);
 }
 
-.m3-remove-btn {
-    margin-top: 32px; /* align with input */
-}
-
-.m3-add-nominee {
-    margin-top: 16px;
-}
-
-.m3-form-actions {
-    margin-top: 40px;
+.m3-form-actions-footer {
     display: flex;
     justify-content: flex-end;
     gap: 16px;
+    margin-top: 40px;
+    padding-top: 24px;
+    border-top: 1px solid var(--m3-outline-variant);
 }
+
+.m3-filled-btn-large {
+    height: 48px;
+    padding: 0 32px;
+    background: var(--m3-primary);
+    color: var(--m3-on-primary);
+    border: none;
+    border-radius: 24px;
+    font-weight: 500;
+    cursor: pointer;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.2);
+}
+
+.m3-text-btn-large {
+    height: 48px;
+    padding: 0 24px;
+    background: transparent;
+    color: var(--m3-primary);
+    border: none;
+    border-radius: 24px;
+    font-weight: 500;
+    cursor: pointer;
+}
+
+.m3-empty-state {
+    text-align: center;
+    padding: 60px 24px;
+    background: var(--m3-surface-container-low);
+    border-radius: 24px;
+    border: 2px dashed var(--m3-outline-variant);
+}
+
+.m3-election-metadata .m3-label-small {
+    color: var(--m3-on-surface-variant);
+    font-weight: 600;
+}
+
+/* --- View 2: Ballot Refinements --- */
+.m3-candidate-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 16px;
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+.m3-identity-card:hover {
+    background: var(--m3-surface-container-high);
+}
+

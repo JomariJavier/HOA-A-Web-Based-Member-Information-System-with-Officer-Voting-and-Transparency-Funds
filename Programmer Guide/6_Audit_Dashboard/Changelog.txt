@@ -13,3 +13,10 @@ April 14, 2026 - Frontend Phase 1 (UI & Accessibility Completion)
 - [UI/Feature] Created `ProjectForm.jsx` restricting creation capabilities to authenticated admins.
 - [Design Sync] Enforced the 1100px max-width form standard across all Audit components via `Audit.css`.
 - [Design Sync] Retroactively applied the Audit Module's sleek header & toggle layout back to the `PRRoom.jsx` (Public Relations module) for universal consistency.
+
+April 14, 2026 - System-Wide Sync & Global Toggle
+--------------------------------------------------------------------
+- [Architecture] Refactored AuditRoom to accept global isAdmin and setIsAdmin props from App.jsx.
+- [Architecture] Removed local isAdmin state to ensure full synchronization across the application.
+- [Sync] Verified that turning off Admin Sandbox correctly hides the 'Create Project' tab and restricted buttons.
+- [Sync] Centralized role management in the root App.jsx component.

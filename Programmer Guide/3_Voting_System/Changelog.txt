@@ -1,4 +1,18 @@
 ====================================================================
+CHANGE LOG (newest first)
+====================================================================
+[April 14, 2026 - PART 4] — AI Assistant (Antigravity)
+What: Full Voting Room Revamp & M3 Design Synchronization
+Files Changed:
+  - Election.java (Added 'description' field to entity)
+  - VotingController.java (Updated validation for description)
+  - VotingRoom.jsx (Standardized M3 Header & Admin Toggle integration)
+  - ElectionList.jsx (Informational overhaul of election cards)
+  - ElectionManagement.jsx (Redesigned into segmented administrative sections)
+  - VotingRoom.css (Enforced 1100px width locks and M3 form styles)
+  - All Programmer Guide/3_Voting_System/ docs updated
+---
+====================================================================
 VOTING SUBSYSTEM (HOA VOTING ROOM) — CHANGELOG
 ====================================================================
 [April 14, 2026] — AI Assistant (Antigravity)

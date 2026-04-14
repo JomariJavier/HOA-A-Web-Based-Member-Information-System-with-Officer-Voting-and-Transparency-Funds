@@ -45,6 +45,11 @@ public class VotingController {
         if (election.getStartDate() == null || election.getEndDate() == null) {
             return ResponseEntity.badRequest().body("Start and End dates are required.");
         }
+        
+        // Log description for debugging/confirmation
+        if (election.getDescription() != null) {
+             System.out.println("Creating election with description: " + election.getDescription());
+        }
         if (election.getEndDate().isBefore(election.getStartDate())) {
             return ResponseEntity.badRequest().body("End date cannot be before Start date.");
         }

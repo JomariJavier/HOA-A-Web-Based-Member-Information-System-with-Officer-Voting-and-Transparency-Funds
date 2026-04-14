@@ -11,20 +11,20 @@ export default function ElectionList({ elections, totalMembers, isAdmin, onSelec
 
     return (
         <div className="m3-voting-directory">
-            <div className="m3-page-header">
-                <h1 className="m3-display-small">HOA Voting Room</h1>
-                <p className="m3-body-large m3-on-surface-variant">Active and concluded elections.</p>
-            </div>
-
             <div className="m3-election-list">
                 {elections.length === 0 ? (
-                    <div className="m3-empty-state">No elections available.</div>
+                    <div className="m3-empty-state">
+                        <div style={{fontSize: '48px', marginBottom: '16px'}}>🗳️</div>
+                        <h2 className="m3-title-large">No Elections Active</h2>
+                        <p className="m3-body-medium">Check back later or contact an HOA officer for upcoming polls.</p>
+                    </div>
                 ) : (
                     elections.map(election => {
                         const totalVotes = getTotalVotes(election);
-                        const expectedVoters = totalMembers > 0 ? totalMembers : 1; // Prevent div by 0
+                        const expectedVoters = totalMembers > 0 ? totalMembers : 1; 
                         const progress = Math.min((totalVotes / expectedVoters) * 100, 100);
                         const isConcluded = new Date(election.endDate) < new Date();
+                        const nomineeCount = election.nominees ? election.nominees.length : 0;
 
                         return (
                             <div 
@@ -36,7 +36,7 @@ export default function ElectionList({ elections, totalMembers, isAdmin, onSelec
                                     <h2 className="m3-title-large">{election.title}</h2>
                                     <div style={{display: 'flex', alignItems: 'center', gap: '8px'}}>
                                         <span className={`m3-chip ${isConcluded ? 'm3-chip-outline' : 'm3-chip-primary'}`}>
-                                            {isConcluded ? 'Concluded' : 'Active'}
+                                            {isConcluded ? 'Concluded' : 'Active Poll'}
                                         </span>
                                         {isAdmin && (
                                             <button 
@@ -53,15 +53,31 @@ export default function ElectionList({ elections, totalMembers, isAdmin, onSelec
                                     </div>
                                 </div>
                                 <div className="m3-card-content">
-                                    <p className="m3-body-medium m3-on-surface-variant">
-                                        Ends: {new Date(election.endDate).toLocaleString()}
+                                    <p className="m3-body-medium m3-on-surface-variant" style={{marginBottom: '12px'}}>
+                                        {election.description || "No specific details provided for this election."}
                                     </p>
+                                    
+                                    <div className="m3-election-metadata" style={{display: 'flex', gap: '16px', marginBottom: '16px'}}>
+                                        <div className="m3-meta-item">
+                                            <span className="m3-label-small">Candidates:</span>
+                                            <span className="m3-body-small" style={{display: 'block'}}>{nomineeCount} Nominees</span>
+                                        </div>
+                                        <div className="m3-meta-item">
+                                            <span className="m3-label-small">Closes:</span>
+                                            <span className="m3-body-small" style={{display: 'block'}}>{new Date(election.endDate).toLocaleDateString()}</span>
+                                        </div>
+                                    </div>
+
                                     <div className="m3-progress-container">
+                                        <div style={{display: 'flex', justifyContent: 'space-between', marginBottom: '4px'}}>
+                                            <span className="m3-label-medium">Voter Turnout</span>
+                                            <span className="m3-label-medium">{Math.round(progress)}%</span>
+                                        </div>
                                         <div className="m3-progress-bar">
                                             <div className="m3-progress-fill" style={{ width: `${progress}%` }}></div>
                                         </div>
-                                        <span className="m3-label-small m3-on-surface-variant">
-                                            {totalVotes} / {expectedVoters} Votes Cast
+                                        <span className="m3-label-small m3-on-surface-variant" style={{marginTop: '4px', textAlign: 'right', display: 'block'}}>
+                                            {totalVotes} of {expectedVoters} members voted
                                         </span>
                                     </div>
                                 </div>
@@ -71,12 +87,14 @@ export default function ElectionList({ elections, totalMembers, isAdmin, onSelec
                 )}
             </div>
 
-            <button className="m3-fab-extended" onClick={onCreateClick}>
-                <svg className="m3-fab-icon" xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 96 960 960" width="24" fill="currentColor">
-                    <path d="M440 856V576H160v-80h280V216h80v280h280v80H520v280h-80Z"/>
-                </svg>
-                Create Poll
-            </button>
+            {isAdmin && (
+                <button className="m3-fab-extended" onClick={onCreateClick}>
+                    <svg className="m3-fab-icon" xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 96 960 960" width="24" fill="currentColor">
+                        <path d="M440 856V576H160v-80h280V216h80v280h280v80H520v280h-80Z"/>
+                    </svg>
+                    Create New Poll
+                </button>
+            )}
         </div>
     );
 }

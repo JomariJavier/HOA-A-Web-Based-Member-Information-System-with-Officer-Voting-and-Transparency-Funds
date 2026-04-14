@@ -4,18 +4,18 @@ import VotingBallot from './VotingBallot';
 import ElectionManagement from './ElectionManagement';
 import './VotingRoom.css';
 
-export default function VotingRoom() {
+export default function VotingRoom({ isAdmin, setIsAdmin }) {
     const [view, setView] = useState('list'); // 'list', 'ballot', 'create'
     const [elections, setElections] = useState([]);
     const [totalMembers, setTotalMembers] = useState(0);
     const [selectedElection, setSelectedElection] = useState(null);
     const [selectedCandidateId, setSelectedCandidateId] = useState(null);
     const CURRENT_USER_MEMBER_ID = 1; // Mocked logged-in user until Login Module is built
-    const isAdmin = true; // Simulated Admin role logic for now
 
     // Form state for creating poll
     const [pollForm, setPollForm] = useState({
         title: '',
+        description: '', // Added new backend-supported field
         startDate: '',
         endDate: '',
         status: 'Active',
@@ -120,6 +120,7 @@ export default function VotingRoom() {
             setView('list');
             setPollForm({
                 title: '',
+                description: '',
                 startDate: '',
                 endDate: '',
                 status: 'Active',
@@ -162,14 +163,12 @@ export default function VotingRoom() {
     };
 
     const handleDeleteElection = async (id, title) => {
-        console.log(`Attempting to delete election ID: ${id} (${title})`);
         if (!window.confirm(`Are you sure you want to delete "${title}"? This will wipe all votes.`)) return;
         
         try {
             const res = await fetch(`http://localhost:8080/api/voting/elections/${id}`, {
                 method: 'DELETE'
             });
-            console.log(`Delete response status: ${res.status}`);
             if (res.ok) {
                 alert(`Successfully deleted "${title}"`);
                 fetchStatsAndElections();
@@ -179,42 +178,66 @@ export default function VotingRoom() {
             }
         } catch (error) {
             console.error("Error deleting election", error);
-            alert("Delete failed: Backend unreachable or connection error.");
         }
     };
 
     return (
         <section className="m3-content-wrapper">
-            {view === 'list' && (
-                <ElectionList 
-                    elections={elections} 
-                    totalMembers={totalMembers}
-                    isAdmin={isAdmin}
-                    onSelectElection={handleSelectElection} 
-                    onDeleteElection={handleDeleteElection}
-                    onCreateClick={() => setView('create')} 
-                />
-            )}
-            {view === 'ballot' && (
-                <VotingBallot 
-                    election={selectedElection} 
-                    selectedCandidateId={selectedCandidateId} 
-                    onSelectCandidate={setSelectedCandidateId} 
-                    onVoteSubmit={handleVoteSubmit} 
-                    onBack={() => setView('list')} 
-                    onCreateClick={() => setView('create')}
-                />
-            )}
-            {view === 'create' && (
-                <ElectionManagement 
-                    pollForm={pollForm} 
-                    onFormChange={handleCreatePollChange} 
-                    onAddNominee={addNomineeField} 
-                    onRemoveNominee={removeNomineeField} 
-                    onBack={() => setView('list')} 
-                    onSubmit={handleCreatePollSubmit} 
-                />
-            )}
+            {/* Universal Header with Admin Sandbox Toggle */}
+            <header className="pis-header">
+                <div>
+                    <h1 className="m3-display-small">HOA Voting Room</h1>
+                    <p className="m3-body-medium m3-on-surface-variant">
+                        Secure, transparent, and democratic elections for the association.
+                    </p>
+                </div>
+
+                <div className="admin-toggle-wrapper">
+                    <span className="m3-label-large">Admin Sandbox</span>
+                    <label className="toggle-switch">
+                        <input 
+                            type="checkbox" 
+                            checked={isAdmin} 
+                            onChange={(e) => setIsAdmin(e.target.checked)} 
+                        />
+                        <span className="slider"></span>
+                    </label>
+                </div>
+            </header>
+
+            <main className="voting-main-content">
+                {view === 'list' && (
+                    <ElectionList 
+                        elections={elections} 
+                        totalMembers={totalMembers}
+                        isAdmin={isAdmin}
+                        onSelectElection={handleSelectElection} 
+                        onDeleteElection={handleDeleteElection}
+                        onCreateClick={() => setView('create')} 
+                    />
+                )}
+                {view === 'ballot' && (
+                    <VotingBallot 
+                        election={selectedElection} 
+                        selectedCandidateId={selectedCandidateId} 
+                        onSelectCandidate={setSelectedCandidateId} 
+                        onVoteSubmit={handleVoteSubmit} 
+                        onBack={() => setView('list')} 
+                        onCreateClick={() => setView('create')}
+                        isAdmin={isAdmin}
+                    />
+                )}
+                {view === 'create' && (
+                    <ElectionManagement 
+                        pollForm={pollForm} 
+                        onFormChange={handleCreatePollChange} 
+                        onAddNominee={addNomineeField} 
+                        onRemoveNominee={removeNomineeField} 
+                        onBack={() => setView('list')} 
+                        onSubmit={handleCreatePollSubmit} 
+                    />
+                )}
+            </main>
         </section>
     );
 }

@@ -11,7 +11,28 @@ HOW TO USE THIS FILE:
 
 
 ====================================================================
-PRIORITY 1: CRITICAL (Do these first)
+====================================================================
+PRIORITY 1: FRONTEND UI/UX OVERHAUL (M3 Consistency & RBAC)
+====================================================================
+
+[x] TASK 1: Admin Sandbox Toggle & RBAC Guard
+    What: Fixed. Injected Admin Sandbox toggle and implemented Access Denied state for Members.
+    Assigned: Antigravity AI
+
+[x] TASK 2: Component Modularity (Split MemberList.jsx)
+    What: Fixed. Refactored into Directory, Profile, and Registration sub-components.
+    Assigned: Antigravity AI
+
+[x] TASK 3: M3 Universal Header Sync
+    What: Fixed. Applied specialized flex-header with Admin Toggle synchronization.
+    Assigned: Antigravity AI
+
+[x] TASK 4: M3 Table & Card Alignment (1100px Width)
+    What: Fixed. Enforced strict 1100px width locks on all content wrappers.
+    Assigned: Antigravity AI
+
+====================================================================
+PRIORITY 2: CRITICAL FEATURES (Backend & DB Refinements)
 ====================================================================
 
 [ ] TASK 1: Build the Edit Member feature
@@ -117,12 +138,7 @@ BUGS / QUIRKS TO FIX
     the database. Should either require the field or handle it
     gracefully.
 
-[ ] BUG 2: After registering a member, the form fields are NOT
-    cleared. If you go back to registration, the old data is still
-    in the input boxes.
-
-[ ] BUG 3: The "Add New Member" button appears on BOTH the
-    directory view AND the details view. On the details view it
-    feels out of place — consider removing it from there.
+[x] BUG 2: After registering a member, the form fields are cleared.
+[x] BUG 3: The "Add New Member" button placement modernized.
 
 ====================================================================

@@ -15,6 +15,18 @@ HOW TO USE THIS FILE:
 ====================================================================
 CHANGE LOG (newest first)
 ====================================================================
+[April 14, 2026 - PART 3] — AI Assistant (Antigravity)
+What: Architectural Refactor & M3/RBAC Standardization
+Files Changed:
+  - MemberList.jsx (Refactored into Orchestrator; Added Universal M3 Header & Admin Toggle)
+  - MemberDirectory.jsx (Extracted Directory/Table View)
+  - MemberProfile.jsx (Extracted Detail/Profile View)
+  - MemberRegistration.jsx (Extracted Form View)
+  - MemberList.css (Added Universal Header/Toggle styles; Enforced 1100px width locks)
+  - App.jsx (Lifted isAdmin state to Global scope)
+  - BaseLayout.jsx (Implemented conditional Sidebar rendering for RBAC)
+---
+
 [April 14, 2026 - PART 2] — AI Assistant (Antigravity)
 What: System-wide transition to Material Design 3 (Material You)
 Files Changed:

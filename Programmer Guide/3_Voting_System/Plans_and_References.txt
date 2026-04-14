@@ -144,3 +144,30 @@ API ENDPOINTS (Live)
     POST     /api/voting/elections/{id}/candidates/{id}/vote → Cast vote
 ====================================================================
 
+
+====================================================================
+DESIGN CONSISTENCY STANDARDS (M3)
+====================================================================
+As of the global design sync pass, the Voting Subsystem must adhere to:
+
+1. Universal Header:
+   - Must use the `.pis-header` flex-between layout.
+   - Includes the "Admin Sandbox" toggle to prototype Officer permissions.
+   - Descriptive paragraph text must explain the module's transparency purpose.
+
+2. Content Constraints:
+   - All main sections (List cards, Ballot, Admin Form) must be wrapped in 
+     a container set to `max-width: 1100px` for optimal readability.
+
+3. Information Content Strategy:
+   - Election cards cannot be "barebones."
+   - Must show qualitative summaries (Start/End dates in readable format).
+   - Must show quantitative metrics (Voter turnout as percentage).
+   - Must indicate the number of candidates participating.
+
+4. Form Segmenting:
+   - Admin forms must not be a single monolithic list.
+   - Divide into logical sections (e.g., "1. Basic Info", "2. Nominees") 
+     using M3 Elevated Cards or distinct surface dividers.
+====================================================================
+

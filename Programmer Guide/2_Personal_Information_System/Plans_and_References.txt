@@ -15,8 +15,17 @@ the students. Students can't peek at the records, only the clerk can.
 WHO CAN USE IT?
 --------------------------------------------------------------------
     Admin    → FULL access (view, add, edit, delete members)
-    Member   → NO access to this module at all
+    Member   → NO access to this module at all. 
     Superadmin → NO access (this is the Admin's job)
+
+*Frontend Prototyping Note: An "Admin Sandbox" toggle will be placed in the header. If it is switched OFF (simulating a Member), the entire component should shield the data and display a full-page "Access Denied" empty state.
+
+DESIGN CONSISTENCY STANDARDS (M3)
+--------------------------------------------------------------------
+As of the module consistency pass, the PIS must adhere to the same visual guidelines established in the Public Relations and Audit Subsystems:
+1. Universal Header: Includes a flex-between layout, a prominent description paragraph, and the Admin Sandbox toggle.
+2. Max Width Constraint: All main content wrappers and form cards are restricted to 1100px width.
+3. Component Separation: The monolithic component must be broken down to reflect the modular nature of PRRoom and AuditRoom.
 
 
 ====================================================================

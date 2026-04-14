@@ -3,9 +3,8 @@ import './PublicRelations.css';
 import AnnouncementFeed from './AnnouncementFeed';
 import ComplaintHub from './ComplaintHub';
 
-export default function PRRoom() {
+export default function PRRoom({ isAdmin, setIsAdmin }) {
     const [activeTab, setActiveTab] = useState('announcements');
-    const [isAdmin, setIsAdmin] = useState(true); // Simulated admin role for development
 
     return (
         <main className="pr-container">

@@ -38,9 +38,8 @@ const MOCK_PROJECTS = [
     }
 ];
 
-export default function AuditRoom() {
+export default function AuditRoom({ isAdmin, setIsAdmin }) {
     const [currentTab, setCurrentTab] = useState('dashboard');
-    const [isAdmin, setIsAdmin] = useState(false); // Prototype toggle for RBAC
     const [selectedProject, setSelectedProject] = useState(null);
 
     const handleTabChange = (tab) => {

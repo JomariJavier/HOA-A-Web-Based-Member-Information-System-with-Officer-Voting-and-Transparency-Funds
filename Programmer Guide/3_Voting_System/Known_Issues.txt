@@ -3,27 +3,14 @@ VOTING SUBSYSTEM (HOA VOTING ROOM) — KNOWN ISSUES
 ====================================================================
 Last Updated: April 14, 2026 (Refined)
 
-ACTIVE ISSUES:
---------------------------------------------------------------------
-ISSUE #1: Date Picker Styling (Browser Native)
-  Severity: Low
-  Details: Using <input type="datetime-local">. While it respects
-           M3 colors, the modal itself is browser-controlled 
-           (Chrome/Edge/Firefox) and not a custom M3 React component.
-  Suggested Fix: Integrate a Material UI or custom React Day Picker.
+1. UI/UX: Barebones Information Strategy (Priority: High)
+   - Detail: Election cards in the directory are too simplistic. Homeowners lack clear context/descriptions about the election's purpose beyond just the title.
 
-ISSUE #2: Role Access Control (Frontend Logic Only)
-  Severity: Medium
-  Details: Delete/Create buttons are hidden by a hardcoded 'isAdmin' 
-           flag. There is no true server-side RBAC token check.
-  Suggested Fix: Implement Module 1 (Login) and verify JWT roles.
+2. UI/UX: Creation Form Standard (Priority: Medium)
+   - Detail: The `m3-admin-form` in `ElectionManagement.jsx` is simplistic/monolithic. It needs to be refactored into segmented cards to match the higher design standards of the Member-Information system.
 
+3. RBAC Sandbox Protocol (Priority: Medium)
+   - Detail: The module relies on local `isAdmin` state rather than the new global prop and lacks the universal Admin Sandbox header toggle for testing.
 
-ISSUE #3: Date Picker Styling (Browser Native)
-  Severity: Low
-  Details: Using <input type="datetime-local">. While it respects
-           M3 colors, the modal itself is browser-controlled 
-           (Chrome/Edge/Firefox) and not a custom M3 React component.
-  Suggested Fix: Integrate a Material UI or custom React Day Picker.
 ====================================================================
 

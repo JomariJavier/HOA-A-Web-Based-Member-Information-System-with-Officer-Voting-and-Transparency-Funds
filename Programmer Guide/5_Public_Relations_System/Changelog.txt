@@ -10,4 +10,9 @@ April 14, 2026 - Initial Prototype & Accessibility Overhaul
 - [Accessibility] Widened all form cards (registration and toolbox) to 1100px.
 - [Accessibility] Introduced numbered step-by-step form sections and helper texts.
 - [Design Sync] Unified the "HOA Personal Information" (Member Registration) view with the PR Room design language.
-- [Layout] Synced parent container max-widths (1200px) and padding across PR and Member modules.
+April 14, 2026 - System-Wide Sync & Global Toggle
+--------------------------------------------------------------------
+- [Architecture] Refactored PRRoom to accept global isAdmin and setIsAdmin props from App.jsx.
+- [Architecture] Removed local isAdmin state to ensure full synchronization with the rest of the application.
+- [Layout] Verified M3 header consistency with the Personal Information System and Audit modules.
+- [Dev] Prototyped system-wide role switching between Officer and Member modes.
