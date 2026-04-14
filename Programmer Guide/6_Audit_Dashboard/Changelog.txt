@@ -1,0 +1,15 @@
+====================================================================
+PROJECT MANAGEMENT & AUDITING SUBSYSTEM — CHANGELOG
+====================================================================
+
+April 14, 2026 - Frontend Phase 1 (UI & Accessibility Completion)
+--------------------------------------------------------------------
+- [Docs] Initialized subsystem documentation based on user requirements.
+- [UI/Feature] Installed and integrated `recharts` for dynamic financial graphing.
+- [UI/Feature] Built `AuditRoom.jsx` as the central orchestrator with an Admin Sandbox toggle.
+- [UI/Feature] Created `BudgetDashboard.jsx` featuring dynamic Stat Cards and a responsive Monthly Budget vs. Spent Line Graph.
+- [UI/Feature] Created `ProjectList.jsx` to render a grid of active and proposed projects with color-coded status badges.
+- [UI/Feature] Created `ProjectDetail.jsx` for in-depth transparency reviews (with an Admin-only 'Edit' button).
+- [UI/Feature] Created `ProjectForm.jsx` restricting creation capabilities to authenticated admins.
+- [Design Sync] Enforced the 1100px max-width form standard across all Audit components via `Audit.css`.
+- [Design Sync] Retroactively applied the Audit Module's sleek header & toggle layout back to the `PRRoom.jsx` (Public Relations module) for universal consistency.

@@ -10,11 +10,25 @@ export default function PRRoom() {
     return (
         <main className="pr-container">
             {/* Header Section */}
-            <header className="m3-page-header">
-                <h1 className="m3-display-small">Public Relations Room</h1>
-                <p className="m3-body-large m3-on-surface-variant">
-                    Staying connected and keeping the community informed.
-                </p>
+            <header className="pr-header" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '24px' }}>
+                <div>
+                    <h1 className="m3-display-small">Public Relations Room</h1>
+                    <p className="m3-body-medium m3-on-surface-variant">
+                        Staying connected and keeping the community informed.
+                    </p>
+                </div>
+
+                <div className="admin-toggle-wrapper">
+                    <span className="m3-label-large">Admin Sandbox</span>
+                    <label className="toggle-switch">
+                        <input 
+                            type="checkbox" 
+                            checked={isAdmin} 
+                            onChange={(e) => setIsAdmin(e.target.checked)} 
+                        />
+                        <span className="slider"></span>
+                    </label>
+                </div>
             </header>
 
             {/* Navigation Switcher */}
@@ -30,17 +44,6 @@ export default function PRRoom() {
                     onClick={() => setActiveTab('complaints')}
                 >
                     Concerns & Feedback
-                </div>
-                
-                {/* Simulated Role Toggle for Developer Testing */}
-                <div style={{marginLeft: 'auto', display: 'flex', alignItems: 'center', gap: '8px'}}>
-                    <span className="m3-label-small m3-on-surface-variant">Admin Mode:</span>
-                    <button 
-                        className={`m3-chip ${isAdmin ? 'm3-chip-primary' : 'm3-chip-outline'}`}
-                        onClick={() => setIsAdmin(!isAdmin)}
-                    >
-                        {isAdmin ? 'ON' : 'OFF'}
-                    </button>
                 </div>
             </nav>
 

@@ -1,0 +1,9 @@
+====================================================================
+PROJECT MANAGEMENT & AUDITING SUBSYSTEM — KNOWN ISSUES
+====================================================================
+
+1. Backend Connectivity
+   - Detail: The budget summary charts and project lists rely on the `MOCK_PROJECTS` array data. Persistence and DB syncing is pending.
+
+2. Authentication Placeholder
+   - Detail: The "Admin/Member" toggle is a frontend dummy toggle until the RBAC JWT system is implemented.

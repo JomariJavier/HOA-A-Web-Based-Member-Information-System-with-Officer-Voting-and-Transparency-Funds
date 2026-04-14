@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import MemberList from './components/Member/MemberList';
 import VotingRoom from './components/Voting/VotingRoom';
 import PRRoom from './components/PublicRelations/PRRoom';
+import AuditRoom from './components/Audit/AuditRoom';
 import BaseLayout from './components/common/BaseLayout';
 import './App.css';
 
@@ -13,7 +14,8 @@ function App() {
       {currentView === 'PIS' && <MemberList />}
       {currentView === 'Voting' && <VotingRoom />}
       {currentView === 'PR' && <PRRoom />}
-      {['Dashboard', 'Project'].includes(currentView) && (
+      {currentView === 'Project' && <AuditRoom />}
+      {['Dashboard'].includes(currentView) && (
           <div style={{padding: '32px', color: 'var(--m3-on-surface-variant)'}}>
               Module coming soon...
           </div>

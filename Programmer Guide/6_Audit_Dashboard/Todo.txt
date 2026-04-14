@@ -1,0 +1,34 @@
+====================================================================
+PROJECT MANAGEMENT & AUDITING SUBSYSTEM — TODO LIST
+====================================================================
+Last Updated: April 14, 2026 (Frontend Phase 1 Complete)
+
+====================================================================
+PRIORITY 1: FRONTEND (Views & Components)
+====================================================================
+
+[x] TASK 1: Base Module Layout & Admin Toggle
+    What: Create the main container that switches between the Budget Dashboard, Project List, and Forms. Include an "Admin Mode" toggle for UI testing.
+
+[x] TASK 2: Budget Management Dashboard
+    What: Implement financial summary cards (Total Budget, Monthly Spent, Active Projects). Integrate a Line Graph for Monthly Budget/Spent tracking.
+
+[x] TASK 3: Project Audit (List View)
+    What: Render a grid/list of all proposed/ongoing projects. Must indicate status, budget, and be clickable.
+
+[x] TASK 4: Project Audit (Detailed View)
+    What: In-depth view for a specific project displaying: Project Name, Date Started, Budget Cost, Status, Description, and Purpose.
+
+[x] TASK 5: Create a Project Form (Admin Only)
+    What: An M3-compliant form with inputs for Project Name, Purpose, Estimated Start Date, Estimated End Date, and Estimated Cost.
+
+====================================================================
+PRIORITY 2: BACKEND (Infrastructure - Future)
+====================================================================
+
+[ ] TASK 6: Project Entity & Repository
+    What: Connect the Project form to PostgreSQL.
+
+[ ] TASK 7: Expense/Budget Audit Trail
+    What: Real-time syncing endpoints for the budget graph.
+====================================================================

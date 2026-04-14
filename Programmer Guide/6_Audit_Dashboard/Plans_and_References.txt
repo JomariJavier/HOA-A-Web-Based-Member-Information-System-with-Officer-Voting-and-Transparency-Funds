@@ -1,0 +1,34 @@
+====================================================================
+PROJECT MANAGEMENT & AUDITING SUBSYSTEM — PLANS & REFERENCES
+====================================================================
+
+Architectural Flow & Access Control:
+--------------------------------------------------------------------
+The module must clearly separate "Member" views and "Admin" privileges. 
+For frontend prototyping, a temporary "isAdmin" toggle will be used.
+
+1. Budget Management (Dashboard)
+   - Visual summary of the HOA's financial health.
+   - Key Metrics: Total Budget, Total Projects, Monthly Spent, Current Project limits.
+   - Data Visualization: A line graph mapping Monthly Budget vs. Monthly Spent over time (suggest using a charting library like Recharts or Chart.js).
+
+2. Project Audit (List View)
+   - A scrollable/paginated list of proposed, ongoing, and completed projects.
+   - Clickable entries that route to the Detailed View.
+   - Members can see this list for transparency.
+
+3. Project Audit (Detailed View)
+   - Deep dive into a specific clicking project.
+   - Required Fields: Project Name, Date Started, Budget Cost, Status, Description, and Purpose.
+   - Admins can edit/update; Members have read-only transparency.
+
+4. Create a Project (Admin Workspace)
+   - Input form reserved for Admins.
+   - Required Fields: Project Name, Purpose, Estimated Start Date, Estimated End Date, Estimated Cost.
+   - Needs to match the visual M3 accessibility standards established in PR Room and Member Lists (1100px max-width, 48px touch targets, numbered steps).
+
+Design Rules:
+--------------------------------------------------------------------
+- Material Design 3 (M3) identical to Public Relations module.
+- Card widths locked at 1100px for consistency.
+- Ensure the line graph is responsive and perfectly legible for older demographics.
