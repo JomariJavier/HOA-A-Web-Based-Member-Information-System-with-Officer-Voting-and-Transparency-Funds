@@ -1,7 +1,7 @@
 import React from 'react';
 import './VotingRoom.css';
 
-export default function ElectionList({ elections, onSelectElection, onCreateClick }) {
+export default function ElectionList({ elections, totalMembers, isAdmin, onSelectElection, onDeleteElection, onCreateClick }) {
     
     // calculate total votes for progress bar
     const getTotalVotes = (election) => {
@@ -22,7 +22,7 @@ export default function ElectionList({ elections, onSelectElection, onCreateClic
                 ) : (
                     elections.map(election => {
                         const totalVotes = getTotalVotes(election);
-                        const expectedVoters = 100; // Simulated expected total voters
+                        const expectedVoters = totalMembers > 0 ? totalMembers : 1; // Prevent div by 0
                         const progress = Math.min((totalVotes / expectedVoters) * 100, 100);
                         const isConcluded = new Date(election.endDate) < new Date();
 
@@ -34,9 +34,23 @@ export default function ElectionList({ elections, onSelectElection, onCreateClic
                             >
                                 <div className="m3-card-header">
                                     <h2 className="m3-title-large">{election.title}</h2>
-                                    <span className={`m3-chip ${isConcluded ? 'm3-chip-outline' : 'm3-chip-primary'}`}>
-                                        {isConcluded ? 'Concluded' : 'Active'}
-                                    </span>
+                                    <div style={{display: 'flex', alignItems: 'center', gap: '8px'}}>
+                                        <span className={`m3-chip ${isConcluded ? 'm3-chip-outline' : 'm3-chip-primary'}`}>
+                                            {isConcluded ? 'Concluded' : 'Active'}
+                                        </span>
+                                        {isAdmin && (
+                                            <button 
+                                                className="m3-icon-btn m3-error-text" 
+                                                onClick={(e) => {
+                                                    e.stopPropagation();
+                                                    onDeleteElection(election.id, election.title);
+                                                }}
+                                                title="Delete Election"
+                                            >
+                                                ✕
+                                            </button>
+                                        )}
+                                    </div>
                                 </div>
                                 <div className="m3-card-content">
                                     <p className="m3-body-medium m3-on-surface-variant">

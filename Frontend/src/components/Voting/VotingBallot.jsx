@@ -42,9 +42,15 @@ export default function VotingBallot({ election, selectedCandidateId, onSelectCa
                 ))}
             </div>
 
-            <button className="m3-fab-extended m3-fab-bottom-right" onClick={onVoteSubmit}>
-                Confirm Vote
-            </button>
+            {new Date(election?.endDate) > new Date() ? (
+                <button className="m3-fab-extended m3-fab-bottom-right" onClick={onVoteSubmit}>
+                    Confirm Vote
+                </button>
+            ) : (
+                <div className="m3-fab-extended m3-fab-bottom-right m3-chip-outline" style={{boxShadow: 'none', cursor: 'default'}}>
+                    Voting Concluded
+                </div>
+            )}
         </div>
     );
 }

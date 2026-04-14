@@ -109,15 +109,19 @@ Nominee:
 STATUS & FILE MAP
 ====================================================================
 
-CURRENT STATUS: ✅ WORKING & DESIGNED (All 3 Views)
+CURRENT STATUS: ✅ WORKING & REFINED (Modular / Secured)
+DATABASE INTEGRITY: ✅ SECURED (Constraint-driven)
+UI STATUS: ✅ M3 COMPLIANT (Indigo)
+
+LAST UPDATED: April 14, 2026 (Refined)
 
 FRONTEND (React):
     src/components/Voting/
-    ├── VotingRoom.jsx           ← Main Container / View Switcher
-    ├── ElectionList.jsx         ← View 1: Card-based Election Directory
-    ├── VotingBallot.jsx         ← View 2: Identity-card based Ballot
-    ├── ElectionManagement.jsx   ← View 3: Admin Create Poll Form
-    └── VotingRoom.css           ← Consolidated M3 Styling
+    ├── VotingRoom.jsx           ← Main Container / View Switcher / Logic Controller
+    ├── ElectionList.jsx         ← View 1: Card-based Election Directory (Admin ✕ enabled)
+    ├── VotingBallot.jsx         ← View 2: Identity-card based Ballot (Sync locked)
+    ├── ElectionManagement.jsx   ← View 3: Admin Create Poll Form (Validation strict)
+    └── VotingRoom.css           ← Consolidated M3 Styling (Tonal Palette)
 
 
 BACKEND (Java / Spring Boot):

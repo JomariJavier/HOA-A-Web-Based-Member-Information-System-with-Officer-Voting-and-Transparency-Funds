@@ -10,3 +10,16 @@ Files Changed/Created:
   - Designed all 3 views following M3 specs
 ---
 
+[April 14, 2026 (Refined)] — AI Assistant (Antigravity)
+What: Integrity, Validation, and Maintainability Refactor
+Changes:
+  - Backend: Added VoteRecord ledger to prevent double voting.
+  - Backend: Atomic increments for counters (race condition fix).
+  - Backend: Validator for poll creation (min 2 nominees, valid dates).
+  - Backend: Implementation of Delete and Reset Endpoints.
+  - Frontend: Split monolithic VotingRoom into modular components.
+  - Frontend: Added 30s status-sync heartbeat and Admin-only UI guards.
+  - Pom.xml: Integrated Spring Boot DevTools for hot-reloading.
+---
+
+
