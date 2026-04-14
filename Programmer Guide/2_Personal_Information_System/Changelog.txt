@@ -15,6 +15,16 @@ HOW TO USE THIS FILE:
 ====================================================================
 CHANGE LOG (newest first)
 ====================================================================
+[April 14, 2026 - PART 2] — AI Assistant (Antigravity)
+What: System-wide transition to Material Design 3 (Material You)
+Files Changed:
+  - index.css (Implemented Indigo tonal palette, pill-shaped nav)
+  - BaseLayout.jsx (Added M3 Top App Bar and reskinned Sidebar)
+  - MemberList.jsx (Full redesign of all 3 views into Material cards/forms)
+  - MemberList.css (Consolidated M3 styles, fixed contrast & padding)
+  - Wired up functional Search and Filter (Chips)
+  - Added M3 Design Guide for AI Agents
+---
 
 [April 14, 2026] — AI Assistant (Antigravity)
 What: Reorganized module structure and applied Unified Design System

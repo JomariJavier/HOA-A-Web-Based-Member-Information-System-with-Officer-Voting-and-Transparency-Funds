@@ -33,22 +33,16 @@ PRIORITY 1: CRITICAL (Do these first)
     Assigned:
     Notes:
 
-[ ] TASK 3: Wire up the Search Bar
-    What: The search bar exists in the UI but typing doesn't filter
-          anything. Make it filter the member table by name.
-    Frontend: Filter the `members` array based on `searchTerm` state
-              (use .filter() on the array before rendering)
-    Backend:  No change needed (filtering happens on frontend)
-    Assigned:
-    Notes:
+[x] TASK 3: Wire up the Search Bar
+    What: Fixed. The search bar now filters the members list in real-time.
+    Assigned: Antigravity AI
+    Notes: Completed during the Material You redesign.
 
-[ ] TASK 4: Wire up the Role Filter
-    What: The filter dropdown (All / Officer / Member) exists but
-          doesn't actually filter. Connect it to the table.
-    Frontend: Use the `filterRole` state to filter the members array
-    Backend:  No change needed
-    Assigned:
-    Notes:
+[x] TASK 4: Wire up the Role Filter
+    What: Fixed. M3 Filter Chips now correctly toggle between 
+          All, Officer, and Member roles.
+    Assigned: Antigravity AI
+    Notes: Completed during the Material You redesign.
 
 
 ====================================================================

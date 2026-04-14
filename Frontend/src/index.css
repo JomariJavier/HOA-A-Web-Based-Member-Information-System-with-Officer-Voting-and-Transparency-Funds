@@ -2,20 +2,38 @@
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Poppins:wght@400;500;600;700&display=swap');
 
 :root {
-  /* Unified Design Guide Palette */
-  --primary-bg: rgb(18, 41, 50);      /* Dark Navy */
-  --container-bg: #ffffff;            /* Reverted to White */
-  --page-bg: #f4f7f6;                 /* Slightly off-white for depth */
+  /* M3 Tonal Palette (Seed: Indigo #3F51B5) */
+  --m3-primary: #3F51B5;           /* Indigo 500 */
+  --m3-on-primary: #FFFFFF;
+  --m3-primary-container: #DEE0FF; /* Indigo 90 */
+  --m3-on-primary-container: #00105C; /* Indigo 10 */
   
-  --text-light: #ffffff;
-  --text-dark: #1a202c;               /* Deep slate for better readability */
+  --m3-secondary: #5B5D72;
+  --m3-on-secondary: #FFFFFF;
+  --m3-secondary-container: #DFE1F9;
+  --m3-on-secondary-container: #181A2C;
   
-  /* Accent & Status Colors */
-  --accent-blue: #3182ce;
-  --success-bg: #c6f6d5;
-  --success-text: #22543d;
-  --danger-bg: #fed7d7;
-  --danger-text: #822727;
+  --m3-surface: #FBFCFF;           /* Neutral 99 */
+  --m3-on-surface: #191A1E;        /* Neutral 10 */
+  --m3-surface-variant: #E3E1E5;   /* Neutral Variant 90 */
+  --m3-on-surface-variant: #46464F;/* Neutral Variant 30 */
+  --m3-outline: #777680;           /* Neutral Variant 50 */
+  
+  --m3-background: #FBFCFF;
+  --m3-on-background: #191A1E;
+  
+  --m3-error: #BA1A1A;
+  --m3-on-error: #FFFFFF;
+  --m3-error-container: #FFDAD6;
+  --m3-on-error-container: #410002;
+
+  /* Backward Compatibility (mapping old names to new M3 colors) */
+  --primary-bg: var(--m3-surface);  
+  --container-bg: var(--m3-surface); 
+  --page-bg: var(--m3-background);                
+  
+  --text-light: var(--m3-on-primary);
+  --text-dark: var(--m3-on-surface);
   
   /* Fonts */
   --font-primary: 'Inter', sans-serif;
@@ -59,41 +77,49 @@ body {
   background-color: var(--page-bg);
 }
 
-/* Sidebar Styling */
+/* Sidebar Styling (M3 Option A) */
 .app-sidebar {
-  width: 240px;
-  background-color: var(--primary-bg);
-  color: var(--text-light);
-  padding: 20px 0;
+  width: 280px; /* M3 standard */
+  background-color: var(--m3-surface-variant);
+  color: var(--m3-on-surface-variant);
+  padding: 24px 12px;
   flex-shrink: 0;
+  border-right: 1px solid var(--m3-outline);
 }
 
 .app-sidebar .sidebar-logo {
-  padding: 0 20px 30px;
-  font-size: 20px;
-  font-weight: 700;
+  padding: 0 16px 32px;
+  font-size: 22px;
+  font-weight: 500;
   font-family: var(--font-heading);
-  color: var(--text-light);
-  letter-spacing: 1px;
+  color: var(--m3-on-surface);
+  letter-spacing: 0;
 }
 
 .app-sidebar .nav-item {
-  padding: 12px 20px;
+  padding: 16px 24px;
+  margin-bottom: 8px;
   cursor: pointer;
-  transition: 0.3s;
+  transition: background-color 0.2s cubic-bezier(0.2, 0, 0, 1), color 0.2s cubic-bezier(0.2, 0, 0, 1);
   font-size: 14px;
+  font-weight: 500;
+  letter-spacing: 0.1px;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
-  color: var(--text-light); /* Forced to white as requested */
-  opacity: 0.8;
+  color: var(--m3-on-surface-variant);
+  border-radius: 28px; /* M3 Pill shape */
 }
 
-.app-sidebar .nav-item:hover, .app-sidebar .nav-item.active {
-  background-color: rgba(255, 255, 255, 0.1);
-  color: var(--text-light);
-  opacity: 1;
-  border-left: 4px solid #bc3a41; /* Kept the red as an accent indicator */
+.app-sidebar .nav-item:hover {
+  background-color: rgba(25, 26, 30, 0.08); /* on-surface at 8% opacity */
+  color: var(--m3-on-surface);
+}
+
+.app-sidebar .nav-item.active {
+  background-color: var(--m3-secondary-container);
+  color: var(--m3-on-secondary-container);
+  font-weight: 600;
 }
 
 /* Main Area */
@@ -105,33 +131,35 @@ body {
 }
 
 .app-top-header {
-  height: 60px;
-  background: var(--page-bg);
+  height: 64px; /* M3 Standard */
+  background: var(--m3-surface);
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 0 30px;
-  box-shadow: 0 1px 3px rgba(0,0,0,0.1);
-  border-bottom: 1px solid #e2e8f0;
+  padding: 0 24px;
+  box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05); /* Tonal elevation level 1 approximation */
+  /* Remove harsh border for M3 */
 }
 
 .app-top-header .breadcrumb { 
-  color: #718096; 
-  font-size: 13px; 
+  color: var(--m3-on-surface-variant); 
+  font-size: 16px;
+  font-weight: 400;
+  letter-spacing: 0.15px;
 }
 
 .app-top-header .user-profile {
   font-weight: 600;
 }
 
-/* Content Container Card */
+/* Content Container Card (General backwards compatibility) */
 .content-card {
-  margin: 25px;
-  background: var(--container-bg);
-  color: var(--text-dark);
-  border-radius: 12px;
-  padding: 25px;
-  box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+  margin: 24px;
+  background: var(--m3-surface);
+  color: var(--m3-on-surface);
+  border-radius: 16px; /* M3 High rounding */
+  padding: 24px;
+  box-shadow: 0 1px 3px 0 rgba(0,0,0,0.1), 0 1px 2px 0 rgba(0,0,0,0.06); /* Tonal elevation level 1 */
   /* Use flex-grow so it fills page if desired, or keep as is */
 }
 

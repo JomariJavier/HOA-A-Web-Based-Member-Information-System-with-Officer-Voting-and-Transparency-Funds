@@ -56,17 +56,6 @@ ISSUE #3: No error handling on failed API calls
 
 ---
 
-ISSUE #4: Search bar and filter are decorative (not functional)
-  Found by: AI Analysis
-  Severity: Medium
-  Steps to Reproduce:
-    1. Type anything in the search bar
-    2. Click the filter dropdown and select "Officer"
-  Expected: The table should filter to show matching results
-  Actual: Nothing happens. The UI elements exist but aren't connected
-          to any filtering logic.
-  Suggested Fix: See Todo.txt — Tasks 3 and 4
-
 ---
 
 ISSUE #5: "Edit Record" button does nothing
@@ -97,6 +86,10 @@ ISSUE #6: No API security — anyone can access /api/members
 RESOLVED ISSUES (Fixed — kept for history)
 ====================================================================
 
-(none yet)
+ISSUE #4: Search bar and filter were decorative
+  Fixed by: Antigravity AI (April 14, 2026)
+  Resolution: Wired up React .filter() logic in MemberList.jsx. 
+              Refactored UI to use M3 Filter Chips.
+
 
 ====================================================================

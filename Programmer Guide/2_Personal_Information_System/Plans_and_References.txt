@@ -108,8 +108,8 @@ API ENDPOINTS (Currently Live)
 FUTURE PLANS
 ====================================================================
 
-1. Wire up the search bar so it actually filters the table
-2. Wire up the role filter dropdown
+1. [COMPLETED] Wire up the search bar
+2. [COMPLETED] Wire up the role filter dropdown/chips
 3. Build the "Edit Record" functionality (needs PUT endpoint)
 4. Build the "Delete / Deactivate" functionality (needs DELETE endpoint)
 5. Add a MemberService.java layer between Controller and Repository

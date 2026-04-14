@@ -60,58 +60,96 @@ const handleRegisterSubmit = async (formData) => {
     // --- RENDER PIECES ---
 
     const renderMemberTable = () => (
-        <>
-            <div className="content-header">
-                <h2>Member Directory</h2>
-                <button className="add-member-btn" onClick={() => setView('registration')}>+ Add New Member</button>
+        <div className="m3-directory">
+            {/* M3 Top App Bar style header */}
+            <div className="m3-page-header">
+                <div>
+                    <h1 className="m3-display-small">Member Directory</h1>
+                    <p className="m3-body-medium m3-on-surface-variant">{members.length} registered members</p>
+                </div>
+                <button className="m3-fab-extended" onClick={() => setView('registration')}>
+                    <span className="m3-fab-icon">+</span>
+                    <span>Add Member</span>
+                </button>
             </div>
-            
-            <div className="toolbar">
-                <div className="search-and-filter">
-                    <div className="search-wrapper">
-                        <span className="search-icon">🔍</span>
-                        <input 
-                            type="text" 
-                            placeholder="Search members..." 
-                            value={searchTerm}
-                            onChange={(e) => setSearchTerm(e.target.value)}
-                        />
-                    </div>
-                    <div className="filter-container">
-                        <button className="filter-btn" onClick={() => setShowFilter(!showFilter)}>
-                             Filter ⚙️
-                        </button>
-                        {showFilter && (
-                            <div className="filter-popup">
-                                <div className="filter-option" onClick={() => {setFilterRole('All'); setShowFilter(false);}}>All</div>
-                                <div className="filter-option" onClick={() => {setFilterRole('Officer'); setShowFilter(false);}}>Officer</div>
-                                <div className="filter-option" onClick={() => {setFilterRole('Member'); setShowFilter(false);}}>Member</div>
-                            </div>
-                        )}
-                    </div>
+
+            {/* M3 Search Bar */}
+            <div className="m3-search-bar-container">
+                <div className="m3-search-bar">
+                    <span className="m3-search-icon">🔍</span>
+                    <input
+                        type="text"
+                        className="m3-search-input"
+                        placeholder="Search members by name..."
+                        value={searchTerm}
+                        onChange={(e) => setSearchTerm(e.target.value)}
+                    />
+                    {searchTerm && (
+                        <button className="m3-icon-btn" onClick={() => setSearchTerm('')}>✕</button>
+                    )}
+                </div>
+
+                {/* M3 Filter Chips */}
+                <div className="m3-chip-row">
+                    <button
+                        className={`m3-filter-chip ${filterRole === 'All' ? 'm3-chip-selected' : ''}`}
+                        onClick={() => setFilterRole('All')}
+                    >All</button>
+                    <button
+                        className={`m3-filter-chip ${filterRole === 'Officer' ? 'm3-chip-selected' : ''}`}
+                        onClick={() => setFilterRole('Officer')}
+                    >Officer</button>
+                    <button
+                        className={`m3-filter-chip ${filterRole === 'Member' ? 'm3-chip-selected' : ''}`}
+                        onClick={() => setFilterRole('Member')}
+                    >Member</button>
                 </div>
             </div>
 
-            <div className="table-responsive">
-                <table className="unified-table">
+            {/* M3 Data Table */}
+            <div className="m3-table-container">
+                <table className="m3-data-table">
                     <thead>
                         <tr>
-                            <th>Member ID</th>
+                            <th>ID</th>
                             <th>Full Name</th>
                             <th>HOA Address</th>
                             <th>Role</th>
-                            <th className="text-right">Action</th>
+                            <th>Status</th>
+                            <th style={{textAlign: 'right'}}>Action</th>
                         </tr>
                     </thead>
                     <tbody>
-                        {members.map((member) => (
-                            <tr key={member.id}>
-                                <td className="id-cell">{member.id}</td>
-                                <td className="name-cell">{member.fullName}</td>
-                                <td>{member.hoaAddress}</td>
-                                <td>{member.role}</td>
-                                <td className="text-right">
-                                    <button className="view-btn" onClick={() => handleViewDetails(member)}>
+                        {members
+                            .filter(m => filterRole === 'All' || m.role === filterRole)
+                            .filter(m => m.fullName.toLowerCase().includes(searchTerm.toLowerCase()))
+                            .map((member) => (
+                            <tr key={member.id} className="m3-table-row">
+                                <td className="m3-label-large">{member.id}</td>
+                                <td>
+                                    <div className="m3-member-cell">
+                                        <div className="m3-avatar">
+                                            <svg xmlns="http://www.w3.org/2000/svg" height="20" viewBox="0 96 960 960" width="20" fill="currentColor">
+                                                <path d="M480 576q-66 0-113-47t-47-113q0-66 47-113t113-47q66 0 113 47t47 113q0 66-47 113t-113 47ZM192 896v-57q0-38 18.5-70t50.5-50q51-29 108.5-44T480 660q61 0 119 15t108 44q32 18 50.5 50t18.5 70v57H192Z"/>
+                                            </svg>
+                                        </div>
+                                        <span className="m3-title-small">{member.fullName}</span>
+                                    </div>
+                                </td>
+                                <td className="m3-body-medium">{member.hoaAddress || '—'}</td>
+                                <td>
+                                    <span className={`m3-role-chip ${member.role === 'Officer' ? 'm3-role-officer' : 'm3-role-member'}`}>
+                                        {member.role}
+                                    </span>
+                                </td>
+                                <td>
+                                    <span className={`m3-status-indicator ${member.status === 'Active' ? 'm3-status-active' : 'm3-status-inactive'}`}>
+                                        <span className="m3-status-dot"></span>
+                                        {member.status}
+                                    </span>
+                                </td>
+                                <td style={{textAlign: 'right'}}>
+                                    <button className="m3-tonal-btn" onClick={() => handleViewDetails(member)}>
                                         View Details
                                     </button>
                                 </td>
@@ -119,113 +157,140 @@ const handleRegisterSubmit = async (formData) => {
                         ))}
                     </tbody>
                 </table>
+                {members.length === 0 && (
+                    <div className="m3-empty-state">
+                        <p className="m3-title-medium">No members found</p>
+                        <p className="m3-body-medium m3-on-surface-variant">Add your first member to get started</p>
+                    </div>
+                )}
             </div>
-        </>
+        </div>
     );
 
     const renderMemberInfo = () => (
-        <div className="member-info-view">
-            <div className="content-header">
-                <button className="back-link" onClick={() => setView('list')}>← Back to List</button>
-                <button className="add-member-btn" onClick={() => setView('registration')}>+ Add New Member</button>
-            </div>
-            <div className="info-grid-simple">
-                <div className="info-section">
-                    <h3>Member Details</h3>
-                    <div className="details-list">
-                        <div className="detail-row"><label>Full Name:</label> <span>{selectedMember.fullName}</span></div>
-                        <div className="detail-row"><label>Birthdate:</label> <span>{selectedMember.birthDate}</span></div>
-                        <div className="detail-row"><label>HOA Address:</label> <span>{selectedMember.hoaAddress}</span></div>
-                        <div className="detail-row"><label>Date Registered:</label> <span>{selectedMember.dateRegistered}</span></div>
-                        <div className="detail-row"><label>Marital Status:</label> <span>{selectedMember.maritalStatus}</span></div>
-                        <div className="detail-row full-width-row"><label>Family Members:</label> <p>{selectedMember.familyMembers}</p></div>
-                    </div>
+        <div className="m3-directory">
+            <div className="m3-page-header">
+                <button className="m3-icon-btn m3-on-surface-variant" onClick={() => setView('list')} aria-label="Back">
+                    ←
+                </button>
+                <div>
+                    <h1 className="m3-display-small">Member Profile</h1>
                 </div>
             </div>
-            <div className="form-actions">
-                 <button className="edit-btn">Edit Record</button>
+
+            <div className="m3-card m3-elevated-card">
+                <div className="m3-card-header">
+                    <div className="m3-avatar m3-avatar-large">
+                        <svg xmlns="http://www.w3.org/2000/svg" height="32" viewBox="0 96 960 960" width="32" fill="currentColor">
+                            <path d="M480 576q-66 0-113-47t-47-113q0-66 47-113t113-47q66 0 113 47t47 113q0 66-47 113t-113 47ZM192 896v-57q0-38 18.5-70t50.5-50q51-29 108.5-44T480 660q61 0 119 15t108 44q32 18 50.5 50t18.5 70v57H192Z"/>
+                        </svg>
+                    </div>
+                    <div>
+                        <h2 className="m3-title-large">{selectedMember.fullName}</h2>
+                        <span className={`m3-role-chip ${selectedMember.role === 'Officer' ? 'm3-role-officer' : 'm3-role-member'}`}>
+                            {selectedMember.role}
+                        </span>
+                    </div>
+                </div>
+                
+                <div className="m3-card-content m3-details-grid">
+                    <div className="m3-detail-item">
+                        <span className="m3-label-small m3-on-surface-variant">Member ID</span>
+                        <span className="m3-body-large">{selectedMember.id}</span>
+                    </div>
+                    <div className="m3-detail-item">
+                        <span className="m3-label-small m3-on-surface-variant">HOA Address</span>
+                        <span className="m3-body-large">{selectedMember.hoaAddress || '—'}</span>
+                    </div>
+                    <div className="m3-detail-item">
+                        <span className="m3-label-small m3-on-surface-variant">Date Registered</span>
+                        <span className="m3-body-large">{selectedMember.dateRegistered}</span>
+                    </div>
+                    <div className="m3-detail-item">
+                        <span className="m3-label-small m3-on-surface-variant">Status</span>
+                        <span className={`m3-status-indicator ${selectedMember.status === 'Active' ? 'm3-status-active' : 'm3-status-inactive'}`}>
+                            <span className="m3-status-dot"></span>{selectedMember.status}
+                        </span>
+                    </div>
+                    <div className="m3-detail-item">
+                        <span className="m3-label-small m3-on-surface-variant">Birthdate</span>
+                        <span className="m3-body-large">{selectedMember.birthDate || '—'}</span>
+                    </div>
+                    <div className="m3-detail-item">
+                        <span className="m3-label-small m3-on-surface-variant">Marital Status</span>
+                        <span className="m3-body-large">{selectedMember.maritalStatus}</span>
+                    </div>
+                    <div className="m3-detail-item m3-full-width">
+                        <span className="m3-label-small m3-on-surface-variant">Family Members</span>
+                        <div className="m3-info-box m3-body-medium">
+                            {selectedMember.familyMembers || 'No family members listed.'}
+                        </div>
+                    </div>
+                </div>
+
+                <div className="m3-card-actions">
+                    <button className="m3-filled-btn">Edit Profile</button>
+                    <button className="m3-outlined-btn m3-error-text">Deactivate</button>
+                </div>
             </div>
         </div>
     );
 
     const renderRegistration = () => (
-        <div className="registration-view">
-            <div className="content-header">
-                <h2>New Member Registration</h2>
+        <div className="m3-directory">
+            <div className="m3-page-header">
+                <button className="m3-icon-btn m3-on-surface-variant" onClick={() => setView('list')} aria-label="Back">
+                    ←
+                </button>
+                <div>
+                    <h1 className="m3-display-small">New Member Registration</h1>
+                </div>
             </div>
-            <form className="registration-form">
-                <div className="form-grid">
-                    <div className="form-group">
-                        <label>Full Name</label>
-                        <input 
-                            type="text" 
-                            name="fullName" 
-                            value={newMember.fullName} 
-                            onChange={handleChange} 
-                            placeholder="Enter name" 
-                        />
+
+            <div className="m3-card m3-elevated-card">
+                <form className="m3-form-grid" onSubmit={(e) => { e.preventDefault(); handleRegisterSubmit(newMember); }}>
+                    <div className="m3-text-field">
+                        <label className="m3-label-medium">Full Name</label>
+                        <input type="text" name="fullName" value={newMember.fullName} onChange={handleChange} required className="m3-input" />
                     </div>
-                    <div className="form-group">
-                        <label>Birthdate</label>
-                        <input 
-                            type="date" 
-                            name="birthDate" 
-                            value={newMember.birthDate} 
-                            onChange={handleChange} 
-                        />
+                    <div className="m3-text-field">
+                        <label className="m3-label-medium">Birthdate</label>
+                        <input type="date" name="birthDate" value={newMember.birthDate} onChange={handleChange} className="m3-input" />
                     </div>
-                    <div className="form-group">
-                        <label>HOA Address</label>
-                        <input 
-                            type="text" 
-                            name="hoaAddress" 
-                            value={newMember.hoaAddress} 
-                            onChange={handleChange} 
-                            placeholder="Block/Lot/Phase" 
-                        />
+                    <div className="m3-text-field">
+                        <label className="m3-label-medium">HOA Address (Block/Lot)</label>
+                        <input type="text" name="hoaAddress" value={newMember.hoaAddress} onChange={handleChange} className="m3-input" />
                     </div>
-                    <div className="form-group">
-                        <label>Gender</label>
-                        <select name="gender" value={newMember.gender} onChange={handleChange}>
+                    <div className="m3-text-field">
+                        <label className="m3-label-medium">Gender</label>
+                        <select name="gender" value={newMember.gender} onChange={handleChange} className="m3-input m3-select">
                             <option value="Male">Male</option>
                             <option value="Female">Female</option>
                         </select>
                     </div>
-                    <div className="form-group">
-                        <label>Marital Status</label>
-                        <select name="maritalStatus" value={newMember.maritalStatus} onChange={handleChange}>
+                    <div className="m3-text-field">
+                        <label className="m3-label-medium">Marital Status</label>
+                        <select name="maritalStatus" value={newMember.maritalStatus} onChange={handleChange} className="m3-input m3-select">
                             <option value="Single">Single</option>
                             <option value="Married">Married</option>
                         </select>
                     </div>
-                    <div className="form-group full-width">
-                        <label>Family Members (including staff)</label>
-                        <textarea 
-                            name="familyMembers" 
-                            value={newMember.familyMembers} 
-                            onChange={handleChange} 
-                            placeholder="List details..."
-                        ></textarea>
+                    <div className="m3-text-field m3-full-width">
+                        <label className="m3-label-medium">Family Members</label>
+                        <textarea name="familyMembers" value={newMember.familyMembers} onChange={handleChange} className="m3-input m3-textarea"></textarea>
                     </div>
-                </div>
-                
-                <div className="form-actions">
-                    <button type="button" className="btn-back" onClick={() => setView('list')}>Cancel</button>
-                    {/* This button now actually sends the 'newMember' state to the backend */}
-                    <button 
-                        type="button" 
-                        className="btn-register" 
-                        onClick={() => handleRegisterSubmit(newMember)}
-                    >
-                        Register Member
-                    </button>
-                </div>
-            </form>
+                    
+                    <div className="m3-card-actions m3-full-width">
+                        <button type="button" className="m3-text-btn" onClick={() => setView('list')}>Cancel</button>
+                        <button type="submit" className="m3-filled-btn">Register Member</button>
+                    </div>
+                </form>
+            </div>
         </div>
     );
 
     return (
-        <section className="content-card">
+        <section className="m3-content-wrapper">
             {view === 'list' && renderMemberTable()}
             {view === 'info' && renderMemberInfo()}
             {view === 'registration' && renderRegistration()}

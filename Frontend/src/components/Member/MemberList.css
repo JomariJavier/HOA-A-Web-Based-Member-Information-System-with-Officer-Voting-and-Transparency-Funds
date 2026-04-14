@@ -1,4 +1,555 @@
-/* MemberList Layout Override - Replaced by global index.css */
+/* ====================================================================
+   MATERIAL DESIGN 3 (Material You) — Member Directory Styles
+   Reference: https://m3.material.io/
+   ==================================================================== */
+
+/* --- M3 Typography Scale --- */
+.m3-display-small {
+    font-family: var(--font-heading);
+    font-size: 36px;
+    font-weight: 400;
+    line-height: 44px;
+    letter-spacing: 0;
+    color: var(--text-dark);
+    margin: 0;
+}
+
+.m3-title-medium {
+    font-family: var(--font-primary);
+    font-size: 16px;
+    font-weight: 500;
+    line-height: 24px;
+    letter-spacing: 0.15px;
+}
+
+.m3-title-small {
+    font-family: var(--font-primary);
+    font-size: 14px;
+    font-weight: 500;
+    line-height: 20px;
+    letter-spacing: 0.1px;
+}
+
+.m3-body-medium {
+    font-family: var(--font-primary);
+    font-size: 14px;
+    font-weight: 400;
+    line-height: 20px;
+    letter-spacing: 0.25px;
+}
+
+.m3-label-large {
+    font-family: var(--font-primary);
+    font-size: 14px;
+    font-weight: 500;
+    line-height: 20px;
+    letter-spacing: 0.1px;
+    color: #49454f;
+}
+
+.m3-on-surface-variant {
+    color: #49454f;
+}
+
+/* --- M3 Directory Container --- */
+.m3-content-wrapper {
+    padding: 32px;
+}
+
+.m3-directory {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+}
+
+/* --- M3 Page Header --- */
+.m3-page-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    gap: 16px;
+}
+
+/* --- M3 Extended FAB --- */
+.m3-fab-extended {
+    display: inline-flex;
+    align-items: center;
+    gap: 12px;
+    height: 56px;
+    padding: 0 20px;
+    border: none;
+    border-radius: 16px;
+    background: var(--m3-primary-container);
+    color: var(--m3-on-primary-container);
+    font-family: var(--font-primary);
+    font-size: 14px;
+    font-weight: 500;
+    letter-spacing: 0.1px;
+    cursor: pointer;
+    box-shadow: 0 1px 3px 1px rgba(0,0,0,0.15), 0 1px 2px rgba(0,0,0,0.3);
+    transition: box-shadow 0.28s cubic-bezier(0.4, 0, 0.2, 1),
+                background 0.28s cubic-bezier(0.4, 0, 0.2, 1);
+    flex-shrink: 0;
+}
+
+.m3-fab-extended:hover {
+    box-shadow: 0 2px 6px 2px rgba(0,0,0,0.15), 0 1px 2px rgba(0,0,0,0.3);
+    background: #c5cbe9; /* slightly darker primary container */
+}
+
+.m3-fab-icon {
+    font-size: 24px;
+    font-weight: 300;
+    line-height: 1;
+}
+
+/* --- M3 Search Bar --- */
+.m3-search-bar-container {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.m3-search-bar {
+    display: flex;
+    align-items: center;
+    height: 56px;
+    padding: 0 16px;
+    background: #e9ecef;
+    border-radius: 28px;
+    gap: 12px;
+    transition: background 0.2s ease, box-shadow 0.2s ease;
+}
+
+.m3-search-bar:focus-within {
+    background: #ffffff;
+    box-shadow: 0 2px 6px 2px rgba(0,0,0,0.08), 0 1px 2px rgba(0,0,0,0.12);
+}
+
+.m3-search-icon {
+    font-size: 18px;
+    color: #49454f;
+    flex-shrink: 0;
+}
+
+.m3-search-input {
+    flex: 1;
+    border: none;
+    background: transparent;
+    font-family: var(--font-primary);
+    font-size: 16px;
+    color: var(--text-dark);
+    outline: none;
+    line-height: 24px;
+}
+
+.m3-search-input::placeholder {
+    color: #49454f;
+}
+
+.m3-icon-btn {
+    width: 40px;
+    height: 40px;
+    border: none;
+    background: transparent;
+    border-radius: 20px;
+    cursor: pointer;
+    font-size: 18px;
+    color: #49454f;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background 0.15s ease;
+}
+
+.m3-icon-btn:hover {
+    background: rgba(0, 0, 0, 0.08);
+}
+
+/* --- M3 Filter Chips --- */
+.m3-chip-row {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+}
+
+.m3-filter-chip {
+    height: 32px;
+    padding: 0 16px;
+    border: 1px solid #79747e;
+    border-radius: 8px;
+    background: transparent;
+    color: #49454f;
+    font-family: var(--font-primary);
+    font-size: 14px;
+    font-weight: 500;
+    letter-spacing: 0.1px;
+    cursor: pointer;
+    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.m3-filter-chip:hover {
+    background: rgba(73, 69, 79, 0.08);
+}
+
+.m3-chip-selected {
+    background: #e8def8;
+    border-color: transparent;
+    color: #1d192b;
+}
+
+.m3-chip-selected:hover {
+    background: #ddd3f0;
+}
+
+/* --- M3 Data Table --- */
+.m3-table-container {
+    border-radius: 12px;
+    overflow: hidden;
+    border: 1px solid #c4c7c5;
+    background: #ffffff;
+}
+
+.m3-data-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.m3-data-table thead tr {
+    border-bottom: 1px solid #c4c7c5;
+}
+
+.m3-data-table th {
+    padding: 14px 16px;
+    text-align: left;
+    font-family: var(--font-primary);
+    font-size: 12px;
+    font-weight: 500;
+    letter-spacing: 0.5px;
+    color: #49454f;
+    text-transform: uppercase;
+    background: #fef7ff;
+}
+
+.m3-data-table td {
+    padding: 16px;
+    font-family: var(--font-primary);
+    font-size: 14px;
+    color: #1d1b20;
+    vertical-align: middle;
+}
+
+.m3-table-row {
+    border-bottom: 1px solid #e7e0ec;
+    transition: background 0.15s ease;
+}
+
+.m3-table-row:hover {
+    background: rgba(103, 80, 164, 0.08);
+}
+
+.m3-table-row:last-child {
+    border-bottom: none;
+}
+
+/* --- M3 Avatar --- */
+.m3-member-cell {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.m3-avatar {
+    width: 40px;
+    height: 40px;
+    border-radius: 20px;
+    background: var(--m3-secondary-container);
+    color: var(--m3-on-secondary-container);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: var(--font-heading);
+    font-size: 16px;
+    font-weight: 500;
+    flex-shrink: 0;
+}
+
+/* --- M3 Role Chips --- */
+.m3-role-chip {
+    display: inline-flex;
+    align-items: center;
+    height: 24px;
+    padding: 0 12px;
+    border-radius: 8px;
+    font-family: var(--font-primary);
+    font-size: 12px;
+    font-weight: 500;
+    letter-spacing: 0.5px;
+}
+
+.m3-role-officer {
+    background: #d3e4fd;
+    color: #041e49;
+}
+
+.m3-role-member {
+    background: #e8def8;
+    color: #1d192b;
+}
+
+/* --- M3 Status Indicator --- */
+.m3-status-indicator {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-family: var(--font-primary);
+    font-size: 13px;
+    font-weight: 500;
+}
+
+.m3-status-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 4px;
+}
+
+.m3-status-active .m3-status-dot {
+    background: #1b6e2e;
+}
+
+.m3-status-active {
+    color: #1b6e2e;
+}
+
+.m3-status-inactive .m3-status-dot {
+    background: #ba1a1a;
+}
+
+.m3-status-inactive {
+    color: #ba1a1a;
+}
+
+/* --- M3 Tonal Button --- */
+.m3-tonal-btn {
+    height: 40px;
+    padding: 0 24px;
+    border: none;
+    border-radius: 20px;
+    background: #e8def8;
+    color: #1d192b;
+    font-family: var(--font-primary);
+    font-size: 14px;
+    font-weight: 500;
+    letter-spacing: 0.1px;
+    cursor: pointer;
+    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.m3-tonal-btn:hover {
+    background: #ddd3f0;
+    box-shadow: 0 1px 3px 1px rgba(0,0,0,0.15), 0 1px 2px rgba(0,0,0,0.3);
+}
+
+/* --- M3 Empty State --- */
+.m3-empty-state {
+    padding: 48px 24px;
+    text-align: center;
+    color: #49454f;
+}
+
+/* --- M3 Cards --- */
+.m3-card {
+    background: var(--m3-surface);
+    border-radius: 12px;
+    overflow: hidden;
+}
+
+.m3-elevated-card {
+    box-shadow: 0 1px 3px 0 rgba(0,0,0,0.1), 0 1px 2px 0 rgba(0,0,0,0.06);
+    border: 1px solid var(--m3-outline);
+}
+
+.m3-card-header {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    padding: 24px;
+    border-bottom: 1px solid var(--m3-surface-variant);
+}
+
+.m3-avatar-large {
+    width: 56px;
+    height: 56px;
+    border-radius: 28px;
+    font-size: 24px;
+}
+
+.m3-card-content {
+    padding: 24px;
+}
+
+.m3-card-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 12px;
+    padding: 16px 24px;
+    border-top: 1px solid var(--m3-surface-variant);
+}
+
+/* --- M3 Detail View Grid --- */
+.m3-details-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 24px;
+}
+
+.m3-detail-item {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.m3-full-width {
+    grid-column: 1 / -1;
+}
+
+.m3-info-box {
+    background: var(--m3-surface-variant);
+    padding: 16px;
+    border-radius: 8px;
+    margin-top: 4px;
+}
+
+/* --- M3 Forms & Inputs --- */
+.m3-form-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 24px;
+    padding: 24px;
+}
+
+.m3-text-field {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.m3-input {
+    height: 56px;
+    padding: 0 16px;
+    border: 1px solid var(--m3-outline);
+    border-radius: 4px; /* M3 Text field standard */
+    background: transparent;
+    font-family: var(--font-primary);
+    font-size: 16px;
+    color: var(--m3-on-surface);
+    transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.m3-input:focus {
+    outline: none;
+    border-color: var(--m3-primary);
+    box-shadow: 0 0 0 1px var(--m3-primary);
+}
+
+.m3-select {
+    appearance: none;
+    background-image: url('data:image/svg+xml;utf8,<svg fill="%2349454f" height="24" viewBox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg"><path d="M7 10l5 5 5-5z"/><path d="M0 0h24v24H0z" fill="none"/></svg>');
+    background-repeat: no-repeat;
+    background-position: right 12px center;
+}
+
+.m3-textarea {
+    height: 120px;
+    padding: 16px;
+    resize: vertical;
+}
+
+/* --- M3 Additional Buttons --- */
+.m3-filled-btn {
+    height: 40px;
+    padding: 0 24px;
+    border: none;
+    border-radius: 20px;
+    background: var(--m3-primary);
+    color: var(--m3-on-primary);
+    font-family: var(--font-primary);
+    font-size: 14px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: background 0.2s ease;
+}
+
+.m3-filled-btn:hover {
+    background: var(--m3-primary-container);
+    color: var(--m3-on-primary-container);
+}
+
+.m3-outlined-btn {
+    height: 40px;
+    padding: 0 24px;
+    border: 1px solid var(--m3-outline);
+    border-radius: 20px;
+    background: transparent;
+    color: var(--m3-error); /* We use it for Deactivate */
+    font-family: var(--font-primary);
+    font-size: 14px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: background 0.2s ease;
+}
+
+.m3-outlined-btn:hover {
+    background: var(--m3-error-container);
+    border-color: transparent;
+}
+
+.m3-text-btn {
+    height: 40px;
+    padding: 0 16px;
+    border: none;
+    border-radius: 20px;
+    background: transparent;
+    color: var(--m3-primary);
+    font-family: var(--font-primary);
+    font-size: 14px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: background 0.2s ease;
+}
+
+.m3-text-btn:hover {
+    background: rgba(63, 81, 181, 0.08); /* Primary color at 8% */
+}
+
+/* --- M3 Additional Typography --- */
+.m3-title-large {
+    font-family: var(--font-primary);
+    font-size: 22px;
+    font-weight: 400;
+    line-height: 28px;
+    margin: 0;
+}
+
+.m3-body-large {
+    font-family: var(--font-primary);
+    font-size: 16px;
+    font-weight: 400;
+    line-height: 24px;
+    color: var(--m3-on-surface);
+}
+
+.m3-label-small {
+    font-family: var(--font-primary);
+    font-size: 11px;
+    font-weight: 500;
+    line-height: 16px;
+    letter-spacing: 0.5px;
+}
+
+/* ====================================================================
+   EXISTING STYLES (Views 2 & 3 — untouched)
+   ==================================================================== */
 
 /* Status Badges */
 .badge {

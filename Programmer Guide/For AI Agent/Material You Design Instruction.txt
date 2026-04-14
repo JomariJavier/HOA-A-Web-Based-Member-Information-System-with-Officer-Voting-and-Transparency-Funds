@@ -1,0 +1,99 @@
+====================================================================
+    MATERIAL YOU (M3) DESIGN GUIDE FOR AI AGENTS
+====================================================================
+
+PURPOSE OF THIS GUIDE:
+--------------------------------------------------------------------
+This document is a set of "Rules of Engagement" for any AI Assistant
+working on the HOA System's Frontend. 
+
+To call a design "Material You," the AI must follow the logic of
+Material Design 3 (M3). This guide explains how to do that in 
+simple terms.
+
+
+====================================================================
+    THE CORE ANALOGY: The Chameleon UI 🦎
+====================================================================
+
+Think of Material You like a Chameleon. In the past, apps had 
+"Hard Colors" (like "This button is always Red #FF0000"). 
+
+In Material You, the UI "samples" its environment. If you pick a
+single Seed Color, the UI creates a whole family of related 
+shades (Tonal Palettes) that always match.
+
+
+====================================================================
+    THE 4 PILLARS OF M3 (FOR AI AGENTS)
+====================================================================
+
+If you are an AI designing a component, you MUST check these 4:
+
+1.  COLOR (Tonal, not Flat)
+    - Don't use random hex codes. Use Tonal Relationships.
+    - Primary: The main brand color.
+    - Secondary: Subtle accents.
+    - Tertiary: Contrasting accents for highlights.
+    - Neutral: For backgrounds and surfaces.
+    - Rule: Text on a "Primary" surface must be "On-Primary."
+
+2.  SHAPE (Pills & Rounded Squares)
+    - M3 loves curves. 
+    - Buttons & Search Bars: Use "Full Rounding" (28px - 999px / Pill shape).
+    - Cards & Dialogs: Use "High Rounding" (12px to 24px).
+    - NEVER use 0px (sharp) corners unless explicitly asked.
+
+3.  TYPOGRAPHY (The Hierarchy)
+    - Use 'Poppins' or 'Inter'.
+    - Large Headers: Use "Display" or "Headline" styles.
+    - Component Labels: Use "Label Large" (Bold, clean).
+    - Long Text: Use "Body Medium."
+
+4.  ELEVATION (Shadows & Surfaces)
+    - M3 uses "Tonal Elevation." 
+    - Instead of heavy black shadows, use slight color tints (Surfaces)
+      to show that something is "floating" or "on top."
+
+
+====================================================================
+    VISUALIZATION: The Restaurant Analogy 🍽️
+====================================================================
+
+Imagine a fancy restaurant:
+- The "Seed Color" is the mood lighting of the room.
+- If the light is Blue, the menus, napkins, and plates all have a 
+  slight blue tint so they feel like they belong together.
+- MATERIAL YOU is the same: The background isn't just "Grey," it's 
+  a very faint version of the Seed Color.
+
+
+====================================================================
+    AI COMPLIANCE CHECKLIST
+====================================================================
+
+Before you submit a JSX/CSS change, ask yourself:
+[ ] Does this use a "Seed Color" to derive its palette?
+[ ] Are my buttons pill-shaped or highly rounded (16px+)?
+[ ] Did I use "Tonal Buttons" (tinted background) instead of flat?
+[ ] Is the typography using the M3 scale (Display -> Label)?
+[ ] Are there "State Layers" (slight color change on hover/focus)?
+
+
+====================================================================
+    REFERENCES & TOOLS
+====================================================================
+
+1. OFFICIAL SPECS: https://m3.material.io/
+   (Use this for component logic, spacing, and accessibility).
+
+2. COLOR PALETTE: https://materialui.co/colors
+   (Use this to pick a professional "Seed Color" and its tonal family).
+
+
+====================================================================
+    FINAL INSTRUCTION
+====================================================================
+If the design looks "boxed," "sharp," or uses "pure unrelated colors,"
+it is NOT Material You. Keep it soft, rounded, and tonally consistent.
+====================================================================
