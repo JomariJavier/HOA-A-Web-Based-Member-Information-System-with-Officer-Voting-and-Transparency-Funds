@@ -53,7 +53,9 @@
 
 /* --- M3 Directory Container --- */
 .m3-content-wrapper {
-    padding: 32px;
+    padding: 24px;
+    max-width: 1200px;
+    margin: 0 auto;
 }
 
 .m3-directory {
@@ -796,6 +798,140 @@
 .detail-row span, .detail-row p {
     color: #2d3748;
     margin: 0;
+}
+
+/* ====================================================================
+   M3 REGISTRATION FORM REFACTOR (Matched w/ Public Relations)
+   ==================================================================== */
+
+.m3-content-wrapper .m3-registration-card {
+    background: var(--m3-surface-container-high) !important;
+    padding: 40px !important;
+    border-radius: 28px !important;
+    width: 100% !important;
+    max-width: 1100px !important;
+    margin: 0 auto !important;
+    box-shadow: 0 1px 3px 0 rgba(0,0,0,0.1) !important;
+}
+
+.m3-form-section {
+    margin-bottom: 32px;
+    padding-bottom: 24px;
+    border-bottom: 1px solid var(--m3-outline-variant);
+}
+
+.m3-form-section:last-child {
+    border-bottom: none;
+    margin-bottom: 16px;
+    padding-bottom: 0;
+}
+
+.m3-form-section h3 {
+    margin-bottom: 20px;
+    color: var(--m3-primary);
+}
+
+.m3-input-group {
+    margin-bottom: 24px;
+    display: flex;
+    flex-direction: column;
+}
+
+.m3-input-row {
+    display: flex;
+    gap: 24px;
+    flex-wrap: wrap;
+}
+
+.m3-form-label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: 600;
+    font-size: 0.95rem;
+    color: var(--m3-on-surface);
+}
+
+.m3-large-input {
+    width: 100%;
+    padding: 16px 20px;
+    font-size: 1.1rem;
+    font-family: var(--font-primary);
+    border: 1px solid var(--m3-outline);
+    border-radius: 12px;
+    background: var(--m3-surface);
+    color: var(--m3-on-surface);
+    transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+.m3-large-input:focus {
+    outline: none;
+    border-color: var(--m3-primary);
+    box-shadow: 0 0 0 4px var(--m3-primary-container);
+}
+
+.m3-large-select {
+    appearance: none;
+    background-image: url('data:image/svg+xml;utf8,<svg fill="%2349454f" height="24" viewBox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg"><path d="M7 10l5 5 5-5z"/><path d="M0 0h24v24H0z" fill="none"/></svg>');
+    background-repeat: no-repeat;
+    background-position: right 16px center;
+}
+
+.m3-large-textarea {
+    resize: vertical;
+    min-height: 120px;
+}
+
+.m3-supporting-text {
+    font-family: var(--font-primary);
+    font-size: 11px;
+    font-weight: 500;
+    line-height: 16px;
+    letter-spacing: 0.5px;
+    color: #49454f; /* m3-on-surface-variant */
+    margin-top: 6px;
+}
+
+.m3-registration-actions {
+    display: flex;
+    gap: 12px;
+    justify-content: flex-end;
+    margin-top: 24px;
+}
+
+.m3-filled-btn-large,
+.m3-text-btn-large {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    height: 48px;
+    padding: 0 24px;
+    border: none;
+    border-radius: 24px;
+    font-family: var(--font-primary);
+    font-size: 1rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s cubic-bezier(0.2, 0, 0, 1);
+}
+
+.m3-filled-btn-large {
+    background: var(--m3-primary);
+    color: var(--m3-on-primary);
+}
+
+.m3-filled-btn-large:hover {
+    box-shadow: 0 1px 3px 0 rgba(0,0,0,0.15), 0 1px 2px 0 rgba(0,0,0,0.08); /* Hover elevation */
+    background: #4659C9;
+}
+
+.m3-text-btn-large {
+    background: transparent;
+    color: var(--m3-primary);
+}
+
+.m3-text-btn-large:hover {
+    background: var(--m3-surface-variant);
 }
 
 .full-width-row {

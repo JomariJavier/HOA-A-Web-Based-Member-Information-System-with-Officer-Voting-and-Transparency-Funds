@@ -1,0 +1,24 @@
+====================================================================
+PR SUBSYSTEM - DESIGN PLANS & REFERENCES
+====================================================================
+
+Design Language: Material Design 3 (M3 / Material You)
+Primary Palette: Indigo (Primary), Violet (Secondary), Error (Red)
+
+Accessibility Standards (Older Demographic):
+--------------------------------------------------------------------
+- Touch Targets: Min 48px height for all buttons.
+- Form Width: 1100px max-width for cards to reduce visual clutter.
+- Hierarchy: Numbered sections with helpful supporting text.
+- Typography: Large, readable font-sizes (e.g., 1.1rem for inputs).
+
+Component References:
+--------------------------------------------------------------------
+- PRRoom.jsx: Main orchestration component.
+- PublicRelations.css: Source of truth for M3 form card styles.
+- PRAdminWorkspace.jsx: Template for officer-only admin forms.
+
+Future Integration (Module 1):
+--------------------------------------------------------------------
+- Replace the hardcoded `isAdmin` boolean with JWT claim validation.
+- Link `Complaint` submissions to the authenticated user's `MemberID`.

@@ -1,0 +1,18 @@
+====================================================================
+PR SUBSYSTEM - KNOWN ISSUES & LIMITATIONS
+====================================================================
+
+1. Backend Connectivity (Major)
+   - Status: Pending
+   - Detail: The News Feed and Complaint Hub currently use mock data. 
+   - Impact: Announcements and complaints are not persistent.
+
+2. Authentication Placeholder
+   - Status: Pending
+   - Detail: The "Admin Mode" toggle is a frontend-only mock. 
+   - Impact: No real RBAC enforcement yet.
+
+3. Image Hosting
+   - Status: Design Limitation
+   - Detail: The officer toolbox requires external image URLs.
+   - Ideal: Future update should include a proper file upload service.

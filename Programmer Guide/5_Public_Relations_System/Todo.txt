@@ -1,0 +1,42 @@
+====================================================================
+PR SUBSYSTEM (NEWS & FEEDBACK) — TODO LIST
+====================================================================
+Last Updated: April 14, 2026
+
+====================================================================
+PRIORITY 1: FRONTEND (Views)
+====================================================================
+
+[x] TASK 1: Create Main PRRoom Container
+    What: Switching between News and Complaints.
+    Assigned: Antigravity AI
+
+[x] TASK 2: Announcement Feed
+    What: M3 Card based news feed with sorting and pinning.
+    Assigned: Antigravity AI
+
+[x] TASK 3: Complaint Hub
+    What: Member view of ticket statuses and submission form.
+    Assigned: Antigravity AI
+
+[x] TASK 4: Admin Workspace
+    What: Form to draft news and management panel.
+    Assigned: Antigravity AI
+
+[x] TASK 8: M3 Accessibility & Sync
+    What: 1100px card width, 48px touch targets, helper texts, and Member module sync.
+    Assigned: Antigravity AI
+
+====================================================================
+PRIORITY 2: BACKEND (Infrastructure)
+====================================================================
+
+[ ] TASK 5: Announcement Entity & API
+    What: Connect news feed to PostgreSQL.
+
+[ ] TASK 6: Complaint/Ticket Entity & API
+    What: Connect feedback loop to PostgreSQL.
+
+[ ] TASK 7: Real-time status updates
+    What: Auto-refresh ticket status when admin resolves.
+====================================================================
