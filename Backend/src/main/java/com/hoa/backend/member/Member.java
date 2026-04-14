@@ -1,4 +1,4 @@
-package com.hoa.backend;
+package com.hoa.backend.member;
 
 import jakarta.persistence.*;
 import lombok.Data;

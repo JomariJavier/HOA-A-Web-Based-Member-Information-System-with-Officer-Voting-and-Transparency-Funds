@@ -1,4 +1,4 @@
-import MemberList from './components/MemberList';
+import MemberList from './components/Member/MemberList';
 import './App.css';
 
 function App() {

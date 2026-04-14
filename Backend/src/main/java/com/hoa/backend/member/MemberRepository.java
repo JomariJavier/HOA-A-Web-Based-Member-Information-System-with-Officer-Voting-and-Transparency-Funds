@@ -1,4 +1,4 @@
-package com.hoa.backend;
+package com.hoa.backend.member;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
