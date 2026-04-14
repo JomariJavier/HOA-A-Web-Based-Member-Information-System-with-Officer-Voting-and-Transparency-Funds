@@ -1,20 +1,178 @@
 /* index.css */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Poppins:wght@400;500;600;700&display=swap');
+
 :root {
+  /* Unified Design Guide Palette */
+  --primary-bg: rgb(18, 41, 50);      /* Dark Navy */
+  --container-bg: #ffffff;            /* Reverted to White */
+  --page-bg: #f4f7f6;                 /* Slightly off-white for depth */
+  
+  --text-light: #ffffff;
+  --text-dark: #1a202c;               /* Deep slate for better readability */
+  
+  /* Accent & Status Colors */
+  --accent-blue: #3182ce;
+  --success-bg: #c6f6d5;
+  --success-text: #22543d;
+  --danger-bg: #fed7d7;
+  --danger-text: #822727;
+  
+  /* Fonts */
+  --font-primary: 'Inter', sans-serif;
+  --font-heading: 'Poppins', sans-serif;
+  
   margin: 0;
   padding: 0;
   box-sizing: border-box;
 }
 
+*, *::before, *::after {
+  box-sizing: inherit;
+}
+
 body {
   margin: 0;
-  display: block; /* Removes the default 'place-items: center' if it was there */
+  display: block;
   min-width: 320px;
   min-height: 100vh;
-  background-color: #f0f2f5;
+  background-color: var(--page-bg);
+  color: var(--text-dark);
+  font-family: var(--font-primary);
 }
 
 #root {
   width: 100%;
   margin: 0;
   padding: 0;
+  height: 100%;
+}
+
+/* ==================================================================== */
+/* GLOBAL LAYOUT CLASSES                                                */
+/* ==================================================================== */
+
+/* Layout Structure */
+.app-layout {
+  display: flex;
+  width: 100%;
+  min-height: 100vh;
+  background-color: var(--page-bg);
+}
+
+/* Sidebar Styling */
+.app-sidebar {
+  width: 240px;
+  background-color: var(--primary-bg);
+  color: var(--text-light);
+  padding: 20px 0;
+  flex-shrink: 0;
+}
+
+.app-sidebar .sidebar-logo {
+  padding: 0 20px 30px;
+  font-size: 20px;
+  font-weight: 700;
+  font-family: var(--font-heading);
+  color: var(--text-light);
+  letter-spacing: 1px;
+}
+
+.app-sidebar .nav-item {
+  padding: 12px 20px;
+  cursor: pointer;
+  transition: 0.3s;
+  font-size: 14px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  color: var(--text-light); /* Forced to white as requested */
+  opacity: 0.8;
+}
+
+.app-sidebar .nav-item:hover, .app-sidebar .nav-item.active {
+  background-color: rgba(255, 255, 255, 0.1);
+  color: var(--text-light);
+  opacity: 1;
+  border-left: 4px solid #bc3a41; /* Kept the red as an accent indicator */
+}
+
+/* Main Area */
+.app-main {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  width: 0; /* Prevent flex overflow */
+}
+
+.app-top-header {
+  height: 60px;
+  background: var(--page-bg);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 30px;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+  border-bottom: 1px solid #e2e8f0;
+}
+
+.app-top-header .breadcrumb { 
+  color: #718096; 
+  font-size: 13px; 
+}
+
+.app-top-header .user-profile {
+  font-weight: 600;
+}
+
+/* Content Container Card */
+.content-card {
+  margin: 25px;
+  background: var(--container-bg);
+  color: var(--text-dark);
+  border-radius: 12px;
+  padding: 25px;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+  /* Use flex-grow so it fills page if desired, or keep as is */
+}
+
+/* Make headers inside content cards Popins */
+.content-card h1, .content-card h2, .content-card h3 {
+  font-family: var(--font-heading);
+  margin-top: 0;
+}
+
+/* Utility classes for form and layout */
+.content-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 25px;
+}
+
+/* Normalize table appearance for white background */
+.unified-table {
+  width: 100%;
+  border-collapse: collapse;
+  background: white;
+  border-radius: 8px;
+  overflow: hidden;
+  border: 1px solid #e2e8f0;
+}
+
+.unified-table th {
+  background: #f8fafc;
+  color: #4a5568;
+  text-transform: uppercase;
+  font-size: 11px;
+  letter-spacing: 0.05em;
+  padding: 15px;
+  text-align: left;
+  border-bottom: 2px solid #edf2f7;
+}
+
+.unified-table td {
+  padding: 15px;
+  border-bottom: 1px solid #edf2f7;
+  color: var(--text-dark);
+  font-size: 14px;
 }

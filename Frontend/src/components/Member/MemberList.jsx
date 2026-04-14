@@ -93,7 +93,7 @@ const handleRegisterSubmit = async (formData) => {
             </div>
 
             <div className="table-responsive">
-                <table className="pis-table">
+                <table className="unified-table">
                     <thead>
                         <tr>
                             <th>Member ID</th>
@@ -225,30 +225,10 @@ const handleRegisterSubmit = async (formData) => {
     );
 
     return (
-        <div className="pis-layout">
-            <aside className="pis-sidebar">
-                <div className="sidebar-logo">HOA Portal</div>
-                <nav>
-                    <div className="nav-item">Dashboard</div>
-                    <div className={`nav-item ${view !== 'registration' ? 'active' : ''}`} onClick={() => setView('list')}>HOA Personal Information</div>
-                    <div className="nav-item">Project Management</div>
-                    <div className="nav-item">HOA Voting Room</div>
-                    <div className="nav-item">Public Relations Room</div>
-                </nav>
-            </aside>
-
-            <main className="pis-main">
-                <header className="pis-top-header">
-                    <div className="breadcrumb">PIS / {view === 'list' ? 'Member List' : view === 'info' ? 'Member Details' : 'Registration'}</div>
-                    <div className="user-profile">Admin Mode</div>
-                </header>
-
-                <section className="pis-content-card">
-                    {view === 'list' && renderMemberTable()}
-                    {view === 'info' && renderMemberInfo()}
-                    {view === 'registration' && renderRegistration()}
-                </section>
-            </main>
-        </div>
+        <section className="content-card">
+            {view === 'list' && renderMemberTable()}
+            {view === 'info' && renderMemberInfo()}
+            {view === 'registration' && renderRegistration()}
+        </section>
     );
 }

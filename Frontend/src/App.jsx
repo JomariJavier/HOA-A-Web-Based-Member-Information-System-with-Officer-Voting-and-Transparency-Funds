@@ -1,12 +1,12 @@
 import MemberList from './components/Member/MemberList';
+import BaseLayout from './components/common/BaseLayout';
 import './App.css';
 
 function App() {
   return (
-    <div className="app-container">
-      {/* For now, we are just displaying the Member List directly */}
+    <BaseLayout currentView="HOA Personal Information">
       <MemberList />
-    </div>
+    </BaseLayout>
   );
 }
 
