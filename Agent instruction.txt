@@ -1,0 +1,454 @@
+====================================================================
+HOA WEB-BASED MEMBER INFORMATION SYSTEM — AI AGENT INSTRUCTIONS
+====================================================================
+
+# ROLE
+You are a senior full-stack developer working on the HOA (Homeowners
+Association) Web-Based Member Information System. Your job is to
+write clean, secure, and maintainable code that follows the project's
+architecture, conventions, and security requirements described below.
+
+Before writing ANY code, read and understand this entire document.
+When in doubt, re-read the relevant section rather than guessing.
+
+====================================================================
+I. PROJECT OVERVIEW
+====================================================================
+The HOA system digitizes and manages all core operations of a
+Homeowners Association including: member information management,
+contribution tracking, anonymous officer voting, transparent funds
+management, and public-relations communication.
+
+Key Problems Being Solved:
+  1. Paper records are vulnerable to manipulation, loss, and disputes.
+  2. "Show of hands" voting exposes members to retaliation from
+     candidates — the system must guarantee ANONYMOUS voting.
+  3. Funds management is opaque — the system must enforce TRANSPARENCY
+     so every member can see how money is spent.
+
+====================================================================
+II. TECH STACK (Do NOT deviate without explicit approval)
+====================================================================
+  Frontend  — React (Vite, JSX)    → runs on http://localhost:5173
+  Backend   — Spring Boot (Java)   → runs on http://localhost:8080
+  Database  — PostgreSQL           → database name: hoa_db
+  API Style — RESTful endpoints
+  Principles— SOLID, DRY, separation of concerns
+
+====================================================================
+III. USER ROLES, ACCESS CONTROL & HARD LIMITS (RBAC)
+====================================================================
+The system has exactly THREE roles. Every feature you build MUST
+respect the boundaries below. These are HARD LIMITS — they define
+what each role CAN and CANNOT do. If a permission is not explicitly
+granted below, treat it as DENIED by default.
+
+  ┌─────────────┬──────────────────────────────────────────────────┐
+  │ Role        │ Description                                      │
+  ├─────────────┼──────────────────────────────────────────────────┤
+  │ Member      │ A regular homeowner. The most restricted role.   │
+  │             │ Can only manage their own account, vote, view    │
+  │             │ public data, and file complaints. CANNOT access  │
+  │             │ other members' data or any admin functions.      │
+  ├─────────────┼──────────────────────────────────────────────────┤
+  │ Admin       │ An elected/appointed HOA officer. Manages member │
+  │ (Officer)   │ records, elections, finances, and communications.│
+  │             │ CANNOT manage other Admin accounts or modify     │
+  │             │ vote results.                                    │
+  ├─────────────┼──────────────────────────────────────────────────┤
+  │ Superadmin  │ System administrator. Manages Admin accounts     │
+  │             │ and system configuration. CANNOT directly manage │
+  │             │ Member accounts (that is the Admin's job).       │
+  └─────────────┴──────────────────────────────────────────────────┘
+
+--------------------------------------------------------------------
+MASTER PERMISSIONS MATRIX (Quick Reference)
+--------------------------------------------------------------------
+Use this table as the single source of truth when building any
+feature. "✓" = allowed, "✗" = BLOCKED, "view" = read-only access.
+
+  ┌────────────────────────────────┬──────────┬──────────┬────────────┐
+  │ Action                         │ Member   │ Admin    │ Superadmin │
+  ├────────────────────────────────┼──────────┼──────────┼────────────┤
+  │ MODULE 1: RBAC LOGIN           │          │          │            │
+  │ Log in / Log out               │    ✓     │    ✓     │     ✓      │
+  │ Edit OWN username & password   │    ✓     │    ✓     │     ✓      │
+  │ Add Member accounts            │    ✗     │    ✓     │     ✗      │
+  │ Edit Member accounts           │    ✗     │    ✓     │     ✗      │
+  │ Delete Member accounts         │    ✗     │    ✓     │     ✗      │
+  │ Add Admin accounts             │    ✗     │    ✗     │     ✓      │
+  │ Edit Admin accounts            │    ✗     │    ✗     │     ✓      │
+  │ Delete Admin accounts          │    ✗     │    ✗     │     ✓      │
+  ├────────────────────────────────┼──────────┼──────────┼────────────┤
+  │ MODULE 2: PERSON INFORMATION   │          │          │            │
+  │ View member records            │    ✗     │    ✓     │     ✗      │
+  │ Add member records             │    ✗     │    ✓     │     ✗      │
+  │ Edit member records            │    ✗     │    ✓     │     ✗      │
+  │ Delete member records          │    ✗     │    ✓     │     ✗      │
+  ├────────────────────────────────┼──────────┼──────────┼────────────┤
+  │ MODULE 3: VOTING               │          │          │            │
+  │ Vote for candidates            │    ✓     │    ✗     │     ✗      │
+  │ View vote results              │    ✓     │   view   │    view    │
+  │ Manage candidates / elections  │    ✗     │    ✓     │     ✗      │
+  │ Modify vote results            │    ✗     │    ✗     │     ✗      │
+  ├────────────────────────────────┼──────────┼──────────┼────────────┤
+  │ MODULE 4: AUDITING (Funds)     │          │          │            │
+  │ View projects & expenses       │   view   │    ✓     │    view    │
+  │ Add / edit projects & expenses │    ✗     │    ✓     │     ✗      │
+  │ Delete financial records       │    ✗     │    ✗     │     ✗      │
+  ├────────────────────────────────┼──────────┼──────────┼────────────┤
+  │ MODULE 5: PUBLIC RELATIONS     │          │          │            │
+  │ Post a complaint               │    ✓     │    ✗     │     ✗      │
+  │ View complaints                │  own ✓   │  all ✓   │     ✗      │
+  │ Respond to complaints          │    ✗     │    ✓     │     ✗      │
+  ├────────────────────────────────┼──────────┼──────────┼────────────┤
+  │ MODULE 6: AUDIT DASHBOARD      │          │          │            │
+  │ View dashboard                 │    ✓     │    ✓     │     ✓      │
+  └────────────────────────────────┴──────────┴──────────┴────────────┘
+
+>>> ENFORCEMENT RULE: The backend MUST validate roles on EVERY     <<<
+>>> request. NEVER rely on the frontend to hide buttons or pages   <<<
+>>> as your only access control. If an endpoint is not permitted   <<<
+>>> for a role, it MUST return HTTP 403 Forbidden.                 <<<
+
+====================================================================
+IV. CORE MODULES (SUBSYSTEMS) — DETAILED BREAKDOWN
+====================================================================
+There are 6 core modules. Each is described below with its purpose,
+explicit CAN / CANNOT DO rules per role, and the key database
+entities involved. Treat these as non-negotiable specifications.
+
+--------------------------------------------------------------------
+MODULE 1: RBAC LOGIN SYSTEM
+--------------------------------------------------------------------
+Purpose: Authenticate users and enforce role-based access control.
+         Prevents unauthorized access and elevation of privilege.
+         Each role can ONLY manage accounts at its own level or below.
+
+  MEMBER — CAN:
+    ✓ Log in and log out of their own account
+    ✓ Edit their OWN username
+    ✓ Change their OWN password
+  MEMBER — CANNOT:
+    ✗ View, create, edit, or delete ANY other user's account
+    ✗ See a list of other users
+    ✗ Access any admin or superadmin panels
+
+  ADMIN (Officer) — CAN:
+    ✓ Everything a Member can (for their own account)
+    ✓ Create new Member accounts
+    ✓ Edit existing Member accounts (username, password reset, status)
+    ✓ Delete / deactivate Member accounts
+    ✓ View a list of all Member accounts
+  ADMIN — CANNOT:
+    ✗ Create, edit, or delete other Admin accounts
+    ✗ Create, edit, or delete Superadmin accounts
+    ✗ Elevate a Member to Admin (only Superadmin can)
+    ✗ Access Superadmin system configuration
+
+  SUPERADMIN — CAN:
+    ✓ Everything for their own account
+    ✓ Create new Admin accounts
+    ✓ Edit existing Admin accounts
+    ✓ Delete / deactivate Admin accounts
+    ✓ System-wide configuration and role management
+  SUPERADMIN — CANNOT:
+    ✗ Directly create, edit, or delete Member accounts
+      (that is the Admin's responsibility — separation of duties)
+
+  Security Requirements:
+    - Passwords MUST be hashed (bcrypt or equivalent — NEVER plaintext)
+    - Session management with secure, HttpOnly tokens
+    - Spring Security with role-based endpoint protection
+    - Every request must validate the user's role on the backend
+    - Failed login attempts should be rate-limited
+
+  Key Entities: User (id, username, password_hash, role, status,
+                created_at, updated_at)
+
+--------------------------------------------------------------------
+MODULE 2: PERSON INFORMATION SYSTEM (Member Records)
+--------------------------------------------------------------------
+Purpose: Maintain accurate, secure, and centralized records of all
+         HOA members — replacing the old paper-based system.
+         This module is ADMIN-ONLY for data management. Members have
+         NO access to this module's interface.
+
+  MEMBER — CAN:
+    (nothing — Members do NOT have access to this module)
+  MEMBER — CANNOT:
+    ✗ View member records (not even their own through THIS module)
+    ✗ Add, edit, or delete any member information
+    ✗ Access the Person Information System pages or API endpoints
+    Note: Members manage their own ACCOUNT info via Module 1 (Login),
+    NOT through this module. This module is strictly for Admin use.
+
+  ADMIN — CAN:
+    ✓ View ALL member records (full directory)
+    ✓ Add new member records (name, address, contact, etc.)
+    ✓ Edit / update existing member records
+    ✓ Delete / deactivate member records
+    ✓ Search and filter members by name, status, etc.
+
+  SUPERADMIN — CANNOT:
+    ✗ Access this module (member record management is Admin's domain)
+
+  Security Requirements:
+    - All changes to member records MUST be logged (audit trail)
+    - API endpoints must reject requests from non-Admin roles with 403
+
+  Key Entities: Member (id, full_name, address, contact_number,
+                email, join_date, status, contribution_status)
+
+--------------------------------------------------------------------
+MODULE 3: VOTING SYSTEM
+--------------------------------------------------------------------
+Purpose: Enable secure, anonymous elections for HOA officer positions.
+         Replaces the "show of hands" method to prevent retaliation.
+
+  MEMBER — CAN:
+    ✓ View active and upcoming elections
+    ✓ View candidate profiles and information
+    ✓ Cast ONE anonymous vote per election (during the voting period)
+    ✓ View vote RESULTS after the election closes (aggregated totals)
+  MEMBER — CANNOT:
+    ✗ Vote more than once per election
+    ✗ Change or retract a vote after submission
+    ✗ See WHO voted for whom (including their own vote in the results)
+    ✗ Manage candidates or election settings
+
+  ADMIN — CAN:
+    ✓ Create and configure elections (positions, dates, descriptions)
+    ✓ Add and manage candidate information (profiles, positions)
+    ✓ Open and close voting periods
+    ✓ View aggregated vote results (totals per candidate)
+    ✓ Declare and publish final results
+  ADMIN — CANNOT:
+    ✗ Cast a vote (Admins/Officers are managers, not voters)
+    ✗ Modify, tamper with, or delete vote results — EVER
+    ✗ View individual voting records (who voted for whom)
+    ✗ Trace any vote back to a specific member
+
+  CRITICAL CONSTRAINT — ANONYMITY:
+    >>> Voting identity MUST be decoupled from vote records.     <<<
+    >>> The system must make it IMPOSSIBLE to trace a vote back  <<<
+    >>> to the member who cast it. This is a CORE requirement.   <<<
+    >>> NO role — not even Superadmin — can see who voted whom.  <<<
+
+  CRITICAL CONSTRAINT — RESULT INTEGRITY:
+    >>> Vote results are READ-ONLY for ALL roles.                <<<
+    >>> No user at any level can modify tallies once cast.        <<<
+    >>> The database must enforce this via immutable records.     <<<
+
+  Security Requirements:
+    - One vote per member per election (enforced at DB level via
+      unique constraint on VoteTracker)
+    - Vote records must NOT contain the voter's identity
+    - Use a separate "has_voted" flag decoupled from the vote record
+    - All voting endpoints require authentication
+    - Voting period must be enforced server-side (not just UI)
+
+  Key Entities:
+    - Election (id, title, description, start_date, end_date, status)
+    - Candidate (id, election_id, member_id, position, bio)
+    - Vote (id, election_id, candidate_id) ← NO voter_id!
+    - VoteTracker (id, election_id, member_id, has_voted) ← separate
+
+--------------------------------------------------------------------
+MODULE 4: AUDITING SYSTEM (Funds & Budget Management)
+--------------------------------------------------------------------
+Purpose: Track ALL financial transactions — income (contributions)
+         and expenses (projects, maintenance) — with full transparency
+         so members can see exactly how funds are being used.
+
+  MEMBER — CAN:
+    ✓ View all projects and their details
+    ✓ View all recorded expenses and their breakdowns
+    ✓ View financial summaries (total income, total expenses, balance)
+    ✓ View contribution records
+  MEMBER — CANNOT:
+    ✗ Add, edit, or delete any financial record
+    ✗ Add, edit, or delete any project
+    ✗ Access any write/modify endpoints for this module
+
+  ADMIN — CAN:
+    ✓ Everything a Member can (view all financial data)
+    ✓ Add new project records
+    ✓ Edit existing project details
+    ✓ Record new expenses with descriptions and categories
+    ✓ Edit expense records (corrections are logged)
+    ✓ Record incoming contributions / payments
+    ✓ Generate financial reports
+  ADMIN — CANNOT:
+    ✗ Permanently delete any financial record (append-only / soft-delete)
+    ✗ Hide transactions from Member view (transparency is mandatory)
+
+  CRITICAL CONSTRAINT — TRANSPARENCY:
+    >>> Every financial transaction MUST be visible to ALL Members. <<<
+    >>> Officers CANNOT hide, permanently delete, or suppress     <<<
+    >>> any financial entries. All edits leave an audit trail.     <<<
+
+  Security Requirements:
+    - Financial records should be append-only (soft-delete only)
+    - Every transaction logs: who entered it, when, and what changed
+    - Data integrity checks in PostgreSQL (constraints, foreign keys)
+    - Edit history must be preserved (no silent overwrites)
+
+  Key Entities:
+    - AuditRecord (id, type [income/expense], amount, description,
+      category, project_id, recorded_by, created_at, updated_at)
+    - Project (id, name, description, budget, start_date, status)
+
+--------------------------------------------------------------------
+MODULE 5: PUBLIC RELATIONS (PR) SYSTEM
+--------------------------------------------------------------------
+Purpose: Facilitate communication between officers and members
+         through a complaint/feedback system.
+
+  MEMBER — CAN:
+    ✓ Post / submit a complaint or feedback
+    ✓ View the status and responses to their OWN complaints
+  MEMBER — CANNOT:
+    ✗ View other members' complaints
+    ✗ Respond to or resolve complaints
+    ✗ Edit or delete a complaint after submission
+    ✗ Post announcements
+
+  ADMIN — CAN:
+    ✓ View ALL submitted complaints from all members
+    ✓ Respond to and provide feedback on complaints
+    ✓ Update the status of complaints (open → in progress → resolved)
+    ✓ Create, edit, and publish announcements
+    ✓ Pin or archive announcements
+  ADMIN — CANNOT:
+    ✗ Delete member complaints (complaints are permanent records)
+    ✗ Edit the content of a member's original complaint
+
+  Key Entities:
+    - Announcement (id, title, content, author_id, published_at,
+      is_pinned, is_archived)
+    - Complaint (id, member_id, subject, body, status, response,
+      created_at, responded_at, responded_by)
+
+--------------------------------------------------------------------
+MODULE 6: AUDIT DASHBOARD
+--------------------------------------------------------------------
+Purpose: A visual summary dashboard providing at-a-glance insights
+         into the HOA's financial health, member statistics, and
+         system activity. This is a READ-ONLY module for all roles.
+
+  MEMBER — CAN:
+    ✓ View the public dashboard
+    ✓ See financial summaries (total income, expenses, balance)
+    ✓ See upcoming election status
+    ✓ See recent announcements
+    ✓ See community-level statistics
+
+  ADMIN — CAN:
+    ✓ Everything Members see, PLUS:
+    ✓ Member growth and activity metrics
+    ✓ Detailed fund breakdowns with charts and graphs
+    ✓ Recent audit log entries
+    ✓ System health and activity overview
+
+  SUPERADMIN — CAN:
+    ✓ Full dashboard access (same as Admin view)
+
+  >>> Both Members and Admins have access to the dashboard,        <<<
+  >>> but Admins see additional administrative metrics.             <<<
+  >>> The dashboard is strictly READ-ONLY — no edits from here.    <<<
+
+  Implementation Notes:
+    - Use charts/graphs for financial data visualization
+    - Dashboard data should be fetched via dedicated summary endpoints
+    - Keep dashboard queries optimized (aggregations, not raw data)
+
+====================================================================
+V. UI/UX DESIGN GUIDELINES
+====================================================================
+Layout Structure:
+  1. Header — System name, user profile dropdown, notification bell
+  2. Navigation Bar (below header) — Links to each module
+  3. Main Content Area — Dynamic, module-specific content
+  4. Footer — System info (version, copyright)
+
+Design Requirements:
+  - Mobile-first, responsive design (works on phones AND desktops)
+  - Clean, modern dashboard aesthetic
+  - Intuitive navigation — assume some users are NOT tech-savvy
+  - Consistent component styling across all modules
+
+====================================================================
+VI. SECURITY FRAMEWORK (STRIDE MODEL)
+====================================================================
+Every feature you build must account for these threat categories:
+
+  Spoofing       → Enforce authentication; hash passwords; manage sessions
+  Tampering      → Validate ALL inputs; use HTTPS; DB constraints; audit logs
+  Repudiation    → Log every action (who, what, when) with timestamps
+  Info Disclosure→ RBAC enforcement; encrypt sensitive data; decouple vote identity
+  Denial of Svc  → Rate limiting; error handling; connection pooling
+  Elev. of Priv  → Backend role validation on EVERY request; never trust the frontend
+
+====================================================================
+VII. DATABASE DESIGN
+====================================================================
+Core Tables: Member, User/Officer, Election, Candidate, Vote,
+VoteTracker, AuditRecord, Project, Announcement, Complaint, AuditLog
+
+Rules:
+  - Spring Boot auto-generates tables via JPA/Hibernate (ddl-auto)
+  - Use proper foreign keys, NOT NULL constraints, and indexes
+  - Audit log table: records every create/update/delete across the system
+  - PostgreSQL database name: hoa_db
+
+====================================================================
+VIII. CODING CONVENTIONS
+====================================================================
+  - Follow SOLID principles
+  - Backend package structure: com.hoa.backend
+    Organize by feature: controller/, service/, repository/, model/, config/
+  - Use DTOs for API responses — never expose raw entities
+  - Handle errors gracefully — return proper HTTP status codes
+  - Write JavaDoc for public methods
+  - Frontend: functional React components with hooks
+
+====================================================================
+IX. TESTING EXPECTATIONS
+====================================================================
+  Unit Tests:
+    - Backend: Test services and controllers in isolation
+    - Frontend: Verify component rendering and input handling
+
+  Integration Tests:
+    - Verify REST endpoints connect React ↔ Spring Boot ↔ PostgreSQL
+    - Verify audit logs trigger on every DB transaction
+
+  Security Tests:
+    - Attempt to access Admin endpoints with a Member account (must fail)
+    - Verify votes cannot be traced back to voters
+
+  UAT:
+    - Responsive UI across devices
+    - Usability for non-tech-savvy users
+
+====================================================================
+X. DEPLOYMENT PLAN
+====================================================================
+  - Docker Containerization (React, Spring Boot, PostgreSQL each in
+    separate containers)
+  - CI/CD Pipeline — auto-run tests on every push
+  - Cloud-Ready architecture for 24/7 availability
+
+====================================================================
+XI. SYSTEM FLOW SUMMARY
+====================================================================
+  1. User logs in → RBAC validates role
+  2. Redirected to Dashboard (role-appropriate view)
+  3. Navigate to modules via navigation bar
+  4. All data stored in centralized PostgreSQL database
+  5. Public information displayed on the member-facing Dashboard
+
+====================================================================
+END OF INSTRUCTIONS — READ THIS BEFORE EVERY CODING SESSION
+====================================================================
