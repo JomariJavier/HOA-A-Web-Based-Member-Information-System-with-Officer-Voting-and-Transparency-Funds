@@ -1,0 +1,30 @@
+====================================================================
+VOTING SUBSYSTEM (HOA VOTING ROOM) — KNOWN ISSUES
+====================================================================
+Last Updated: April 14, 2026
+
+ACTIVE ISSUES:
+--------------------------------------------------------------------
+ISSUE #1: No 1-Vote-Per-Person Constraint (Logic Missing)
+  Severity: Medium
+  Details: The backend increments vote counts but does not track
+           *who* has already voted. A user can refresh the page
+           and vote multiple times.
+  Suggested Fix: Implement the VoteTracker entity to link Member ID
+                 to Election ID.
+
+ISSUE #2: Static Voter Progress Baseline
+  Severity: Low
+  Details: The progress formula is using a hardcoded "expectedVoters"
+           of 100 rather than the actual member count.
+  Suggested Fix: Fetch the total member count from the PIS API and
+                 inject it into the VotingRoom.
+
+ISSUE #3: Date Picker Styling (Browser Native)
+  Severity: Low
+  Details: Using <input type="datetime-local">. While it respects
+           M3 colors, the modal itself is browser-controlled 
+           (Chrome/Edge/Firefox) and not a custom M3 React component.
+  Suggested Fix: Integrate a Material UI or custom React Day Picker.
+====================================================================
+

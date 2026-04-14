@@ -1,0 +1,12 @@
+====================================================================
+VOTING SUBSYSTEM (HOA VOTING ROOM) — CHANGELOG
+====================================================================
+[April 14, 2026] — AI Assistant (Antigravity)
+What: Full implementation of HOA Voting Room (Backend + Frontend)
+Files Changed/Created:
+  - Backend: Election.java, Candidate.java, VotingController.java, Repositories
+  - Frontend: VotingRoom.jsx, VotingRoom.css
+  - App.jsx & BaseLayout.jsx (Navigation integration)
+  - Designed all 3 views following M3 specs
+---
+

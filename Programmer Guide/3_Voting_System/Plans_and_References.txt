@@ -1,0 +1,142 @@
+====================================================================
+VOTING SUBSYSTEM (HOA VOTING ROOM) — Plans & References
+====================================================================
+
+PURPOSE
+--------------------------------------------------------------------
+The Voting Subsystem, or "HOA Voting Room," provides a digital platform
+for conducting secure, transparent, and democratic elections within 
+the Homeowners Association. It replaces paper ballots with a unified
+Material Design 3 interface.
+
+SYSTEM FLOW
+--------------------------------------------------------------------
+The user navigates through three primary views:
+
+    [ VIEW 1 ] → [ VIEW 2 ]
+    Voting Room  Election View
+    (List)       (Ballot)
+        │            │
+        └─────┬──────┘
+              ▼
+          [ VIEW 3 ]
+          Create Poll
+          (Admin Only)
+
+
+====================================================================
+VIEW 1: VOTING ROOM (THE DIRECTORY)
+====================================================================
+
+WHAT IT DOES:
+- Lists all votable elections as discrete Elevated Cards (M3).
+- Uses LinearProgressIndicator for voting metrics:
+  $Progress = Voters_{Current} / Voters_{Total}$
+- Links each item to View 2 (Election View).
+- Provides an Extended FAB for View 3 (Create Poll).
+
+DESIGN GUIDELINES:
+- Base elevation: Level 1 (Level 2 on hover).
+- Active Elections: Use Primary color tokens.
+- Concluded Elections: Use Outline tokens (archival de-emphasis).
+- FAB: Bottom-right, 16dp padding, "plus" icon + "Create Poll" text.
+
+
+====================================================================
+VIEW 2: ELECTION VIEW (THE BALLOT)
+====================================================================
+
+WHAT IT DOES:
+- Shows the candidates for a specific election position.
+- Uses Identity Cards for nominees with 32dp circular avatars.
+- Selection via Radio-List pattern (Outlined Card state).
+
+DESIGN GUIDELINES:
+- Typography: Headline Large for names, Body Medium for credentials.
+- Constraint: Credentials truncated at 150 characters.
+- Selection State: Container transitions to Tonal Palette Primary.
+- "Hidden Vote" Protocol: No real-time quantitative metrics shown.
+- "Create Poll" button: Also visible here (for Admin) to navigate to View 1.3.
+- Finalization: Singular "Confirm Vote" FAB in bottom-right.
+  (Logical buffer to mitigate Action Bias).
+
+
+====================================================================
+VIEW 3: CREATE POLL (ADMIN WORKSPACE)
+====================================================================
+
+WHAT IT DOES:
+- Accessible ONLY to Admin role.
+- Collects: Election Title, Start/End Time, and Nominees.
+
+DESIGN GUIDELINES:
+- Workspace: Surface Container High.
+- Inputs: M3 Outlined Text Fields with Label/Supporting text.
+- Chronology: MUST use M3 Date Picker component.
+- Nominees: Dynamic List organism with "remove" affordance.
+- Constraint: Hard limit of $N \le 5$ nominees.
+- Terminal Actions: Button Row (Bottom-right).
+  - "Back" (Outlined Button)
+  - "Create" (Filled Button)
+
+SYSTEMIC ANALOGY:
+The Admin Form acts as a Relational Schema Validator. Just as a 
+database rejects a null value in a primary key, the UI should 
+reject a poll that lacks a nominee or a valid date range 
+before the "Create" action is permitted.
+
+
+====================================================================
+DATA MODEL (Proposed)
+====================================================================
+
+Poll/Election:
+- id (Long)
+- title (String / Position)
+- startDate (LocalDateTime)
+- endDate (LocalDateTime)
+- status (Active, Concluded)
+- nominees (List<Nominee>)
+
+Nominee:
+- id (Long)
+- name (String)
+- credentials (String / Bio)
+- voteCount (Long - Encrypted/Hidden in UI)
+
+
+====================================================================
+STATUS & FILE MAP
+====================================================================
+
+CURRENT STATUS: ✅ WORKING & DESIGNED (All 3 Views)
+
+FRONTEND (React):
+    src/components/Voting/
+    ├── VotingRoom.jsx           ← Main Container / View Switcher
+    ├── ElectionList.jsx         ← View 1: Card-based Election Directory
+    ├── VotingBallot.jsx         ← View 2: Identity-card based Ballot
+    ├── ElectionManagement.jsx   ← View 3: Admin Create Poll Form
+    └── VotingRoom.css           ← Consolidated M3 Styling
+
+
+BACKEND (Java / Spring Boot):
+    src/main/java/com/hoa/backend/voting/
+    ├── Election.java        ← Main poll entity
+    ├── Candidate.java       ← Nominee entity
+    ├── VotingController.java← REST Interface
+    ├── ElectionRepository.java
+    └── CandidateRepository.java
+    └── VotingService.java   ← (Placeholder)
+
+--------------------------------------------------------------------
+API ENDPOINTS (Live)
+--------------------------------------------------------------------
+    METHOD   URL                         WHAT IT DOES
+    ──────   ──────────────────────────  ──────────────────────────
+    GET      /api/voting/elections       Returns all polls
+    GET      /api/voting/elections/{id}  Returns specific poll
+    POST     /api/voting/elections       Creates new poll (Admin)
+    POST     /api/voting/elections/{id}/candidates/{id}/vote → Cast vote
+====================================================================
+

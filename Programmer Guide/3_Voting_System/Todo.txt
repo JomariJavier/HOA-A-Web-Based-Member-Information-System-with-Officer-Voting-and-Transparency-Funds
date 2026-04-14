@@ -1,0 +1,48 @@
+====================================================================
+VOTING SUBSYSTEM (HOA VOTING ROOM) — TODO LIST
+====================================================================
+Last Updated: April 14, 2026
+
+====================================================================
+PRIORITY 1: INFRASTRUCTURE (Backend)
+====================================================================
+
+[x] TASK 1: Create Voting Entities
+    What: Fixed. Election.java and Candidate.java defined.
+    Assigned: Antigravity AI
+
+[x] TASK 2: Create API Endpoints
+    What: Fixed. Controller and Repositories implemented.
+    Assigned: Antigravity AI
+
+====================================================================
+PRIORITY 2: VIEWS (Frontend)
+====================================================================
+
+[x] TASK 3: View 1 - Voting Room (The List)
+    What: Fixed. Card-based list with turnout progress bars and FAB.
+    Assigned: Antigravity AI
+
+[x] TASK 4: View 2 - Election View (The Ballot)
+    What: Fixed. Identity cards with Radio-style selection and confirm FAB.
+    Assigned: Antigravity AI
+
+[x] TASK 5: View 3 - Create Poll (Admin Form)
+    What: Fixed. Multi-field form with dynamic nominee management (max 5).
+    Assigned: Antigravity AI
+
+====================================================================
+PRIORITY 3: POLISH & SECURITY
+====================================================================
+
+[ ] TASK 6: Role Access Control
+    What: Ensure only ADMIN can access View 3 and the CreatePoll API.
+
+[ ] TASK 7: Voting Logic Constraints
+    What: Ensure 1-vote-per-person constraint is enforced.
+
+[x] TASK 8: UI Maintainability (Refactor)
+    What: Split monolithic VotingRoom.jsx into sub-components.
+    Details: ElectionList, VotingBallot, ElectionManagement.
+    Assigned: Antigravity AI
+====================================================================

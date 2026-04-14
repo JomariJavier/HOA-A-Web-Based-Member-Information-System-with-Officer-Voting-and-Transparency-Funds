@@ -1,11 +1,21 @@
+import React, { useState } from 'react';
 import MemberList from './components/Member/MemberList';
+import VotingRoom from './components/Voting/VotingRoom';
 import BaseLayout from './components/common/BaseLayout';
 import './App.css';
 
 function App() {
+  const [currentView, setCurrentView] = useState('Voting'); // Defaulting to Voting for debugging, user can switch
+
   return (
-    <BaseLayout currentView="HOA Personal Information">
-      <MemberList />
+    <BaseLayout currentView={currentView} onNavClick={setCurrentView}>
+      {currentView === 'PIS' && <MemberList />}
+      {currentView === 'Voting' && <VotingRoom />}
+      {['Dashboard', 'Project', 'PR'].includes(currentView) && (
+          <div style={{padding: '32px', color: 'var(--m3-on-surface-variant)'}}>
+              Module coming soon...
+          </div>
+      )}
     </BaseLayout>
   );
 }
