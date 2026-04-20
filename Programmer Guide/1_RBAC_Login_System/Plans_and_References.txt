@@ -1,0 +1,33 @@
+====================================================================
+RBAC LOGIN SYSTEM - PLANS AND REFERENCES
+====================================================================
+
+REFERENCE: General System Instruction.txt -> MODULE 1: RBAC LOGIN SYSTEM
+
+Objective: Authenticate users and enforce role-based access control to prevent unauthorized access. Ensure users can only manage accounts at their own level or below.
+
+Tech Stack:
+- Backend: Spring Boot (Java), PostgreSQL (DB: hoa_db), Spring Security
+- Frontend: React (Vite, JSX), Material You Design Guidelines (M3)
+
+Entity: User (id, username, password_hash, role, status, created_at, updated_at)
+
+Role Permissions Matrix:
+1. MEMBER:
+   - CAN: Log in/out, edit OWN username, change OWN password.
+   - CANNOT: View, create, edit, or delete other users. Access Admin/Superadmin panels.
+
+2. ADMIN (Officer):
+   - CAN: Manage own account. Create, Edit, Delete, and View Member accounts.
+   - CANNOT: Manage other Admins or Superadmin accounts. Elevate a Member to Admin. Access Superadmin config.
+
+3. SUPERADMIN:
+   - CAN: Manage own account. Create, Edit, Delete, and View Admin accounts. System configuration.
+   - CANNOT: Manage Member accounts (strictly Admin's job).
+
+Security Rules (STRIDE):
+- Passwords MUST be hashed (bcrypt or equivalent). Plaintext passwords are forbidden.
+- Session management using secure, HttpOnly tokens.
+- Backend must validate the user's role on EVERY request (If not permitted -> HTTP 403 Forbidden).
+- Rate limit failed login attempts.
+- UI Design: Follow Material You (Chameleon UI, Tonal Colors, Pill/Rounded shapes).
