@@ -1,4 +1,4 @@
-package com.hoa.backend;
+package com.hoa.backend.member;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;

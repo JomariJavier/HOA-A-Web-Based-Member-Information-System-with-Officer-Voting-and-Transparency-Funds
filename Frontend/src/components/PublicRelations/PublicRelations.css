@@ -1,0 +1,294 @@
+/* 
+   Public Relations Room - Material Design 3 Styling
+   Tonal Palette: Indigo / Violet / Error
+*/
+
+.pr-container {
+    padding: 24px;
+    max-width: 1200px;
+    margin: 0 auto;
+    animation: fadeIn 0.4s ease-out;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+/* --- Admin Toggle Switch --- */
+.admin-toggle-wrapper {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    background: var(--m3-surface-variant);
+    padding: 8px 16px;
+    border-radius: 20px;
+    box-shadow: 0 1px 2px rgba(0,0,0,0.1);
+}
+
+.toggle-switch {
+    position: relative;
+    display: inline-block;
+    width: 44px;
+    height: 24px;
+}
+
+.toggle-switch input {
+    opacity: 0;
+    width: 0;
+    height: 0;
+}
+
+.slider {
+    position: absolute;
+    cursor: pointer;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background-color: var(--m3-outline);
+    transition: .3s;
+    border-radius: 24px;
+}
+
+.slider:before {
+    position: absolute;
+    content: "";
+    height: 18px;
+    width: 18px;
+    left: 3px;
+    bottom: 3px;
+    background-color: white;
+    transition: .3s;
+    border-radius: 50%;
+}
+
+input:checked + .slider {
+    background-color: var(--m3-primary);
+}
+
+input:checked + .slider:before {
+    transform: translateX(20px);
+}
+
+/* --- Toggle Navigation --- */
+.pr-nav-tabs {
+    display: flex;
+    gap: 8px;
+    margin-bottom: 32px;
+    border-bottom: 1px solid var(--m3-outline-variant);
+    padding-bottom: 8px;
+}
+
+.pr-nav-item {
+    padding: 12px 24px;
+    border-radius: 100px;
+    cursor: pointer;
+    font-weight: 500;
+    transition: all 0.2s;
+    user-select: none;
+    color: var(--m3-on-surface-variant);
+}
+
+.pr-nav-item:hover {
+    background: var(--m3-secondary-container);
+    color: var(--m3-on-secondary-container);
+}
+
+.pr-nav-item.active {
+    background: var(--m3-primary);
+    color: var(--m3-on-primary);
+    box-shadow: var(--shadow-2);
+}
+
+/* --- Announcements Feed --- */
+.announcement-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+    gap: 24px;
+}
+
+.announcement-card {
+    background: var(--m3-surface-container);
+    border-radius: 24px;
+    overflow: hidden;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    border: 1px solid transparent;
+}
+
+.announcement-card:hover {
+    transform: translateY(-4px);
+    box-shadow: var(--shadow-3);
+    border-color: var(--m3-primary-fixed-dim);
+}
+
+.announcement-card.pinned {
+    grid-column: 1 / -1;
+    display: flex;
+    background: var(--m3-primary-container);
+    color: var(--m3-on-primary-container);
+}
+
+.announcement-img {
+    width: 100%;
+    height: 200px;
+    object-fit: cover;
+    background: var(--m3-surface-variant);
+}
+
+.pinned .announcement-img {
+    width: 400px;
+    height: auto;
+}
+
+.announcement-content {
+    padding: 20px;
+}
+
+.announcement-meta {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 12px;
+}
+
+/* --- Category Chips --- */
+.chip-group {
+    display: flex;
+    gap: 8px;
+    margin-bottom: 24px;
+    overflow-x: auto;
+    padding-bottom: 8px;
+}
+
+.m3-chip-selectable {
+    padding: 6px 16px;
+    border: 1px solid var(--m3-outline);
+    border-radius: 8px;
+    font-size: 0.875rem;
+    cursor: pointer;
+    background: transparent;
+    transition: 0.2s;
+}
+
+.m3-chip-selectable.active {
+    background: var(--m3-secondary-container);
+    border-color: transparent;
+    color: var(--m3-on-secondary-container);
+}
+
+/* --- Complaint & Status --- */
+.status-badge {
+    padding: 4px 12px;
+    border-radius: 100px;
+    font-size: 0.75rem;
+    font-weight: 600;
+    text-transform: uppercase;
+}
+
+.status-pending { background: #fee2e2; color: #991b1b; }
+.status-review { background: #dbeafe; color: #1e40af; }
+.status-resolved { background: #dcfce7; color: #166534; }
+
+/* --- Forms & Inputs (M3 Compliance) --- */
+.pr-container .pr-form-card {
+    background: var(--m3-surface-container-high) !important;
+    padding: 40px !important;
+    border-radius: 28px !important;
+    width: 100% !important;
+    max-width: 1100px !important;
+    margin: 0 auto !important;
+    box-shadow: 0 1px 3px 0 rgba(0,0,0,0.1) !important;
+}
+
+.pr-input-group {
+    margin-bottom: 24px;
+}
+
+.pr-label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: 600;
+    font-size: 0.95rem;
+    color: var(--m3-on-surface);
+}
+
+.m3-input {
+    width: 100%;
+    padding: 16px 20px;
+    font-size: 1.1rem;
+    font-family: var(--font-primary);
+    border: 1px solid var(--m3-outline);
+    border-radius: 12px;
+    background: var(--m3-surface);
+    color: var(--m3-on-surface);
+    transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+.m3-input:focus {
+    outline: none;
+    border-color: var(--m3-primary);
+    box-shadow: 0 0 0 4px var(--m3-primary-container);
+}
+
+textarea.m3-input {
+    resize: vertical;
+    min-height: 120px;
+}
+
+/* --- Buttons (M3 Compliance) --- */
+.m3-btn-filled,
+.m3-btn-text,
+.m3-btn-tonal {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    height: 48px; /* Accessible height for older demographic */
+    padding: 0 24px;
+    border: none;
+    border-radius: 24px; /* Fully rounded pill */
+    font-family: var(--font-primary);
+    font-size: 1rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s cubic-bezier(0.2, 0, 0, 1);
+}
+
+.m3-btn-filled {
+    background: var(--m3-primary);
+    color: var(--m3-on-primary);
+}
+
+.m3-btn-filled:hover {
+    box-shadow: 0 1px 3px 0 rgba(0,0,0,0.15), 0 1px 2px 0 rgba(0,0,0,0.08); /* Hover elevation */
+    background: #4659C9; /* slightly brighter */
+}
+
+.m3-btn-text {
+    background: transparent;
+    color: var(--m3-primary);
+}
+
+.m3-btn-text:hover {
+    background: var(--m3-surface-variant);
+}
+
+.m3-btn-tonal {
+    background: var(--m3-secondary-container);
+    color: var(--m3-on-secondary-container);
+}
+
+.m3-btn-tonal:hover {
+    background: #c5cbe9; /* darker tone */
+}
+
+/* --- Empty States --- */
+.pr-empty-state {
+    text-align: center;
+    padding: 80px 0;
+    color: var(--m3-on-surface-variant);
+}
+
+.pr-empty-icon {
+    font-size: 48px;
+    margin-bottom: 16px;
+    opacity: 0.5;
+}

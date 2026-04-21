@@ -1,0 +1,5 @@
+Currently, there are no known issues as development on this module is just beginning.
+
+Anticipated tricky areas:
+- Implementing HttpOnly tokens for session management and handling CSRF with Spring Security and React.
+- Ensuring React Router securely protects routes so unauthorized roles cannot briefly access components before redirection.

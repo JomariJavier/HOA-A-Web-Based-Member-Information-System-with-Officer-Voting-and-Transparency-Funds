@@ -1,0 +1,29 @@
+====================================================================
+RBAC LOGIN SYSTEM - TODO LIST
+====================================================================
+
+BACKEND (Spring Boot):
+[ ] Set up Database connection for `hoa_db` in `application.properties`.
+[ ] Create User Entity with fields: id, username, password_hash, role, status, created_at, updated_at.
+[ ] Implement `UserRepository` with specific queries if needed.
+[ ] Configure Spring Security with `SecurityFilterChain`.
+[ ] Implement JWT generation and validation (ensure HttpOnly cookies are used for security).
+[ ] Create `AuthController` (Endpoints: /login, /logout).
+[ ] Create `UserController` with role-restricted endpoints (e.g., Admin managing members, Superadmin managing admins).
+[ ] Implement `UserService` containing business logic for password hashing (bcrypt), updating profiles, and managing users.
+[ ] Add role verification on EVERY endpoint (Return 403 if unauthorized).
+
+FRONTEND (React + Vite):
+[ ] Set up React Router for navigation and protected routes.
+[ ] Define Material You Seed Colors and Typography in CSS/Theme provider.
+[ ] Create Login Page Component (Pill shaped buttons, Tonal Elevation).
+[ ] Implement Auth Context/State to handle logged-in user data and token checks.
+[ ] Create User Settings Profile page for changing own username/password.
+[ ] Create Admin Panel Component (for managing Member accounts: Create/Edit/Delete/List).
+[ ] Create Superadmin Panel Component (for managing Admin accounts).
+[ ] Implement error handling for 403 Forbidden scenarios to gracefully redirect users.
+
+TESTING:
+[ ] Test all authentication flows (Login, Logout, Session Expiration).
+[ ] Perform Security testing: Attempt to hit Admin endpoints as Member, and Superadmin endpoints as Admin.
+[ ] Ensure User Interface looks good on Mobile and follows Material You design aesthetics.

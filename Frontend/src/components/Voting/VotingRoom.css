@@ -1,0 +1,390 @@
+/* VotingRoom.css - M3 Styles specifically for Voting Subsystem */
+
+.m3-voting-directory {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+    max-width: 1100px;
+    margin: 0 auto;
+}
+
+/* --- Universal Header & Toggle --- */
+.pis-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 24px;
+    max-width: 1100px;
+    margin: 0 auto 24px auto;
+}
+
+.admin-toggle-wrapper {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    background: var(--m3-surface-variant);
+    padding: 8px 16px;
+    border-radius: 20px;
+}
+
+.toggle-switch {
+    position: relative;
+    display: inline-block;
+    width: 44px;
+    height: 24px;
+}
+
+.toggle-switch input {
+    opacity: 0;
+    width: 0;
+    height: 0;
+}
+
+.slider {
+    position: absolute;
+    cursor: pointer;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background-color: var(--m3-outline);
+    transition: .3s;
+    border-radius: 24px;
+}
+
+.slider:before {
+    position: absolute;
+    content: "";
+    height: 18px;
+    width: 18px;
+    left: 3px;
+    bottom: 3px;
+    background-color: white;
+    transition: .3s;
+    border-radius: 50%;
+}
+
+input:checked + .slider {
+    background-color: var(--m3-primary);
+}
+
+input:checked + .slider:before {
+    transform: translateX(20px);
+}
+
+.voting-main-content {
+    max-width: 1100px;
+    margin: 0 auto;
+}
+
+/* --- View 1: Election List --- */
+.m3-election-list {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+    gap: 24px;
+}
+
+.m3-election-card {
+    background: var(--m3-surface);
+    border-radius: 12px;
+    padding: 24px;
+    cursor: pointer;
+    transition: transform 0.2s ease, box-shadow 0.2s ease, background 0.2s ease;
+}
+
+.m3-card-active {
+    box-shadow: 0 1px 3px 0 rgba(0,0,0,0.1), 0 1px 2px 0 rgba(0,0,0,0.06); /* Level 1 */
+    border: 1px solid var(--m3-primary-container);
+}
+
+.m3-card-active:hover {
+    box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1), 0 2px 4px -1px rgba(0,0,0,0.06); /* Level 2 */
+    transform: translateY(-2px);
+}
+
+.m3-card-concluded {
+    border: 1px solid var(--m3-outline);
+    opacity: 0.8;
+}
+
+.m3-chip {
+    padding: 4px 12px;
+    border-radius: 16px;
+    font-size: 12px;
+    font-weight: 500;
+}
+
+.m3-chip-primary {
+    background: var(--m3-primary-container);
+    color: var(--m3-on-primary-container);
+}
+
+.m3-chip-outline {
+    border: 1px solid var(--m3-outline);
+    color: var(--m3-on-surface-variant);
+}
+
+.m3-progress-container {
+    margin-top: 16px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.m3-progress-bar {
+    height: 4px;
+    background: var(--m3-surface-variant);
+    border-radius: 4px;
+    overflow: hidden;
+}
+
+.m3-progress-fill {
+    height: 100%;
+    background: var(--m3-primary);
+    transition: width 0.3s ease;
+}
+
+/* --- FABs --- */
+.m3-fab-extended {
+    position: fixed;
+    bottom: 24px;
+    right: 24px;
+    display: inline-flex;
+    align-items: center;
+    gap: 12px;
+    height: 56px;
+    padding: 0 20px;
+    border: none;
+    border-radius: 16px;
+    background: var(--m3-primary-container);
+    color: var(--m3-on-primary-container);
+    font-family: var(--font-primary);
+    font-size: 14px;
+    font-weight: 500;
+    cursor: pointer;
+    box-shadow: 0 1px 4px rgba(0,0,0,0.2);
+    transition: all 0.2s ease;
+    z-index: 100;
+}
+
+.m3-fab-extended:hover {
+    box-shadow: 0 2px 6px 2px rgba(0,0,0,0.15), 0 1px 2px rgba(0,0,0,0.3);
+    background: #c5cbe9;
+}
+
+/* --- View 2: Identity Cards & Ballot --- */
+.m3-candidate-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 16px;
+    max-width: 800px;
+}
+
+.m3-identity-card {
+    display: flex;
+    align-items: flex-start;
+    gap: 16px;
+    padding: 24px;
+    border: 1px solid var(--m3-outline);
+    border-radius: 12px;
+    background: var(--m3-surface);
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.m3-card-selected {
+    background: var(--m3-primary-container);
+    border-color: var(--m3-primary);
+}
+
+.m3-avatar-circular {
+    width: 32px;
+    height: 32px;
+    border-radius: 16px;
+    background: var(--m3-secondary-container);
+    color: var(--m3-on-secondary-container);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+}
+
+.m3-identity-info {
+    flex: 1;
+}
+
+.m3-headline-large {
+    font-family: var(--font-heading);
+    font-size: 20px;
+    font-weight: 500;
+    margin: 0 0 8px 0;
+    color: var(--m3-on-surface);
+}
+
+.m3-credentials {
+    color: var(--m3-on-surface-variant);
+    margin: 0;
+}
+
+/* --- Identity Card Refinements --- */
+.m3-avatar-circular-large {
+    width: 48px;
+    height: 48px;
+    border-radius: 24px;
+    background: var(--m3-primary-container);
+    color: var(--m3-on-primary-container);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 20px;
+    font-weight: 600;
+    flex-shrink: 0;
+}
+
+.m3-selection-indicator {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+}
+
+.m3-radio-outer {
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    border: 2px solid var(--m3-outline);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s ease;
+}
+
+.m3-radio-outer-selected {
+    border-color: var(--m3-primary);
+}
+
+.m3-radio-inner {
+    width: 0;
+    height: 0;
+    border-radius: 50%;
+    background: var(--m3-primary);
+    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.m3-radio-inner-selected {
+    width: 14px;
+    height: 14px;
+}
+
+.m3-fab-bottom-right {
+    position: fixed;
+    bottom: 24px;
+    right: 24px;
+    z-index: 100;
+}
+
+
+/* --- Segmented Form & Elevated Cards --- */
+.m3-segmented-form {
+    display: flex;
+    flex-direction: column;
+    gap: 32px;
+}
+
+.m3-form-section {
+    background: var(--m3-surface);
+    border-radius: 20px;
+    overflow: hidden;
+    border: 1px solid var(--m3-outline-variant);
+}
+
+.m3-elevated-card {
+    box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+}
+
+.m3-section-header-pill {
+    background: var(--m3-primary-container);
+    color: var(--m3-on-primary-container);
+    padding: 12px 24px;
+}
+
+.m3-card-content {
+    padding: 24px;
+}
+
+.m3-nominee-entry-box {
+    background: var(--m3-surface-container-low);
+    border-radius: 12px;
+    padding: 16px;
+    margin-bottom: 16px;
+    border: 1px solid var(--m3-outline-variant);
+}
+
+.m3-nominee-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 12px;
+}
+
+.m3-nominee-fields {
+    display: grid;
+    grid-template-columns: 1fr 2fr;
+    gap: 16px;
+}
+
+.m3-form-actions-footer {
+    display: flex;
+    justify-content: flex-end;
+    gap: 16px;
+    margin-top: 40px;
+    padding-top: 24px;
+    border-top: 1px solid var(--m3-outline-variant);
+}
+
+.m3-filled-btn-large {
+    height: 48px;
+    padding: 0 32px;
+    background: var(--m3-primary);
+    color: var(--m3-on-primary);
+    border: none;
+    border-radius: 24px;
+    font-weight: 500;
+    cursor: pointer;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.2);
+}
+
+.m3-text-btn-large {
+    height: 48px;
+    padding: 0 24px;
+    background: transparent;
+    color: var(--m3-primary);
+    border: none;
+    border-radius: 24px;
+    font-weight: 500;
+    cursor: pointer;
+}
+
+.m3-empty-state {
+    text-align: center;
+    padding: 60px 24px;
+    background: var(--m3-surface-container-low);
+    border-radius: 24px;
+    border: 2px dashed var(--m3-outline-variant);
+}
+
+.m3-election-metadata .m3-label-small {
+    color: var(--m3-on-surface-variant);
+    font-weight: 600;
+}
+
+/* --- View 2: Ballot Refinements --- */
+.m3-candidate-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 16px;
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+.m3-identity-card:hover {
+    background: var(--m3-surface-container-high);
+}
+

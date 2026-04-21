@@ -1,0 +1,95 @@
+====================================================================
+PERSONAL INFORMATION SYSTEM (PIS) — KNOWN ISSUES
+====================================================================
+Last Updated: April 14, 2026
+
+HOW TO USE THIS FILE:
+  If you find a bug, add it here with:
+  - A short title
+  - Steps to reproduce (how to make the bug happen)
+  - What SHOULD happen vs what ACTUALLY happens
+  - Your name so we can ask you questions
+
+
+====================================================================
+ACTIVE ISSUES (Not fixed yet)
+====================================================================
+
+ISSUE #1: Null birthdate saved to database
+  Found by: AI Analysis
+  Severity: Low
+  Steps to Reproduce:
+    1. Click "+ Add New Member"
+    2. Fill in the name but leave Birthdate empty
+    3. Click "Register Member"
+  Expected: Should warn the user or set a default
+  Actual: Saves "null" in the birthDate column in PostgreSQL
+  Suggested Fix: Add @NotNull to birthDate in Member.java,
+                 or add a frontend check before submitting
+
+---
+
+ISSUE #2: Registration form doesn't reset after submission
+  Found by: AI Analysis
+  Severity: Low
+  Steps to Reproduce:
+    1. Register a new member (fill in the form and submit)
+    2. Click "+ Add New Member" again
+  Expected: The form should be blank / empty
+  Actual: The form still shows the data from the previous submission
+  Suggested Fix: After successful submit, reset the `newMember` state
+                 back to its default values in handleRegisterSubmit()
+
+---
+
+ISSUE #3: No error handling on failed API calls
+  Found by: AI Analysis
+  Severity: Medium
+  Steps to Reproduce:
+    1. Stop the backend server
+    2. Try to load the member directory page
+  Expected: A user-friendly error message like "Cannot reach server"
+  Actual: The page loads with an empty table and a console error.
+          No feedback to the user at all.
+  Suggested Fix: Add a loading state and error state to the component.
+                 Show a message when the fetch fails.
+
+---
+
+---
+
+ISSUE #5: "Edit Record" button does nothing
+  Found by: AI Analysis
+  Severity: High
+  Steps to Reproduce:
+    1. Click "View Details" on any member
+    2. Click "Edit Record"
+  Expected: Should open an editable form
+  Actual: Nothing happens. The button has no onClick handler.
+  Suggested Fix: See Todo.txt — Task 1
+
+---
+
+ISSUE #6: No API security — anyone can access /api/members
+  Found by: AI Analysis
+  Severity: High (but acceptable during development)
+  Steps to Reproduce:
+    1. Open a browser and go to http://localhost:8080/api/members
+    2. You can see all member data without logging in
+  Expected: Should require Admin authentication
+  Actual: SecurityConfig has .permitAll() — no authentication required
+  Suggested Fix: BLOCKED until Module 1 (Login) is built.
+                 Then add @PreAuthorize to the controller.
+
+
+====================================================================
+RESOLVED ISSUES (Fixed — kept for history)
+====================================================================
+
+ISSUE #4: Search bar and filter were decorative
+  Fixed by: Antigravity AI (April 14, 2026)
+  Resolution: Wired up React .filter() logic in MemberList.jsx. 
+              Refactored UI to use M3 Filter Chips.
+
+
+====================================================================

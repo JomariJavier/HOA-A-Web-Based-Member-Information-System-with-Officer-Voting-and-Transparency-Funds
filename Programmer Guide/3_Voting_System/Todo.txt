@@ -1,0 +1,73 @@
+====================================================================
+VOTING SUBSYSTEM (HOA VOTING ROOM) — TODO LIST
+====================================================================
+Last Updated: April 14, 2026 (Revamp Phase Initiated)
+
+====================================================================
+PRIORITY 0: FRONTEND REVAMP & M3 STANDARDIZATION
+====================================================================
+
+[x] TASK 1: Universal Header & Admin Toggle Sync
+    What: Fixed. Implemented the standard flex layout and centralized global isAdmin synchronization.
+
+[x] TASK 2: Information Content Strategy overhaul
+    What: Fixed. Redesigned ElectionList cards with qualitative summaries and turnout visualizers.
+
+[x] TASK 3: Admin Form M3 Upgrade
+    What: Fixed. Segmented ElectionManagement into modular cards with 1100px width locks.
+
+[x] TASK 4: Identity Card Refinement
+    What: Fixed. Upgraded VotingBallot cards to the premium M3 Identity Card standard.
+
+====================================================================
+PRIORITY 1: INFRASTRUCTURE (Backend)
+====================================================================
+
+[x] TASK 1: Create Voting Entities
+    What: Fixed. Election.java and Candidate.java defined.
+    Assigned: Antigravity AI
+
+[x] TASK 2: Create API Endpoints
+    What: Fixed. Controller and Repositories implemented.
+    Assigned: Antigravity AI
+
+====================================================================
+PRIORITY 2: VIEWS (Frontend)
+====================================================================
+
+[x] TASK 3: View 1 - Voting Room (The List)
+    What: Fixed. Card-based list with turnout progress bars and FAB.
+    Assigned: Antigravity AI
+
+[x] TASK 4: View 2 - Election View (The Ballot)
+    What: Fixed. Identity cards with Radio-style selection and confirm FAB.
+    Assigned: Antigravity AI
+
+[x] TASK 5: View 3 - Create Poll (Admin Form)
+    What: Fixed. Multi-field form with dynamic nominee management (max 5).
+    Assigned: Antigravity AI
+
+====================================================================
+PRIORITY 3: POLISH & SECURITY
+====================================================================
+
+[x] TASK 6: Role Access Control (Frontend)
+    What: Fixed. buttons hidden behind isAdmin flag.
+    Assigned: Antigravity AI
+
+[x] TASK 7: Voting Logic Constraints
+    What: Fixed. One-vote-per-person and concluded-poll blocking.
+    Assigned: Antigravity AI
+
+[x] TASK 8: UI Maintainability (Refactor)
+    What: Fixed. Sub-component extraction (ElectionList, Ballot, etc).
+    Assigned: Antigravity AI
+
+[x] TASK 9: Delete & Emergency Reset
+    What: Fixed. Added trash button and backend cleanup logic.
+    Assigned: Antigravity AI
+
+[x] TASK 10: Hot-Reloading Support (DevTools)
+    What: Added Spring Boot DevTools to pom.xml.
+    Assigned: Antigravity AI
+====================================================================

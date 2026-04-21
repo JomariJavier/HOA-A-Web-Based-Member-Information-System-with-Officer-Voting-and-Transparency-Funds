@@ -1,0 +1,1027 @@
+/* ====================================================================
+   MATERIAL DESIGN 3 (Material You) — Member Directory Styles
+   Reference: https://m3.material.io/
+   ==================================================================== */
+
+/* --- M3 Typography Scale --- */
+.m3-display-small {
+    font-family: var(--font-heading);
+    font-size: 36px;
+    font-weight: 400;
+    line-height: 44px;
+    letter-spacing: 0;
+    color: var(--text-dark);
+    margin: 0;
+}
+
+.m3-title-medium {
+    font-family: var(--font-primary);
+    font-size: 16px;
+    font-weight: 500;
+    line-height: 24px;
+    letter-spacing: 0.15px;
+}
+
+.m3-title-small {
+    font-family: var(--font-primary);
+    font-size: 14px;
+    font-weight: 500;
+    line-height: 20px;
+    letter-spacing: 0.1px;
+}
+
+.m3-body-medium {
+    font-family: var(--font-primary);
+    font-size: 14px;
+    font-weight: 400;
+    line-height: 20px;
+    letter-spacing: 0.25px;
+}
+
+.m3-label-large {
+    font-family: var(--font-primary);
+    font-size: 14px;
+    font-weight: 500;
+    line-height: 20px;
+    letter-spacing: 0.1px;
+    color: #49454f;
+}
+
+.m3-on-surface-variant {
+    color: #49454f;
+}
+
+/* --- M3 Universal Header & Toggle --- */
+.pis-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 24px;
+}
+
+.admin-toggle-wrapper {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    background: var(--m3-surface-variant);
+    padding: 8px 16px;
+    border-radius: 20px;
+    box-shadow: 0 1px 2px rgba(0,0,0,0.1);
+}
+
+.toggle-switch {
+    position: relative;
+    display: inline-block;
+    width: 44px;
+    height: 24px;
+}
+
+.toggle-switch input {
+    opacity: 0;
+    width: 0;
+    height: 0;
+}
+
+.slider {
+    position: absolute;
+    cursor: pointer;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background-color: var(--m3-outline);
+    transition: .3s;
+    border-radius: 24px;
+}
+
+.slider:before {
+    position: absolute;
+    content: "";
+    height: 18px;
+    width: 18px;
+    left: 3px;
+    bottom: 3px;
+    background-color: white;
+    transition: .3s;
+    border-radius: 50%;
+}
+
+input:checked + .slider {
+    background-color: var(--m3-primary);
+}
+
+input:checked + .slider:before {
+    transform: translateX(20px);
+}
+
+/* --- M3 Directory Container --- */
+.m3-content-wrapper {
+    padding: 24px;
+    max-width: 1200px;
+    margin: 0 auto;
+    animation: fadeIn 0.4s ease-out;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.m3-directory {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+    max-width: 1100px;
+    margin: 0 auto;
+}
+
+/* --- M3 Page Header --- */
+.m3-page-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    gap: 16px;
+    margin-bottom: 8px;
+}
+
+/* --- M3 Extended FAB --- */
+.m3-fab-extended {
+    display: inline-flex;
+    align-items: center;
+    gap: 12px;
+    height: 56px;
+    padding: 0 20px;
+    border: none;
+    border-radius: 16px;
+    background: var(--m3-primary-container);
+    color: var(--m3-on-primary-container);
+    font-family: var(--font-primary);
+    font-size: 14px;
+    font-weight: 500;
+    letter-spacing: 0.1px;
+    cursor: pointer;
+    box-shadow: 0 1px 3px 1px rgba(0,0,0,0.15), 0 1px 2px rgba(0,0,0,0.3);
+    transition: box-shadow 0.28s cubic-bezier(0.4, 0, 0.2, 1),
+                background 0.28s cubic-bezier(0.4, 0, 0.2, 1);
+    flex-shrink: 0;
+}
+
+.m3-fab-extended:hover {
+    box-shadow: 0 2px 6px 2px rgba(0,0,0,0.15), 0 1px 2px rgba(0,0,0,0.3);
+    background: #c5cbe9; /* slightly darker primary container */
+}
+
+.m3-fab-icon {
+    font-size: 24px;
+    font-weight: 300;
+    line-height: 1;
+}
+
+/* --- M3 Search Bar --- */
+.m3-search-bar-container {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.m3-search-bar {
+    display: flex;
+    align-items: center;
+    height: 56px;
+    padding: 0 16px;
+    background: #e9ecef;
+    border-radius: 28px;
+    gap: 12px;
+    transition: background 0.2s ease, box-shadow 0.2s ease;
+}
+
+.m3-search-bar:focus-within {
+    background: #ffffff;
+    box-shadow: 0 2px 6px 2px rgba(0,0,0,0.08), 0 1px 2px rgba(0,0,0,0.12);
+}
+
+.m3-search-icon {
+    font-size: 18px;
+    color: #49454f;
+    flex-shrink: 0;
+}
+
+.m3-search-input {
+    flex: 1;
+    border: none;
+    background: transparent;
+    font-family: var(--font-primary);
+    font-size: 16px;
+    color: var(--text-dark);
+    outline: none;
+    line-height: 24px;
+}
+
+.m3-search-input::placeholder {
+    color: #49454f;
+}
+
+.m3-icon-btn {
+    width: 40px;
+    height: 40px;
+    border: none;
+    background: transparent;
+    border-radius: 20px;
+    cursor: pointer;
+    font-size: 18px;
+    color: #49454f;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background 0.15s ease;
+}
+
+.m3-icon-btn:hover {
+    background: rgba(0, 0, 0, 0.08);
+}
+
+/* --- M3 Filter Chips --- */
+.m3-chip-row {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+}
+
+.m3-filter-chip {
+    height: 32px;
+    padding: 0 16px;
+    border: 1px solid #79747e;
+    border-radius: 8px;
+    background: transparent;
+    color: #49454f;
+    font-family: var(--font-primary);
+    font-size: 14px;
+    font-weight: 500;
+    letter-spacing: 0.1px;
+    cursor: pointer;
+    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.m3-filter-chip:hover {
+    background: rgba(73, 69, 79, 0.08);
+}
+
+.m3-chip-selected {
+    background: #e8def8;
+    border-color: transparent;
+    color: #1d192b;
+}
+
+.m3-chip-selected:hover {
+    background: #ddd3f0;
+}
+
+/* --- M3 Data Table --- */
+.m3-table-container {
+    border-radius: 12px;
+    overflow: hidden;
+    border: 1px solid #c4c7c5;
+    background: #ffffff;
+}
+
+.m3-data-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.m3-data-table thead tr {
+    border-bottom: 1px solid #c4c7c5;
+}
+
+.m3-data-table th {
+    padding: 14px 16px;
+    text-align: left;
+    font-family: var(--font-primary);
+    font-size: 12px;
+    font-weight: 500;
+    letter-spacing: 0.5px;
+    color: #49454f;
+    text-transform: uppercase;
+    background: #fef7ff;
+}
+
+.m3-data-table td {
+    padding: 16px;
+    font-family: var(--font-primary);
+    font-size: 14px;
+    color: #1d1b20;
+    vertical-align: middle;
+}
+
+.m3-table-row {
+    border-bottom: 1px solid #e7e0ec;
+    transition: background 0.15s ease;
+}
+
+.m3-table-row:hover {
+    background: rgba(103, 80, 164, 0.08);
+}
+
+.m3-table-row:last-child {
+    border-bottom: none;
+}
+
+/* --- M3 Avatar --- */
+.m3-member-cell {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.m3-avatar {
+    width: 40px;
+    height: 40px;
+    border-radius: 20px;
+    background: var(--m3-secondary-container);
+    color: var(--m3-on-secondary-container);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: var(--font-heading);
+    font-size: 16px;
+    font-weight: 500;
+    flex-shrink: 0;
+}
+
+/* --- M3 Role Chips --- */
+.m3-role-chip {
+    display: inline-flex;
+    align-items: center;
+    height: 24px;
+    padding: 0 12px;
+    border-radius: 8px;
+    font-family: var(--font-primary);
+    font-size: 12px;
+    font-weight: 500;
+    letter-spacing: 0.5px;
+}
+
+.m3-role-officer {
+    background: #d3e4fd;
+    color: #041e49;
+}
+
+.m3-role-member {
+    background: #e8def8;
+    color: #1d192b;
+}
+
+/* --- M3 Status Indicator --- */
+.m3-status-indicator {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-family: var(--font-primary);
+    font-size: 13px;
+    font-weight: 500;
+}
+
+.m3-status-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 4px;
+}
+
+.m3-status-active .m3-status-dot {
+    background: #1b6e2e;
+}
+
+.m3-status-active {
+    color: #1b6e2e;
+}
+
+.m3-status-inactive .m3-status-dot {
+    background: #ba1a1a;
+}
+
+.m3-status-inactive {
+    color: #ba1a1a;
+}
+
+/* --- M3 Tonal Button --- */
+.m3-tonal-btn {
+    height: 40px;
+    padding: 0 24px;
+    border: none;
+    border-radius: 20px;
+    background: #e8def8;
+    color: #1d192b;
+    font-family: var(--font-primary);
+    font-size: 14px;
+    font-weight: 500;
+    letter-spacing: 0.1px;
+    cursor: pointer;
+    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.m3-tonal-btn:hover {
+    background: #ddd3f0;
+    box-shadow: 0 1px 3px 1px rgba(0,0,0,0.15), 0 1px 2px rgba(0,0,0,0.3);
+}
+
+/* --- M3 Empty State --- */
+.m3-empty-state {
+    padding: 48px 24px;
+    text-align: center;
+    color: #49454f;
+}
+
+/* --- M3 Cards --- */
+.m3-card {
+    background: var(--m3-surface);
+    border-radius: 12px;
+    overflow: hidden;
+}
+
+.m3-elevated-card {
+    box-shadow: 0 1px 3px 0 rgba(0,0,0,0.1), 0 1px 2px 0 rgba(0,0,0,0.06);
+    border: 1px solid var(--m3-outline);
+}
+
+.m3-card-header {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    padding: 24px;
+    border-bottom: 1px solid var(--m3-surface-variant);
+}
+
+.m3-avatar-large {
+    width: 56px;
+    height: 56px;
+    border-radius: 28px;
+    font-size: 24px;
+}
+
+.m3-card-content {
+    padding: 24px;
+}
+
+.m3-card-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 12px;
+    padding: 16px 24px;
+    border-top: 1px solid var(--m3-surface-variant);
+}
+
+/* --- M3 Detail View Grid --- */
+.m3-details-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 24px;
+}
+
+.m3-detail-item {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.m3-full-width {
+    grid-column: 1 / -1;
+}
+
+.m3-info-box {
+    background: var(--m3-surface-variant);
+    padding: 16px;
+    border-radius: 8px;
+    margin-top: 4px;
+}
+
+/* --- M3 Forms & Inputs --- */
+.m3-form-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 24px;
+    padding: 24px;
+}
+
+.m3-text-field {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.m3-input {
+    height: 56px;
+    padding: 0 16px;
+    border: 1px solid var(--m3-outline);
+    border-radius: 4px; /* M3 Text field standard */
+    background: transparent;
+    font-family: var(--font-primary);
+    font-size: 16px;
+    color: var(--m3-on-surface);
+    transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.m3-input:focus {
+    outline: none;
+    border-color: var(--m3-primary);
+    box-shadow: 0 0 0 1px var(--m3-primary);
+}
+
+.m3-select {
+    appearance: none;
+    background-image: url('data:image/svg+xml;utf8,<svg fill="%2349454f" height="24" viewBox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg"><path d="M7 10l5 5 5-5z"/><path d="M0 0h24v24H0z" fill="none"/></svg>');
+    background-repeat: no-repeat;
+    background-position: right 12px center;
+}
+
+.m3-textarea {
+    height: 120px;
+    padding: 16px;
+    resize: vertical;
+}
+
+/* --- M3 Additional Buttons --- */
+.m3-filled-btn {
+    height: 40px;
+    padding: 0 24px;
+    border: none;
+    border-radius: 20px;
+    background: var(--m3-primary);
+    color: var(--m3-on-primary);
+    font-family: var(--font-primary);
+    font-size: 14px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: background 0.2s ease;
+}
+
+.m3-filled-btn:hover {
+    background: var(--m3-primary-container);
+    color: var(--m3-on-primary-container);
+}
+
+.m3-outlined-btn {
+    height: 40px;
+    padding: 0 24px;
+    border: 1px solid var(--m3-outline);
+    border-radius: 20px;
+    background: transparent;
+    color: var(--m3-error); /* We use it for Deactivate */
+    font-family: var(--font-primary);
+    font-size: 14px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: background 0.2s ease;
+}
+
+.m3-outlined-btn:hover {
+    background: var(--m3-error-container);
+    border-color: transparent;
+}
+
+.m3-text-btn {
+    height: 40px;
+    padding: 0 16px;
+    border: none;
+    border-radius: 20px;
+    background: transparent;
+    color: var(--m3-primary);
+    font-family: var(--font-primary);
+    font-size: 14px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: background 0.2s ease;
+}
+
+.m3-text-btn:hover {
+    background: rgba(63, 81, 181, 0.08); /* Primary color at 8% */
+}
+
+/* --- M3 Additional Typography --- */
+.m3-title-large {
+    font-family: var(--font-primary);
+    font-size: 22px;
+    font-weight: 400;
+    line-height: 28px;
+    margin: 0;
+}
+
+.m3-body-large {
+    font-family: var(--font-primary);
+    font-size: 16px;
+    font-weight: 400;
+    line-height: 24px;
+    color: var(--m3-on-surface);
+}
+
+.m3-label-small {
+    font-family: var(--font-primary);
+    font-size: 11px;
+    font-weight: 500;
+    line-height: 16px;
+    letter-spacing: 0.5px;
+}
+
+/* ====================================================================
+   EXISTING STYLES (Views 2 & 3 — untouched)
+   ==================================================================== */
+
+/* Status Badges */
+.badge {
+    padding: 4px 10px;
+    border-radius: 20px;
+    font-size: 12px;
+    font-weight: bold;
+}
+
+.active { background-color: var(--success-bg); color: var(--success-text); }
+.inactive { background-color: var(--danger-bg); color: var(--danger-text); }
+
+.view-btn {
+    border: 1px solid #3182ce;
+    color: #3182ce;
+    background: transparent;
+    padding: 6px 14px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 12px;
+}
+
+.view-btn:hover { background: #ebf8ff; }
+.text-center { text-align: center; }
+
+/* Member Info Specific Styles */
+.back-link {
+    background: none;
+    border: none;
+    color: var(--accent-blue);
+    cursor: pointer;
+    font-weight: 600;
+    padding: 0;
+    font-size: 16px;
+}
+
+.back-link:hover { text-decoration: underline; }
+
+.info-section {
+    margin-top: 20px;
+    padding-bottom: 20px;
+    border-bottom: 1px solid #edf2f7;
+}
+
+.info-section h3 {
+    font-size: 18px;
+    color: var(--text-dark);
+    margin-bottom: 20px;
+    border-left: 4px solid var(--primary-bg);
+    padding-left: 10px;
+}
+
+.details-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 20px;
+}
+
+.detail-item label {
+    display: block;
+    font-size: 12px;
+    color: #718096;
+    text-transform: uppercase;
+    font-weight: bold;
+    margin-bottom: 4px;
+}
+
+.detail-item p {
+    margin: 0;
+    font-size: 15px;
+    color: #2d3748;
+    font-weight: 500;
+}
+
+.full-width {
+    grid-column: 1 / -1;
+}
+
+.action-buttons button {
+    margin-left: 10px;
+    padding: 8px 16px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-weight: 600;
+}
+
+.edit-btn { background: #3182ce; color: white; border: none; }
+.print-btn { background: white; border: 1px solid #e2e8f0; color: #4a5568; }
+
+/* Filter Styling */
+.filter-container {
+    position: relative;
+    display: inline-block;
+}
+
+.filter-btn {
+    background: #edf2f7;
+    border: 1px solid #e2e8f0;
+    padding: 10px 15px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.filter-popup {
+    position: absolute;
+    top: 45px;
+    right: 0;
+    background: white;
+    border: 1px solid #e2e8f0;
+    border-radius: 8px;
+    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+    z-index: 100;
+    width: 150px;
+    overflow: hidden;
+}
+
+.filter-option {
+    padding: 10px 15px;
+    cursor: pointer;
+    font-size: 14px;
+}
+
+.filter-option:hover {
+    background-color: #f7fafc;
+    color: #3182ce;
+}
+
+/* Registration Form Styling */
+.registration-form {
+    margin-top: 20px;
+}
+
+.form-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+}
+
+.form-group {
+    display: flex;
+    flex-direction: column;
+}
+
+.form-group label {
+    font-size: 13px;
+    font-weight: 700;
+    color: #4a5568;
+    margin-bottom: 8px;
+}
+
+.form-group input, .form-group select, .form-group textarea {
+    padding: 10px;
+    border: 1px solid #e2e8f0;
+    border-radius: 6px;
+    font-size: 14px;
+}
+
+.form-group textarea {
+    height: 100px;
+    resize: none;
+}
+
+.full-width {
+    grid-column: 1 / -1;
+}
+
+.form-actions {
+    margin-top: 30px;
+    display: flex;
+    justify-content: flex-end;
+    gap: 15px;
+}
+
+.btn-back {
+    background: #e2e8f0;
+    border: none;
+    padding: 10px 25px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-weight: 600;
+}
+
+.btn-register {
+    background: var(--primary-bg);
+    color: white;
+    border: none;
+    padding: 10px 25px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-weight: 600;
+}
+
+/* Toolbar positioning */
+.search-and-filter {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    margin-bottom: 20px;
+}
+
+.search-wrapper {
+    flex: 1;
+    max-width: 500px;
+    position: relative;
+}
+
+.filter-container {
+    margin-left: 20px;
+}
+
+/* Sidebar Adjustment */
+.nav-item {
+    font-size: 13px; /* Slightly smaller for the longer names */
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+/* Detail View Refinement */
+.details-list {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    margin-top: 20px;
+}
+
+.detail-row {
+    display: flex;
+    border-bottom: 1px solid #f0f0f0;
+    padding-bottom: 8px;
+}
+
+.detail-row label {
+    width: 180px;
+    font-weight: bold;
+    color: #4a5568;
+}
+
+.detail-row span, .detail-row p {
+    color: #2d3748;
+    margin: 0;
+}
+
+/* ====================================================================
+   M3 REGISTRATION FORM REFACTOR (Matched w/ Public Relations)
+   ==================================================================== */
+
+.m3-content-wrapper .m3-registration-card {
+    background: var(--m3-surface-container-high) !important;
+    padding: 40px !important;
+    border-radius: 28px !important;
+    width: 100% !important;
+    max-width: 1100px !important;
+    margin: 0 auto !important;
+    box-shadow: 0 1px 3px 0 rgba(0,0,0,0.1) !important;
+}
+
+.m3-form-section {
+    margin-bottom: 32px;
+    padding-bottom: 24px;
+    border-bottom: 1px solid var(--m3-outline-variant);
+}
+
+.m3-form-section:last-child {
+    border-bottom: none;
+    margin-bottom: 16px;
+    padding-bottom: 0;
+}
+
+.m3-form-section h3 {
+    margin-bottom: 20px;
+    color: var(--m3-primary);
+}
+
+.m3-input-group {
+    margin-bottom: 24px;
+    display: flex;
+    flex-direction: column;
+}
+
+.m3-input-row {
+    display: flex;
+    gap: 24px;
+    flex-wrap: wrap;
+}
+
+.m3-form-label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: 600;
+    font-size: 0.95rem;
+    color: var(--m3-on-surface);
+}
+
+.m3-large-input {
+    width: 100%;
+    padding: 16px 20px;
+    font-size: 1.1rem;
+    font-family: var(--font-primary);
+    border: 1px solid var(--m3-outline);
+    border-radius: 12px;
+    background: var(--m3-surface);
+    color: var(--m3-on-surface);
+    transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+.m3-large-input:focus {
+    outline: none;
+    border-color: var(--m3-primary);
+    box-shadow: 0 0 0 4px var(--m3-primary-container);
+}
+
+.m3-large-select {
+    appearance: none;
+    background-image: url('data:image/svg+xml;utf8,<svg fill="%2349454f" height="24" viewBox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg"><path d="M7 10l5 5 5-5z"/><path d="M0 0h24v24H0z" fill="none"/></svg>');
+    background-repeat: no-repeat;
+    background-position: right 16px center;
+}
+
+.m3-large-textarea {
+    resize: vertical;
+    min-height: 120px;
+}
+
+.m3-supporting-text {
+    font-family: var(--font-primary);
+    font-size: 11px;
+    font-weight: 500;
+    line-height: 16px;
+    letter-spacing: 0.5px;
+    color: #49454f; /* m3-on-surface-variant */
+    margin-top: 6px;
+}
+
+.m3-registration-actions {
+    display: flex;
+    gap: 12px;
+    justify-content: flex-end;
+    margin-top: 24px;
+}
+
+.m3-filled-btn-large,
+.m3-text-btn-large {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    height: 48px;
+    padding: 0 24px;
+    border: none;
+    border-radius: 24px;
+    font-family: var(--font-primary);
+    font-size: 1rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s cubic-bezier(0.2, 0, 0, 1);
+}
+
+.m3-filled-btn-large {
+    background: var(--m3-primary);
+    color: var(--m3-on-primary);
+}
+
+.m3-filled-btn-large:hover {
+    box-shadow: 0 1px 3px 0 rgba(0,0,0,0.15), 0 1px 2px 0 rgba(0,0,0,0.08); /* Hover elevation */
+    background: #4659C9;
+}
+
+.m3-text-btn-large {
+    background: transparent;
+    color: var(--m3-primary);
+}
+
+.m3-text-btn-large:hover {
+    background: var(--m3-surface-variant);
+}
+
+.full-width-row {
+    flex-direction: column;
+    border-bottom: none;
+}
+
+.full-width-row p {
+    margin-top: 10px;
+    background: #f8fafc;
+    padding: 15px;
+    border-radius: 6px;
+}
+
+/* This ensures the 'Action' text and any button in that column align to the right edge */
+.text-right {
+    text-align: right !important;
+    padding-right: 20px !important; /* This creates a consistent 'gutter' on the right */
+}
+
+/* This ensures the button specifically moves to the right side of the cell */
+.text-right .view-btn {
+    display: inline-block;
+}
