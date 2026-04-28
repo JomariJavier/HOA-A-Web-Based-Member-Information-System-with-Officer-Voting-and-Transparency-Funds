@@ -1,46 +1,55 @@
 package com.hoa.backend.member;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
+import com.hoa.backend.auth.UserRepository;
+import com.hoa.backend.auth.User;
+import com.hoa.backend.audit.AuditLogService;
 import java.util.List;
 
 @RestController
 @RequestMapping("/api/members")
-@CrossOrigin(origins = "*")
 public class MemberController {
 
     @Autowired
-    private MemberRepository memberRepository;
+    private MemberService memberService;
+
+    @Autowired
+    private UserRepository userRepository;
+
+    @Autowired
+    private AuditLogService auditLogService;
 
     // Fetch all members
     @GetMapping
     public List<Member> getAllMembers() {
-        return memberRepository.findAll();
+        return memberService.getAllMembers();
     }
 
     // Fetch one specific member
     @GetMapping("/{id}")
     public Member getMemberById(@PathVariable Long id) {
-        return memberRepository.findById(id)
+        return memberService.getMemberById(id)
                 .orElseThrow(() -> new RuntimeException("Member not found"));
     }
 
     // Save a new member
     @PostMapping
-    public Member registerMember(@RequestBody Member member) {
-        if (member.getRole() == null) {
-            member.setRole("Member");
-        }
-        if (member.getStatus() == null) {
-            member.setStatus("Active");
-        }
-        return memberRepository.save(member);
+    @PreAuthorize("hasRole('ADMIN')")
+    public Member registerMember(@RequestBody Member member, Authentication auth) {
+        Member saved = memberService.saveMember(member);
+        User admin = userRepository.findByUsername(auth.getName()).orElse(null);
+        auditLogService.logAction(admin, "MEMBER_REGISTERED", "Registered member: " + saved.getFullName() + " (" + saved.getUsername() + ")");
+        return saved;
     }
 
-    // Update member details (including status/deactivation)
+    // Update member details
     @PutMapping("/{id}")
-    public Member updateMember(@PathVariable Long id, @RequestBody Member memberDetails) {
-        Member member = memberRepository.findById(id)
+    @PreAuthorize("hasRole('ADMIN')")
+    public Member updateMember(@PathVariable Long id, @RequestBody Member memberDetails, Authentication auth) {
+        Member member = memberService.getMemberById(id)
                 .orElseThrow(() -> new RuntimeException("Member not found"));
 
         member.setFullName(memberDetails.getFullName());
@@ -49,7 +58,21 @@ public class MemberController {
         member.setRole(memberDetails.getRole());
         member.setStatus(memberDetails.getStatus());
         member.setFamilyMembers(memberDetails.getFamilyMembers());
+        member.setEmail(memberDetails.getEmail());
+        member.setContactNumber(memberDetails.getContactNumber());
 
-        return memberRepository.save(member);
+        Member saved = memberService.saveMember(member);
+        User admin = userRepository.findByUsername(auth.getName()).orElse(null);
+        auditLogService.logAction(admin, "MEMBER_UPDATED", "Updated details for: " + saved.getFullName());
+        return saved;
+    }
+
+    // Soft delete
+    @DeleteMapping("/{id}")
+    @PreAuthorize("hasRole('ADMIN')")
+    public void deleteMember(@PathVariable Long id, Authentication auth) {
+        memberService.deleteMember(id);
+        User admin = userRepository.findByUsername(auth.getName()).orElse(null);
+        auditLogService.logAction(admin, "MEMBER_DELETED", "Soft-deleted member ID: " + id);
     }
 }

@@ -110,8 +110,73 @@
 }
 
 .m3-status-open { background: #FFEBEE; color: #C62828; }
-.m3-status-progress { background: #E3F2FD; color: #1565C0; }
+.m3-status-inprogress { background: #E3F2FD; color: #1565C0; }
 .m3-status-resolved { background: #E8F5E9; color: #2E7D32; }
+
+.m3-board-response {
+    margin-top: 12px;
+    padding: 16px;
+    background: #F0F4F4;
+    border-radius: 12px;
+    border-left: 4px solid #008080;
+}
+
+.m3-admin-reply-area {
+    border-top: 1px solid var(--m3-surface-variant);
+    margin-top: 16px;
+    padding-top: 8px;
+}
+
+.m3-input-small {
+    padding: 8px 12px;
+    border-radius: 8px;
+    border: 1px solid var(--m3-outline);
+    background: white;
+    font-size: 0.85rem;
+}
+
+.m3-pr-btn-small {
+    padding: 8px 16px;
+    border-radius: 8px;
+    border: none;
+    background: #008080;
+    color: white;
+    font-weight: 600;
+    cursor: pointer;
+    font-size: 0.85rem;
+}
+
+/* --- Modal --- */
+.m3-modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.4);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+    backdrop-filter: blur(4px);
+}
+
+.m3-modal-content {
+    background: white;
+    box-shadow: var(--shadow-lg);
+    max-width: 90vw;
+    max-height: 90vh;
+    overflow-y: auto;
+}
+
+.animate-fade-in {
+    animation: fadeIn 0.3s ease-out;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
 
 /* --- Form --- */
 .m3-pr-form {

@@ -1,0 +1,19 @@
+$kind: http-request
+name: Cast Vote
+method: POST
+url: 'http://localhost:8081/api/voting/elections/1/candidates/1/vote'
+order: 2000
+headers:
+  - key: Content-Type
+    value: application/json
+body:
+  type: json
+  content: |-
+    {
+      "voterId": "member-001"
+    }
+scripts:
+  - type: afterResponse
+    language: text/javascript
+    code: |-
+      pm.test("Status code is 200", function() { pm.response.to.have.status(200); });

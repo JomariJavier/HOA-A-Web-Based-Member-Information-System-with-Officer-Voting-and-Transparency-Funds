@@ -1,0 +1,20 @@
+====================================================================
+1_RBAC_LOGIN_SYSTEM — TODO LIST
+====================================================================
+
+[TOP PRIORITY - INTEGRATION PHASE 1]
+- [x] Sync User entity with UUID and role/status constraints.
+- [ ] Implement Password Hashing (BCrypt) in AuthService.
+- [ ] Update SecurityConfig to permit all for dev BUT prepare role-locks.
+- [ ] Port `Login.jsx` and `Login.css` from OLD SYSTEM/Frontend.
+- [ ] Implement `AuthContext.jsx` in Frontend to manage sessions.
+- [ ] Create `DataInitializer.java` to seed default accounts.
+
+[MEDIUM PRIORITY]
+- [ ] Build UserManagement page for Superadmin to create Admin accounts.
+- [ ] Implement @PreAuthorize annotations on all controller methods.
+
+[LOW PRIORITY]
+- [ ] Add "Remember Me" functionality.
+- [ ] Implement Password Reset flow.
+====================================================================

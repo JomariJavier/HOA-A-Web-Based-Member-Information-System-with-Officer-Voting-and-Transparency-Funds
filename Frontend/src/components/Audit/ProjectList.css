@@ -158,3 +158,95 @@
     margin: 0;
     color: var(--m3-on-surface);
 }
+
+/* --- Hub Tabs --- */
+.m3-tabs-container {
+    display: flex;
+    gap: 8px;
+    border-bottom: 1px solid var(--m3-surface-variant);
+    padding-bottom: 8px;
+}
+
+.m3-tab {
+    padding: 12px 24px;
+    border-radius: 20px 20px 0 0;
+    border: none;
+    background: transparent;
+    cursor: pointer;
+    font-weight: 500;
+    color: var(--m3-on-surface-variant);
+    transition: all 0.2s;
+}
+
+.m3-tab-active {
+    background: var(--m3-primary-container);
+    color: var(--m3-primary);
+    border-bottom: 3px solid var(--m3-primary);
+}
+
+/* --- Ledger Table --- */
+.m3-table-container {
+    background: white;
+    border-radius: 16px;
+    overflow: hidden;
+    border: 1px solid var(--m3-surface-variant);
+    box-shadow: var(--shadow-sm);
+}
+
+.m3-table {
+    width: 100%;
+    border-collapse: collapse;
+    text-align: left;
+}
+
+.m3-table th {
+    background: var(--m3-surface-variant);
+    padding: 16px;
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--m3-on-surface-variant);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.m3-table td {
+    padding: 16px;
+    border-bottom: 1px solid var(--m3-surface-variant);
+    font-size: 14px;
+}
+
+.m3-badge {
+    padding: 4px 12px;
+    border-radius: 12px;
+    font-size: 11px;
+    font-weight: bold;
+}
+
+.badge-success { background: #E8F5E9; color: #2E7D32; }
+.badge-error { background: #FFEBEE; color: #C62828; }
+
+/* --- Summary Cards --- */
+.financial-summary-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+}
+
+.summary-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 24px;
+}
+
+.balance-card {
+    background: linear-gradient(135deg, var(--m3-primary), var(--m3-secondary));
+    color: white;
+}
+
+.balance-card .primary-text { color: white; }
+.balance-card .m3-label-medium { color: rgba(255,255,255,0.8); }
+
+.transparency-disclaimer {
+    background: #FFF8E1;
+    border-color: #FFE082;
+}

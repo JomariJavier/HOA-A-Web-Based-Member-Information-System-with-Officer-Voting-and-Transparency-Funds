@@ -1,17 +1,20 @@
 import React, { useState, useEffect } from 'react';
+import { useAuth } from '../../contexts/AuthContext';
 import ElectionList from './ElectionList';
 import VotingBallot from './VotingBallot';
 import ElectionManagement from './ElectionManagement';
 import './VotingRoom.css';
 
 export default function VotingRoom() {
+    const { user, fetchWithAuth } = useAuth();
     const [view, setView] = useState('list'); // 'list', 'ballot', 'create'
     const [elections, setElections] = useState([]);
     const [totalMembers, setTotalMembers] = useState(0);
     const [selectedElection, setSelectedElection] = useState(null);
     const [selectedCandidateId, setSelectedCandidateId] = useState(null);
-    const CURRENT_USER_MEMBER_ID = 1; // Mocked logged-in user until Login Module is built
-    const isAdmin = true; // Simulated Admin role logic for now
+    
+    const CURRENT_USER_MEMBER_ID = user?.id || 1; 
+    const isAdmin = user?.role === 'ADMIN' || user?.role === 'SUPERADMIN';
 
     // Form state for creating poll
     const [pollForm, setPollForm] = useState({
@@ -42,11 +45,11 @@ export default function VotingRoom() {
 
     const fetchStatsAndElections = async () => {
         try {
-            const memberRes = await fetch('http://localhost:8081/api/voting/elections/stats/member-count');
+            const memberRes = await fetchWithAuth('http://localhost:8081/api/voting/elections/stats/member-count');
             const memberCount = await memberRes.json();
             setTotalMembers(memberCount);
 
-            const electionRes = await fetch('http://localhost:8081/api/voting/elections');
+            const electionRes = await fetchWithAuth('http://localhost:8081/api/voting/elections');
             const electionData = await electionRes.json();
             setElections(electionData);
         } catch (error) {
@@ -105,7 +108,7 @@ export default function VotingRoom() {
         }
 
         try {
-            const res = await fetch('http://localhost:8081/api/voting/elections', {
+            const res = await fetchWithAuth('http://localhost:8081/api/voting/elections', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify(pollForm)
@@ -137,7 +140,7 @@ export default function VotingRoom() {
         }
 
         try {
-            const res = await fetch(`http://localhost:8081/api/voting/elections/${selectedElection.id}/candidates/${selectedCandidateId}/vote?memberId=${CURRENT_USER_MEMBER_ID}`, {
+            const res = await fetchWithAuth(`http://localhost:8081/api/voting/elections/${selectedElection.id}/candidates/${selectedCandidateId}/vote`, {
                 method: 'POST'
             });
             
@@ -166,7 +169,7 @@ export default function VotingRoom() {
         if (!window.confirm(`Are you sure you want to delete "${title}"? This will wipe all votes.`)) return;
         
         try {
-            const res = await fetch(`http://localhost:8081/api/voting/elections/${id}`, {
+            const res = await fetchWithAuth(`http://localhost:8081/api/voting/elections/${id}`, {
                 method: 'DELETE'
             });
             console.log(`Delete response status: ${res.status}`);

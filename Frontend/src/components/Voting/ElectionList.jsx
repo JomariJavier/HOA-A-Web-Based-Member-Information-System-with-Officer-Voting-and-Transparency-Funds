@@ -67,6 +67,9 @@ export default function ElectionList({ elections, totalMembers, isAdmin, onSelec
                                         <span className={`m3-chip ${isConcluded ? 'm3-chip-outline' : 'm3-chip-primary'}`}>
                                             {isConcluded ? 'Archived' : 'Live'}
                                         </span>
+                                        {election.userHasVoted && (
+                                            <span className="m3-chip m3-chip-voted">Voted</span>
+                                        )}
                                         {isAdmin && (
                                             <button 
                                                 className="m3-icon-btn m3-error-text" 

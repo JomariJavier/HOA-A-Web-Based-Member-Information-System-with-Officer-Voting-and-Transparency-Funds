@@ -1,6 +1,8 @@
 package com.hoa.backend.audit;
 
+import com.hoa.backend.auth.User;
 import jakarta.persistence.*;
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
 @Entity
@@ -11,27 +13,47 @@ public class AuditRecord {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private String username;
-    private String action;
+    @Column(precision = 15, scale = 2)
+    private BigDecimal amount;
+
+    private String type; // INCOME, EXPENSE
+    private String category;
+    private String description;
     private LocalDateTime date;
+    private boolean isDeleted = false;
+
+    @ManyToOne
+    @JoinColumn(name = "user_id")
+    private User recordedBy;
 
     public AuditRecord() {
         this.date = LocalDateTime.now();
     }
 
-    public AuditRecord(String username, String action) {
-        this.username = username;
-        this.action = action;
+    public AuditRecord(BigDecimal amount, String type, String category, String description, User recordedBy) {
+        this.amount = amount;
+        this.type = type;
+        this.category = category;
+        this.description = description;
+        this.recordedBy = recordedBy;
         this.date = LocalDateTime.now();
     }
 
     // Getters and Setters
     public Long getId() { return id; }
     public void setId(Long id) { this.id = id; }
-    public String getUsername() { return username; }
-    public void setUsername(String username) { this.username = username; }
-    public String getAction() { return action; }
-    public void setAction(String action) { this.action = action; }
+    public BigDecimal getAmount() { return amount; }
+    public void setAmount(BigDecimal amount) { this.amount = amount; }
+    public String getType() { return type; }
+    public void setType(String type) { this.type = type; }
+    public String getCategory() { return category; }
+    public void setCategory(String category) { this.category = category; }
+    public String getDescription() { return description; }
+    public void setDescription(String description) { this.description = description; }
     public LocalDateTime getDate() { return date; }
     public void setDate(LocalDateTime date) { this.date = date; }
+    public boolean isDeleted() { return isDeleted; }
+    public void setDeleted(boolean deleted) { isDeleted = deleted; }
+    public User getRecordedBy() { return recordedBy; }
+    public void setRecordedBy(User recordedBy) { this.recordedBy = recordedBy; }
 }

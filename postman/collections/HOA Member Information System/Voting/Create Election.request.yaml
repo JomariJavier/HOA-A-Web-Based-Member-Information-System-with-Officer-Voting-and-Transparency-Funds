@@ -1,0 +1,22 @@
+$kind: http-request
+name: Create Election
+method: POST
+url: 'http://localhost:8081/api/voting/elections'
+order: 1000
+headers:
+  - key: Content-Type
+    value: application/json
+body:
+  type: json
+  content: |-
+    {
+      "title": "Board Election 2026",
+      "startDate": "2026-05-01",
+      "endDate": "2026-05-15",
+      "description": "Annual board of directors election"
+    }
+scripts:
+  - type: afterResponse
+    language: text/javascript
+    code: |-
+      pm.test("Status code is 200", function() { pm.response.to.have.status(200); });

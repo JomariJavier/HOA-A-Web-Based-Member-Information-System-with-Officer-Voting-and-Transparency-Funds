@@ -1,57 +1,19 @@
 ====================================================================
-VOTING SUBSYSTEM (HOA VOTING ROOM) — TODO LIST
-====================================================================
-Last Updated: April 14, 2026 (Refined)
-
-====================================================================
-PRIORITY 1: INFRASTRUCTURE (Backend)
+3_VOTING_SYSTEM — TODO LIST
 ====================================================================
 
-[x] TASK 1: Create Voting Entities
-    What: Fixed. Election.java and Candidate.java defined.
-    Assigned: Antigravity AI
+[TOP PRIORITY - INTEGRATION PHASE 3]
+- [ ] Implement Double-Blind Voting Schema (decouple Identity from Tallies).
+- [ ] Create `Vote.java` and `VoteTracker.java` entities.
+- [ ] Implement `VotingService.java` to handle atomic vote casting logic.
+- [ ] Port `VotingBallot.jsx` and `ElectionManagement.jsx` from OLD SYSTEM.
+- [ ] Implement automatic election closure logic based on `endDate`.
 
-[x] TASK 2: Create API Endpoints
-    What: Fixed. Controller and Repositories implemented.
-    Assigned: Antigravity AI
+[MEDIUM PRIORITY]
+- [ ] Add role-based locking: Ensure only Members can vote and only Admins can create polls.
+- [ ] Implement "Election Results" visualization (charts/graphs) for closed elections.
 
-====================================================================
-PRIORITY 2: VIEWS (Frontend)
-====================================================================
-
-[x] TASK 3: View 1 - Voting Room (The List)
-    What: Fixed. Card-based list with turnout progress bars and FAB.
-    Assigned: Antigravity AI
-
-[x] TASK 4: View 2 - Election View (The Ballot)
-    What: Fixed. Identity cards with Radio-style selection and confirm FAB.
-    Assigned: Antigravity AI
-
-[x] TASK 5: View 3 - Create Poll (Admin Form)
-    What: Fixed. Multi-field form with dynamic nominee management (max 5).
-    Assigned: Antigravity AI
-
-====================================================================
-PRIORITY 3: POLISH & SECURITY
-====================================================================
-
-[x] TASK 6: Role Access Control (Frontend)
-    What: Fixed. buttons hidden behind isAdmin flag.
-    Assigned: Antigravity AI
-
-[x] TASK 7: Voting Logic Constraints
-    What: Fixed. One-vote-per-person and concluded-poll blocking.
-    Assigned: Antigravity AI
-
-[x] TASK 8: UI Maintainability (Refactor)
-    What: Fixed. Sub-component extraction (ElectionList, Ballot, etc).
-    Assigned: Antigravity AI
-
-[x] TASK 9: Delete & Emergency Reset
-    What: Fixed. Added trash button and backend cleanup logic.
-    Assigned: Antigravity AI
-
-[x] TASK 10: Hot-Reloading Support (DevTools)
-    What: Added Spring Boot DevTools to pom.xml.
-    Assigned: Antigravity AI
+[LOW PRIORITY]
+- [ ] Add PDF export for official election results.
+- [ ] Implement real-time vote count updates (for Admins only, if required).
 ====================================================================

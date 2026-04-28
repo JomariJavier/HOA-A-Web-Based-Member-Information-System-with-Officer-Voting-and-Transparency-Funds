@@ -1,0 +1,23 @@
+$kind: http-request
+name: Create Member
+method: POST
+url: 'http://localhost:8081/api/members'
+order: 2000
+headers:
+  - key: Content-Type
+    value: application/json
+body:
+  type: json
+  content: |-
+    {
+      "name": "John Doe",
+      "email": "john@example.com",
+      "unit": "101",
+      "phone": "09171234567",
+      "status": "active"
+    }
+scripts:
+  - type: afterResponse
+    language: text/javascript
+    code: |-
+      pm.test("Status code is 200", function() { pm.response.to.have.status(200); });

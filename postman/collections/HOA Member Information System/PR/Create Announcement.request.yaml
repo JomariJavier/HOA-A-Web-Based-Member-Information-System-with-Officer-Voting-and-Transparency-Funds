@@ -1,0 +1,22 @@
+$kind: http-request
+name: Create Announcement
+method: POST
+url: 'http://localhost:8081/api/pr/announcements'
+order: 1000
+headers:
+  - key: Content-Type
+    value: application/json
+body:
+  type: json
+  content: |-
+    {
+      "title": "Community Event",
+      "content": "Join us for the annual HOA meeting on May 10, 2026",
+      "date": "2026-05-10",
+      "priority": "normal"
+    }
+scripts:
+  - type: afterResponse
+    language: text/javascript
+    code: |-
+      pm.test("Status code is 200", function() { pm.response.to.have.status(200); });

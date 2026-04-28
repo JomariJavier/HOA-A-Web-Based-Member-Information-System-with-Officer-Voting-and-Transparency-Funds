@@ -1,0 +1,19 @@
+====================================================================
+6_AUDIT_DASHBOARD — TODO LIST
+====================================================================
+
+[TOP PRIORITY - INTEGRATION]
+- [ ] Create `AuditLog.java` entity and repository in the current system.
+- [ ] Implement `AuditLogService.java` to capture IP and User-Agent metadata.
+- [ ] Wire `AuditLogService` into `AuthService`, `MemberService`, `VotingService`, etc.
+- [ ] Implement the `SecurityDashboard.jsx` frontend component.
+- [ ] Create the Superadmin-only API endpoint for retrieving logs.
+
+[MEDIUM PRIORITY]
+- [ ] Add advanced log filtering (by user, by action type, by date).
+- [ ] Implement color-coded action badges (Red for deletions, Green for creations).
+
+[LOW PRIORITY]
+- [ ] Implement activity heatmaps using Recharts.
+- [ ] Add log export (cryptographically signed CSV) for official audits.
+====================================================================

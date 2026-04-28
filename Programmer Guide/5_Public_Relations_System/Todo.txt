@@ -1,0 +1,19 @@
+====================================================================
+5_PUBLIC_RELATIONS_SYSTEM — TODO LIST
+====================================================================
+
+[TOP PRIORITY - INTEGRATION PHASE 5]
+- [ ] Implement `Announcement` and `Complaint` entity mapping in PostgreSQL.
+- [ ] Create `PRService.java` to handle announcement and complaint logic.
+- [ ] Port `PRRoom.jsx` and `PRAdminWorkspace.jsx` from OLD SYSTEM.
+- [ ] Implement filtered complaint fetching (e.g., only show 'OPEN' tickets to Admins).
+- [ ] Implement complaint resolution logic (Admin response and status update).
+
+[MEDIUM PRIORITY]
+- [ ] Add role-based locking: Ensure only Admins can post announcements.
+- [ ] Implement @PreAuthorize to ensure Members can only see their own complaints.
+
+[LOW PRIORITY]
+- [ ] Add support for image uploads in complaints.
+- [ ] Implement email notifications when a complaint is resolved.
+====================================================================

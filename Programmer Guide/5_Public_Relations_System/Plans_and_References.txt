@@ -1,0 +1,35 @@
+====================================================================
+PUBLIC RELATIONS (PR) SYSTEM — PLANS & REFERENCES
+====================================================================
+
+REFERENCE: intergrationplan.md -> Phase 5: Public Relations
+
+Objective: Official community communication and a private complaint management system. 
+Replaces messy group chats with a structured ticketing and announcement platform.
+
+Tech Stack:
+- Backend: Spring Boot, PostgreSQL
+- Frontend: React (Vite), Material You Design
+
+Core Features:
+1. Announcements: Official broadcasts with pinning and archiving capabilities.
+2. Complaints: A private support system where members can file issues and officers can resolve them.
+
+Core Entities:
+- Announcement: title, content, author, publishedAt, isPinned, isArchived.
+- Complaint: subject, body, status (OPEN, IN_PROGRESS, RESOLVED), member, respondedBy, respondedAt, response.
+
+Key Views:
+- PRRoom.jsx: The main hub for members to view announcements and file complaints.
+- PRAdminWorkspace.jsx: Officer tool for posting announcements and managing the complaint queue.
+
+Integration Status:
+[PROGRESS] Basic PR controller and service placeholders exist.
+[TODO] Implement the full lifecycle of complaints (OPEN -> RESOLVED).
+[TODO] Port the "PR Room" and "Admin Workspace" frontend components.
+[TODO] Link complaints to authenticated Member profiles.
+
+Access Rules:
+- MEMBER: Can view announcements and file/view own complaints.
+- ADMIN: Can post announcements and resolve any complaint.
+====================================================================

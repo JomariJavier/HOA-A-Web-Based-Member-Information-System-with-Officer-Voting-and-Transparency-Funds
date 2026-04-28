@@ -1,0 +1,23 @@
+$kind: http-request
+name: Create Finance Record
+method: POST
+url: 'http://localhost:8081/api/finance/records'
+order: 2000
+headers:
+  - key: Content-Type
+    value: application/json
+body:
+  type: json
+  content: |-
+    {
+      "description": "Monthly maintenance fee",
+      "amount": 150.00,
+      "date": "2026-04-28",
+      "type": "income",
+      "category": "dues"
+    }
+scripts:
+  - type: afterResponse
+    language: text/javascript
+    code: |-
+      pm.test("Status code is 200", function() { pm.response.to.have.status(200); });

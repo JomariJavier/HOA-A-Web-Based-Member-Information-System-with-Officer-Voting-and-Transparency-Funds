@@ -1,0 +1,36 @@
+====================================================================
+RBAC LOGIN SYSTEM - PLANS AND REFERENCES
+====================================================================
+
+REFERENCE: intergrationplan.md -> Phase 1: RBAC & Authentication
+
+Objective: Authenticate users and enforce role-based access control (RBAC). 
+Ensure that ONLY authorized users can access sensitive modules (PIS, Finance, etc.).
+
+Tech Stack:
+- Backend: Spring Boot, PostgreSQL, Spring Security (BCrypt)
+- Frontend: React (Vite), AuthContext for state management
+
+Entity: User
+- id: UUID
+- username: String (Unique)
+- password_hash: String (BCrypt)
+- role: ENUM ('MEMBER', 'ADMIN', 'SUPERADMIN')
+- status: ENUM ('ACTIVE', 'INACTIVE', 'SUSPENDED')
+
+Authentication Flow:
+1. User enters credentials on Login page.
+2. Backend validates via AuthService using BCrypt.
+3. Successful login returns User object with role.
+4. Frontend stores User in AuthContext and redirects based on role.
+
+Access Rules:
+- MEMBER: Access to Voting, PR (Announcements/Complaints), and own profile.
+- ADMIN: All MEMBER access + PIS Management, PR Management, Financial Ledger entry.
+- SUPERADMIN: All ADMIN access + Creating/Managing ADMIN accounts.
+
+Integration Status:
+[PROGRESS] Backend User entity and repository are synced.
+[TODO] SecurityConfig needs BCrypt and Role-based locking.
+[TODO] Frontend Login component needs porting from OLD SYSTEM.
+====================================================================

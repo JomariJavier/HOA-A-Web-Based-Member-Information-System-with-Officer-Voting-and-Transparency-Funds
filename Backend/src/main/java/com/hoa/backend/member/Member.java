@@ -1,6 +1,7 @@
 package com.hoa.backend.member;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Email;
 import lombok.Data;
 import java.time.LocalDate;
 
@@ -13,11 +14,20 @@ public class Member {
     private Long id;
 
     private String fullName;
+    
+    @Column(unique = true)
+    private String username;
+    
     private LocalDate birthDate;
     private String hoaAddress;
     private LocalDate dateRegistered;
     private String maritalStatus;
     private String gender;
+    
+    @Email
+    private String email;
+    
+    private String contactNumber;
     
     @Column(columnDefinition = "TEXT") // Allows for longer entries
     private String familyMembers;

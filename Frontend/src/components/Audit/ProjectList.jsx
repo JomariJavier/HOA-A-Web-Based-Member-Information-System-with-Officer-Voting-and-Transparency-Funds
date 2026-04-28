@@ -1,40 +1,27 @@
-import { useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
+import { useAuth } from '../../contexts/AuthContext';
 import './ProjectList.css';
 
-export default function ProjectList() {
+export default function ProjectList({ isAdmin }) {
+    const { fetchWithAuth } = useAuth();
     const [projects, setProjects] = useState([]);
     const [loading, setLoading] = useState(true);
     const [searchTerm, setSearchTerm] = useState("");
     const [filterStatus, setFilterStatus] = useState("All");
 
     useEffect(() => {
-        // Fetch projects from backend
-        // Since there is no ProjectController yet, this might fail unless we create one.
-        // For now, let's use some dummy data that matches the Backend seed data
-        // but we will attempt to fetch it anyway in case the user adds the controller.
         const fetchProjects = async () => {
             try {
-                const response = await fetch('http://localhost:8081/api/projects');
+                const response = await fetchWithAuth('http://localhost:8081/api/projects');
                 if (response.ok) {
                     const data = await response.json();
                     setProjects(data);
                 } else {
-                    // Fallback to dummy data if API not ready
-                    setProjects([
-                        { id: 1, name: "Street Paving", status: "ONGOING", progress: 65, budget: "₱150,000", timeline: "Jan - Jun 2024" },
-                        { id: 2, name: "CCTV Installation", status: "ONGOING", progress: 30, budget: "₱80,000", timeline: "Mar - May 2024" },
-                        { id: 3, name: "Park Renovation", status: "PLANNED", progress: 0, budget: "₱200,000", timeline: "Jul - Dec 2024" },
-                        { id: 4, name: "Clubhouse Painting", status: "COMPLETED", progress: 100, budget: "₱45,000", timeline: "Feb 2024" }
-                    ]);
+                    setProjects([]);
                 }
             } catch (error) {
                 console.error("Error fetching projects:", error);
-                setProjects([
-                    { id: 1, name: "Street Paving", status: "ONGOING", progress: 65, budget: "₱150,000", timeline: "Jan - Jun 2024" },
-                    { id: 2, name: "CCTV Installation", status: "ONGOING", progress: 30, budget: "₱80,000", timeline: "Mar - May 2024" },
-                    { id: 3, name: "Park Renovation", status: "PLANNED", progress: 0, budget: "₱200,000", timeline: "Jul - Dec 2024" },
-                    { id: 4, name: "Clubhouse Painting", status: "COMPLETED", progress: 100, budget: "₱45,000", timeline: "Feb 2024" }
-                ]);
+                setProjects([]);
             } finally {
                 setLoading(false);
             }
@@ -73,7 +60,7 @@ export default function ProjectList() {
     const handleAddSubmit = async (e) => {
         e.preventDefault();
         try {
-            const response = await fetch('http://localhost:8081/api/projects', {
+            const response = await fetchWithAuth('http://localhost:8081/api/projects', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify(newProject)
@@ -106,7 +93,7 @@ export default function ProjectList() {
         }
 
         try {
-            const response = await fetch(`http://localhost:8081/api/projects/${selectedProject.id}`, {
+            const response = await fetchWithAuth(`http://localhost:8081/api/projects/${selectedProject.id}`, {
                 method: 'PUT',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify(selectedProject)
@@ -135,10 +122,12 @@ export default function ProjectList() {
                     <h1 className="m3-display-small">Project Management</h1>
                     <p className="m3-body-medium m3-on-surface-variant">Track and monitor community infrastructure projects</p>
                 </div>
-                <button className="m3-fab-extended" onClick={() => setShowAddModal(true)}>
-                    <span className="m3-fab-icon">+</span>
-                    <span>Propose Project</span>
-                </button>
+                {isAdmin && (
+                    <button className="m3-fab-extended" onClick={() => setShowAddModal(true)}>
+                        <span className="m3-fab-icon">+</span>
+                        <span>Propose Project</span>
+                    </button>
+                )}
             </div>
 
             {/* DETAIL MODAL (Read-Only) */}
@@ -173,7 +162,7 @@ export default function ProjectList() {
                         </div>
 
                         <div className="m3-card-actions" style={{marginTop: '32px'}}>
-                            <button className="m3-tonal-btn" onClick={() => { setShowDetailModal(false); setShowEditModal(true); }}>Edit Project</button>
+                            {isAdmin && <button className="m3-tonal-btn" onClick={() => { setShowDetailModal(false); setShowEditModal(true); }}>Edit Project</button>}
                             <button className="m3-filled-btn" onClick={() => setShowDetailModal(false)}>Close</button>
                         </div>
                     </div>
@@ -383,7 +372,7 @@ export default function ProjectList() {
 
                         <div className="m3-card-actions">
                             <button className="m3-text-btn" onClick={(e) => { e.stopPropagation(); setSelectedProject(project); setShowDetailModal(true); }}>Details</button>
-                            <button className="m3-tonal-btn" onClick={(e) => { e.stopPropagation(); setSelectedProject(project); setShowEditModal(true); }}>Update</button>
+                            {isAdmin && <button className="m3-tonal-btn" onClick={(e) => { e.stopPropagation(); setSelectedProject(project); setShowEditModal(true); }}>Update</button>}
                         </div>
                     </div>
                 ))}

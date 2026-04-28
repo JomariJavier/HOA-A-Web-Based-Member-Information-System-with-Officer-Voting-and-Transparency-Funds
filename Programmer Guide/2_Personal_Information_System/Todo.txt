@@ -1,128 +1,19 @@
 ====================================================================
-PERSONAL INFORMATION SYSTEM (PIS) — TODO LIST
-====================================================================
-Last Updated: April 14, 2026
-
-HOW TO USE THIS FILE:
-  - Pick a task that says [ ] (not started)
-  - Change it to [/] and write your name — "Assigned: YourName"
-  - When you finish, change it to [x]
-  - If you get stuck, add a note under the task explaining why
-
-
-====================================================================
-PRIORITY 1: CRITICAL (Do these first)
+2_PERSONAL_INFORMATION_SYSTEM — TODO LIST
 ====================================================================
 
-[ ] TASK 1: Build the Edit Member feature
-    What: When the admin clicks "Edit Record" on the details page,
-          it should open a form pre-filled with the member's data.
-          Submitting saves the changes to the database.
-    Frontend: Add an edit form to MemberList.jsx (or create MemberProfile.jsx)
-    Backend:  Add a PUT /api/members/{id} endpoint in MemberController.java
-    Assigned:
-    Notes:
+[TOP PRIORITY - INTEGRATION PHASE 2]
+- [ ] Add `email` and `contactNumber` fields to `Member.java`.
+- [ ] Implement `MemberService.java` to handle business logic.
+- [ ] Port `MemberDirectory.jsx`, `MemberProfile.jsx`, and `MemberRegistration.jsx` from OLD SYSTEM.
+- [ ] Wire up search and role filtering in the frontend.
+- [ ] Implement PUT and DELETE (soft delete) endpoints in `MemberController`.
 
-[ ] TASK 2: Build the Delete / Deactivate Member feature
-    What: Admin should be able to remove or deactivate a member.
-          Prefer "soft delete" — set status to "Inactive" instead
-          of actually deleting the database row.
-    Frontend: Add a "Deactivate" button on the details page
-    Backend:  Add a PUT endpoint that sets status = "Inactive"
-              OR a DELETE /api/members/{id} endpoint
-    Assigned:
-    Notes:
+[MEDIUM PRIORITY]
+- [ ] Add input validation (regex for phone numbers and emails).
+- [ ] Implement role-based access locks (@PreAuthorize) on all PIS endpoints.
 
-[x] TASK 3: Wire up the Search Bar
-    What: Fixed. The search bar now filters the members list in real-time.
-    Assigned: Antigravity AI
-    Notes: Completed during the Material You redesign.
-
-[x] TASK 4: Wire up the Role Filter
-    What: Fixed. M3 Filter Chips now correctly toggle between 
-          All, Officer, and Member roles.
-    Assigned: Antigravity AI
-    Notes: Completed during the Material You redesign.
-
-
-====================================================================
-PRIORITY 2: IMPORTANT (Do these after Priority 1)
-====================================================================
-
-[ ] TASK 5: Add a Service Layer (MemberService.java)
-    What: Right now MemberController.java talks directly to the
-          database (MemberRepository). This is bad practice.
-          Create MemberService.java in between to handle business
-          logic (validation, date formatting, etc.)
-    Assigned:
-    Notes: This is a code quality / architecture task
-
-[ ] TASK 6: Add Input Validation
-    What: The registration form accepts empty names and missing data.
-          Add checks so the user can't submit garbage.
-    Frontend: Disable the "Register" button if required fields are empty.
-              Show red error messages near invalid fields.
-    Backend:  Use @NotBlank, @NotNull annotations on Member.java
-              Return 400 Bad Request if validation fails.
-    Assigned:
-    Notes:
-
-[ ] TASK 7: Add Missing Database Fields
-    What: The Agent instruction specifies these fields that don't
-          exist yet in Member.java:
-          - contact_number (String)
-          - email (String)
-          - contribution_status (String: "Paid" / "Unpaid")
-    Frontend: Add these fields to the registration form and details view
-    Backend:  Add the fields to Member.java (Hibernate auto-updates the table)
-    Assigned:
-    Notes: After adding fields, restart the backend for the table to update
-
-
-====================================================================
-PRIORITY 3: NICE TO HAVE (Polish & Security)
-====================================================================
-
-[ ] TASK 8: Split MemberList.jsx into Smaller Components
-    What: MemberList.jsx is 234 lines and handles 3 views. That's
-          too much for one file. Split it:
-          - MemberDirectory.jsx → the table view (renderMemberTable)
-          - MemberProfile.jsx → the detail view (renderMemberInfo)
-          - Keep registration inside MemberList.jsx or make its own file
-    Assigned:
-    Notes: MemberDirectory.jsx and MemberProfile.jsx already exist
-           as empty placeholders — just move the code into them.
-
-[ ] TASK 9: Protect the API (Admin-Only Access)
-    What: Right now ANYONE can call /api/members. According to the
-          Agent instruction, only Admins should have access.
-          This requires the RBAC Login System (Module 1) to be built
-          first. Once login exists, add @PreAuthorize("hasRole('ADMIN')")
-          to MemberController.java endpoints.
-    Assigned:
-    Notes: BLOCKED — depends on Module 1 (Login System) being done first
-
-[ ] TASK 10: Add Audit Logging
-    What: Every time a member record is created, edited, or deleted,
-          log WHO did it, WHAT changed, and WHEN.
-    Assigned:
-    Notes: BLOCKED — depends on Module 1 (Login System) for "who"
-
-
-====================================================================
-BUGS / QUIRKS TO FIX
-====================================================================
-
-[ ] BUG 1: Registering a member with no birthdate saves "null" in
-    the database. Should either require the field or handle it
-    gracefully.
-
-[ ] BUG 2: After registering a member, the form fields are NOT
-    cleared. If you go back to registration, the old data is still
-    in the input boxes.
-
-[ ] BUG 3: The "Add New Member" button appears on BOTH the
-    directory view AND the details view. On the details view it
-    feels out of place — consider removing it from there.
-
+[LOW PRIORITY]
+- [ ] Add data export (CSV/Excel) for member lists.
+- [ ] Implement automated registration confirmation emails.
 ====================================================================

@@ -1,0 +1,19 @@
+====================================================================
+4_AUDITING_SYSTEM — TODO LIST
+====================================================================
+
+[TOP PRIORITY - INTEGRATION PHASE 4]
+- [ ] Update `AuditRecord.java` to use `BigDecimal` for the `amount` field.
+- [ ] Implement Soft Delete (`isDeleted` flag) logic in `FinanceService.java`.
+- [ ] Link `AuditRecord` to the `User` who recorded it (recordedBy).
+- [ ] Port `AuditRoom.jsx` and `BudgetDashboard.jsx` from OLD SYSTEM.
+- [ ] Implement project-based budget tracking logic (Sum of Expenses <= Budget).
+
+[MEDIUM PRIORITY]
+- [ ] Add role-based locking: Ensure only Admins can add transactions.
+- [ ] Implement data visualization (Spending over time, Budget utilization charts).
+
+[LOW PRIORITY]
+- [ ] Add PDF/CSV export for financial reports.
+- [ ] Implement automated alerts when a project exceeds its budget.
+====================================================================

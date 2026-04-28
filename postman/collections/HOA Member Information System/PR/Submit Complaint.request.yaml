@@ -1,0 +1,22 @@
+$kind: http-request
+name: Submit Complaint
+method: POST
+url: 'http://localhost:8081/api/pr/complaints'
+order: 2000
+headers:
+  - key: Content-Type
+    value: application/json
+body:
+  type: json
+  content: |-
+    {
+      "title": "Noise complaint",
+      "description": "Excessive noise from unit 205 after 10pm",
+      "unit": "205",
+      "complainantUnit": "204"
+    }
+scripts:
+  - type: afterResponse
+    language: text/javascript
+    code: |-
+      pm.test("Status code is 200", function() { pm.response.to.have.status(200); });

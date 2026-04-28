@@ -1,0 +1,198 @@
+/* Login.css */
+
+.login-choice-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    padding: 24px;
+    background: linear-gradient(135deg, var(--m3-primary-container) 0%, var(--m3-surface) 100%);
+    gap: 48px;
+}
+
+.choice-card {
+    width: 100%;
+    max-width: 400px;
+    padding: 48px 32px;
+    background: var(--m3-surface);
+    border-radius: 32px;
+    text-align: center;
+    cursor: pointer;
+    transition: transform 0.3s cubic-bezier(0.2, 0, 0, 1), box-shadow 0.3s ease;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 24px;
+}
+
+.choice-card:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+}
+
+.member-choice {
+    border: 2px solid transparent;
+}
+
+.member-choice:hover {
+    border-color: var(--m3-primary);
+}
+
+.admin-choice {
+    background: var(--m3-surface-variant);
+}
+
+.choice-icon {
+    font-size: 64px;
+    margin-bottom: 8px;
+}
+
+.choice-divider {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 16px;
+}
+
+.divider-line {
+    width: 2px;
+    height: 100px;
+    background: var(--m3-outline);
+    opacity: 0.3;
+}
+
+.pill-btn {
+    border-radius: 28px !important;
+    padding: 12px 32px !important;
+}
+
+.standard-btn {
+    border-radius: 8px !important;
+    padding: 12px 24px !important;
+}
+
+/* Page Views */
+.login-page {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    width: 100%;
+    position: relative;
+    overflow: hidden;
+}
+
+.member-view {
+    background: url('/assets/community-bg.png') center/cover no-repeat;
+}
+
+.member-bg-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 106, 106, 0.15); /* Seed: Teal overlay */
+    backdrop-filter: blur(4px);
+}
+
+.admin-view {
+    background: var(--m3-surface-variant);
+}
+
+.back-btn {
+    position: absolute;
+    top: 24px;
+    left: 24px;
+    z-index: 10;
+    background: rgba(255, 255, 255, 0.8);
+}
+
+.login-card {
+    width: 100%;
+    max-width: 420px;
+    padding: 48px;
+    background: rgba(255, 255, 255, 0.95);
+    z-index: 5;
+    display: flex;
+    flex-direction: column;
+    gap: 32px;
+    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+}
+
+.member-card {
+    border-radius: 40px;
+}
+
+.admin-card {
+    border-radius: 12px;
+    background: var(--m3-surface);
+}
+
+.login-header {
+    text-align: center;
+}
+
+.login-form {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.pill-input {
+    border-radius: 28px !important;
+    padding: 14px 24px !important;
+    border: 1px solid var(--m3-outline) !important;
+    background: var(--m3-surface-variant) !important;
+    width: 100%;
+    font-size: 16px;
+    transition: all 0.2s ease;
+}
+
+.pill-input:focus {
+    outline: none;
+    border-color: var(--m3-primary) !important;
+    background: white !important;
+    box-shadow: 0 0 0 4px var(--m3-primary-container);
+}
+
+.floating-label {
+    margin-left: 16px;
+    margin-bottom: 4px;
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--m3-on-surface-variant);
+}
+
+.login-footer {
+    text-align: center;
+    border-top: 1px solid var(--m3-outline);
+    padding-top: 24px;
+    margin-top: 8px;
+    opacity: 0.8;
+}
+
+.m3-error-container {
+    background: var(--m3-error-container);
+    color: var(--m3-on-error-container);
+    padding: 12px;
+    border-radius: 8px;
+    text-align: center;
+}
+
+@media (max-width: 900px) {
+    .login-choice-container {
+        flex-direction: column;
+        gap: 24px;
+    }
+    .choice-divider {
+        flex-direction: row;
+        width: 100%;
+        max-width: 400px;
+    }
+    .divider-line {
+        height: 2px;
+        flex: 1;
+    }
+}

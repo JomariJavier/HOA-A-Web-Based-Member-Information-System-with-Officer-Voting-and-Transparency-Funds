@@ -4,6 +4,8 @@ import './VotingRoom.css';
 export default function VotingBallot({ election, selectedCandidateId, onSelectCandidate, onVoteSubmit, onBack, onCreateClick }) {
     
     const isConcluded = new Date(election?.endDate) < new Date();
+    const hasVoted = election?.userHasVoted;
+    const canVote = !isConcluded && !hasVoted;
 
     return (
         <div className="m3-voting-directory m3-ballot-container">
@@ -29,8 +31,8 @@ export default function VotingBallot({ election, selectedCandidateId, onSelectCa
                     <div 
                         key={candidate.id} 
                         className={`m3-identity-card ${selectedCandidateId === candidate.id ? 'm3-card-selected' : ''}`}
-                        onClick={() => !isConcluded && onSelectCandidate(candidate.id)}
-                        style={{cursor: isConcluded ? 'default' : 'pointer'}}
+                        onClick={() => canVote && onSelectCandidate(candidate.id)}
+                        style={{cursor: canVote ? 'pointer' : 'default'}}
                     >
                         <div className="m3-avatar-circular">
                             {candidate.name.charAt(0)}
@@ -41,7 +43,7 @@ export default function VotingBallot({ election, selectedCandidateId, onSelectCa
                                 {candidate.credentials || 'No credentials provided.'}
                             </p>
                         </div>
-                        {!isConcluded && (
+                        {canVote && (
                             <div className="m3-radio-indicator">
                                 <div className={`m3-radio-inner ${selectedCandidateId === candidate.id ? 'm3-radio-checked' : ''}`}></div>
                             </div>
@@ -50,7 +52,7 @@ export default function VotingBallot({ election, selectedCandidateId, onSelectCa
                 ))}
             </div>
 
-            {!isConcluded ? (
+            {canVote ? (
                 <button 
                     className="m3-fab-extended m3-fab-bottom-right" 
                     onClick={onVoteSubmit}
@@ -61,7 +63,7 @@ export default function VotingBallot({ election, selectedCandidateId, onSelectCa
                 </button>
             ) : (
                 <div className="m3-fab-extended m3-fab-bottom-right m3-chip-outline" style={{boxShadow: 'none', cursor: 'default', background: '#f5f5f5'}}>
-                    Election Concluded
+                    {hasVoted ? 'Vote Already Recorded' : 'Election Concluded'}
                 </div>
             )}
         </div>

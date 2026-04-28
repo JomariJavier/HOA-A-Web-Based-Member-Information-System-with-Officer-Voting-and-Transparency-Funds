@@ -1,0 +1,36 @@
+====================================================================
+AUDITING & FINANCIAL SYSTEM (HOA TREASURY) — PLANS & REFERENCES
+====================================================================
+
+REFERENCE: intergrationplan.md -> Phase 4: Financial Auditing & Project Management
+
+Objective: A transparent, immutable financial ledger for tracking HOA projects and funds. 
+Ensures accountability by linking every transaction to the recording officer and preventing hard deletions.
+
+Tech Stack:
+- Backend: Spring Boot, PostgreSQL
+- Frontend: React (Vite), Material You Design
+
+Core Entities:
+1. Project: Community initiatives (e.g., "Park Renovation") with a set budget.
+2. AuditRecord: Individual financial transactions (Income or Expense).
+
+Key Features:
+- Append-Only Ledger: Records are never permanently deleted; they use an `isDeleted` flag (Soft Delete).
+- Non-Repudiation: Every `AuditRecord` tracks the `User` who created it.
+- Budget Tracking: Projects monitor real-time spending against their allocated budget.
+
+Key Views:
+- AuditRoom.jsx: The main interface for viewing and managing financial records.
+- ProjectList.jsx: Dashboard for all HOA projects and their progress.
+
+Integration Status:
+[PROGRESS] Basic AuditRecord and Project entities exist.
+[TODO] Update AuditRecord to use `BigDecimal` for precision.
+[TODO] Implement Soft Delete logic in the backend.
+[TODO] Port the "Financial Ledger" and "Budget Dashboard" frontend components.
+
+Access Rules:
+- ADMIN: Can add/edit transactions and projects.
+- MEMBER: Can view all financial records (Transparency) but CANNOT modify them.
+====================================================================

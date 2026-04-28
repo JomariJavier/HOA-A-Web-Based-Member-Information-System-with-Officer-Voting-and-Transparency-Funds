@@ -2,127 +2,38 @@
 PERSONAL INFORMATION SYSTEM (PIS) — Plans & References
 ====================================================================
 
-WHAT IS THIS MODULE?
---------------------------------------------------------------------
-The PIS is basically a digital notebook for ALL the homeowners in
-the association. Instead of paper lists that can get lost, everything
-is stored in the database and shown on the website.
+REFERENCE: intergrationplan.md -> Phase 2: Personal Information System
 
-Think of it like the school's student records office — but for
-homeowners. The Admin (officer) is the clerk, and the Members are
-the students. Students can't peek at the records, only the clerk can.
+Objective: Digital management of HOA member records, residency details, and membership status. 
+Restricts access to authorized Officers (ADMIN) to protect resident privacy.
 
-WHO CAN USE IT?
---------------------------------------------------------------------
-    Admin    → FULL access (view, add, edit, delete members)
-    Member   → NO access to this module at all
-    Superadmin → NO access (this is the Admin's job)
+Tech Stack:
+- Backend: Spring Boot, PostgreSQL
+- Frontend: React (Vite), Material You Design
 
+Entity: Member
+- id: Long (Identity)
+- fullName: String
+- birthDate: LocalDate
+- hoaAddress: String
+- dateRegistered: LocalDate (Auto-set)
+- email: String
+- contactNumber: String
+- status: ENUM ('Active', 'Inactive', 'Suspended')
+- role: ENUM ('Member', 'Officer')
 
-====================================================================
-HOW IT CURRENTLY WORKS (As of April 14, 2026)
-====================================================================
+Key Views (Components):
+1. Member Directory (MemberDirectory.jsx): Searchable table of all members.
+2. Member Profile (MemberProfile.jsx): Detailed view of a single member's records.
+3. Member Registration (MemberRegistration.jsx): Form for onboarding new residents.
 
-The PIS has 3 "screens" or views inside one component (MemberList.jsx).
-The user switches between them using buttons — the page never reloads.
+Integration Status:
+[PROGRESS] Basic Member entity exists.
+[TODO] Update Member entity with email and contactNumber fields.
+[TODO] Port advanced filtering and search logic from OLD SYSTEM.
+[TODO] Implement Edit and Deactivate functionality in UI and Backend.
 
-    ┌─────────────────────────────────────────────────────────────┐
-    │                     VIEW 1: MEMBER DIRECTORY                │
-    │                                                             │
-    │  What it does:                                              │
-    │  - Shows a table of all members from the database           │
-    │  - Columns: ID, Full Name, HOA Address, Role, Action        │
-    │  - Has a search bar (UI exists, filtering NOT wired yet)    │
-    │  - Has a filter dropdown (Officer/Member — NOT wired yet)   │
-    │  - "View Details" button opens View 2                       │
-    │  - "+ Add New Member" button opens View 3                   │
-    │                                                             │
-    │  How it gets data:                                          │
-    │  - Calls GET http://localhost:8080/api/members              │
-    │  - Backend returns a JSON list of all members               │
-    │                                                             │
-    │  Status: ✅ WORKING                                         │
-    └─────────────────────────────────────────────────────────────┘
-                              │
-                   ┌──────────┴──────────┐
-                   ▼                      ▼
-    ┌──────────────────────┐  ┌──────────────────────────┐
-    │   VIEW 2: DETAILS    │  │   VIEW 3: REGISTRATION   │
-    │                      │  │                          │
-    │  Shows one member's  │  │  A form to add a brand   │
-    │  full profile:       │  │  new member with:        │
-    │  - Full Name         │  │  - Full Name             │
-    │  - Birthdate         │  │  - Birthdate             │
-    │  - HOA Address       │  │  - HOA Address           │
-    │  - Date Registered   │  │  - Gender                │
-    │  - Marital Status    │  │  - Marital Status        │
-    │  - Family Members    │  │  - Family Members        │
-    │                      │  │                          │
-    │  Has "Edit Record"   │  │  Sends POST to           │
-    │  button (NOT wired)  │  │  /api/members            │
-    │                      │  │                          │
-    │  Status: ✅ WORKING   │  │  Status: ✅ WORKING      │
-    │  (display only)      │  │  (creates new records)   │
-    └──────────────────────┘  └──────────────────────────┘
-
-
-====================================================================
-FILE MAP — Where does each piece of code live?
-====================================================================
-
-FRONTEND (React):
-    src/components/Member/
-    ├── MemberList.jsx      ← The main component (all 3 views)
-    ├── MemberList.css       ← Styling for the member module
-    ├── MemberDirectory.jsx  ← EMPTY placeholder (for future)
-    └── MemberProfile.jsx   ← EMPTY placeholder (for future)
-
-BACKEND (Java / Spring Boot):
-    src/main/java/com/hoa/backend/member/
-    ├── Member.java          ← The data model (what a "member" looks like)
-    ├── MemberController.java← The API endpoints (GET, POST)
-    ├── MemberRepository.java← Talks to the database
-    └── MemberService.java   ← EMPTY placeholder (business logic layer)
-
-DATABASE TABLE: "members"
-    Columns: id, full_name, birth_date, hoa_address, date_registered,
-             marital_status, gender, family_members, role, status
-
-
-====================================================================
-API ENDPOINTS (Currently Live)
-====================================================================
-
-    METHOD   URL                     WHAT IT DOES
-    ──────   ──────────────────────  ─────────────────────────────
-    GET      /api/members            Returns ALL members as JSON
-    GET      /api/members/{id}       Returns ONE member by ID
-    POST     /api/members            Creates a new member record
-
-    Missing endpoints (not built yet):
-    PUT      /api/members/{id}       Update an existing member
-    DELETE   /api/members/{id}       Delete / deactivate a member
-
-
-====================================================================
-FUTURE PLANS
-====================================================================
-
-1. [COMPLETED] Wire up the search bar
-2. [COMPLETED] Wire up the role filter dropdown/chips
-3. Build the "Edit Record" functionality (needs PUT endpoint)
-4. Build the "Delete / Deactivate" functionality (needs DELETE endpoint)
-5. Add a MemberService.java layer between Controller and Repository
-   (right now the Controller talks directly to the database — bad practice)
-6. Add input validation (e.g., don't allow blank names)
-7. Add audit logging (log who changed what and when)
-8. Add missing fields from Agent instruction spec:
-   - contact_number
-   - email
-   - contribution_status
-9. Protect API with role-based access (Admin only)
-10. Split MemberList.jsx into smaller components:
-    - MemberDirectory.jsx (the table view)
-    - MemberProfile.jsx (the detail view)
-    - Keep MemberList.jsx as the parent coordinator
+Access Rules:
+- ADMIN: Full access to all PIS views and endpoints.
+- MEMBER: No access (Access Denied state).
 ====================================================================

@@ -1,0 +1,34 @@
+====================================================================
+SYSTEM SECURITY & ACCESS AUDITING — PLANS & REFERENCES
+====================================================================
+
+REFERENCE: intergrationplan.md -> Phase 4: Financial Auditing (Shared Logic)
+
+Objective: A system-wide audit trail for security and non-repudiation. 
+Records "who did what, when, and from where" across all HOA modules.
+
+Tech Stack:
+- Backend: Spring Boot, PostgreSQL
+- Frontend: React (Vite), Material You Design
+
+Core Features:
+- Automatic Harvesting: Captures IP addresses and Browser signatures for all logged actions.
+- Centralized Logging: A single service (AuditLogService) handles logging for all other modules.
+- Non-Repudiation: Linking actions to authenticated Users.
+
+Core Entities:
+- AuditLog: user, action, details, ipAddress, userAgent, createdAt.
+
+Key Views:
+- SecurityDashboard.jsx: A specialized view for Superadmins to review system-wide activity.
+
+Integration Status:
+[PROGRESS] Basic AuditLog entity exists in the old system.
+[TODO] Integrate `AuditLogService.java` into the current backend.
+[TODO] Wire logging into all primary service layers (Auth, Member, Voting, Finance, PR).
+[TODO] Build the frontend `SecurityDashboard.jsx` for log review.
+
+Access Rules:
+- SUPERADMIN: Full access to view and filter all system logs.
+- ADMIN/MEMBER: No access to this dashboard.
+====================================================================

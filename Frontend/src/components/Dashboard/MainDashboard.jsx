@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from "react";
+import { useAuth } from "../../contexts/AuthContext";
 
 const MainDashboard = ({ onNavigate }) => {
+  const { user, fetchWithAuth } = useAuth();
   const [stats, setStats] = useState({
     totalMembers: 0,
     activeElections: 0,
@@ -11,11 +13,23 @@ const MainDashboard = ({ onNavigate }) => {
   });
   const [loading, setLoading] = useState(true);
 
+  const isAdmin = user?.role === 'ADMIN' || user?.role === 'SUPERADMIN';
+
   useEffect(() => {
-    fetch("http://localhost:8081/api/dashboard/summary")
-      .then(res => res.json())
+    fetchWithAuth("http://localhost:8081/api/dashboard/summary")
+      .then(res => {
+        if (!res.ok) throw new Error(`Server error: ${res.status}`);
+        return res.json();
+      })
       .then(data => {
-        setStats(data);
+        setStats({
+          totalMembers: data.totalMembers || 0,
+          activeElections: data.activeElections || 0,
+          totalFunds: data.totalFunds || 0,
+          ongoingProjects: data.ongoingProjects || 0,
+          recentTransactions: Array.isArray(data.recentTransactions) ? data.recentTransactions : [],
+          recentLogs: Array.isArray(data.recentLogs) ? data.recentLogs : []
+        });
         setLoading(false);
       })
       .catch(err => {
@@ -30,10 +44,12 @@ const MainDashboard = ({ onNavigate }) => {
       {/* HEADER */}
       <div className="m3-page-header">
         <h1 className="m3-display-small">Dashboard Overview</h1>
-        <button className="m3-fab-extended" onClick={() => onNavigate('PIS')}>
-          <span className="m3-fab-icon">+</span>
-          Add Member
-        </button>
+        {isAdmin && (
+          <button className="m3-fab-extended" onClick={() => onNavigate('PIS')}>
+            <span className="m3-fab-icon">+</span>
+            Add Member
+          </button>
+        )}
       </div>
 
       {/* SUMMARY CARDS */}
@@ -56,7 +72,7 @@ const MainDashboard = ({ onNavigate }) => {
         <div className="m3-card m3-elevated-card">
           <div className="m3-card-content">
             <p className="m3-label-large">Total Funds</p>
-            <h2>{loading ? "..." : `₱${stats.totalFunds.toLocaleString()}`}</h2>
+            <h2>{loading ? "..." : `₱${(stats.totalFunds || 0).toLocaleString()}`}</h2>
           </div>
         </div>
 
@@ -88,9 +104,9 @@ const MainDashboard = ({ onNavigate }) => {
               {stats.recentTransactions.map((tx, index) => (
                 <tr key={index} className="m3-table-row">
                   <td>{new Date(tx.date).toLocaleDateString()}</td>
-                  <td>{tx.description}</td>
+                  <td>{tx.description || tx.category}</td>
                   <td style={{color: tx.type === 'INCOME' ? 'green' : 'red'}}>
-                    {tx.type === 'INCOME' ? '+' : '-'} ₱{tx.amount.toLocaleString()}
+                    {tx.type === 'INCOME' ? '+' : '-'} ₱{(tx.amount || 0).toLocaleString()}
                   </td>
                 </tr>
               ))}
@@ -120,8 +136,8 @@ const MainDashboard = ({ onNavigate }) => {
             <tbody>
               {stats.recentLogs.map((log, index) => (
                 <tr key={index} className="m3-table-row">
-                  <td>{log.username}</td>
-                  <td>{log.action}</td>
+                  <td>{log.recordedBy?.username || "System"}</td>
+                  <td>{log.category || log.type}</td>
                   <td>{new Date(log.date).toLocaleDateString()}</td>
                 </tr>
               ))}
