@@ -1,0 +1,147 @@
+/* PRRoom.css - Material 3 Design for Public Relations Subsystem */
+
+.m3-pr-container {
+    display: flex;
+    flex-direction: column;
+    gap: 32px;
+    padding: 32px;
+    animation: slideInUp 0.5s ease-out;
+}
+
+@keyframes slideInUp {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+/* --- Navigation Tabs --- */
+.m3-pr-tabs {
+    display: flex;
+    gap: 16px;
+    border-bottom: 1px solid var(--m3-surface-variant);
+    padding-bottom: 8px;
+}
+
+.m3-tab {
+    padding: 16px 32px;
+    cursor: pointer;
+    border-radius: 12px 12px 0 0;
+    font-weight: 600;
+    color: var(--m3-on-surface-variant);
+    transition: all 0.2s;
+    border-bottom: 3px solid transparent;
+}
+
+.m3-tab:hover {
+    background: var(--m3-surface-variant);
+}
+
+.m3-tab-active {
+    color: #008080; /* Teal PR Primary */
+    border-bottom-color: #008080;
+    background: rgba(0, 128, 128, 0.05);
+}
+
+/* --- Announcements --- */
+.m3-announcement-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+    gap: 20px;
+}
+
+.m3-announcement-card {
+    background: white;
+    border-radius: 20px;
+    padding: 32px;
+    box-shadow: var(--shadow-sm);
+    border: 1px solid var(--m3-surface-variant);
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    transition: transform 0.2s;
+}
+
+.m3-announcement-card:hover {
+    transform: translateY(-4px);
+    box-shadow: var(--shadow-md);
+}
+
+.m3-announcement-card.pinned {
+    border-left: 6px solid #008080;
+}
+
+.m3-announcement-title {
+    margin: 0;
+    font-size: 1.35rem;
+    font-weight: 700;
+    color: var(--m3-on-surface);
+}
+
+.m3-title-large {
+    font-weight: 800;
+    color: var(--m3-primary);
+    margin-bottom: 24px;
+}
+
+/* --- Complaints & Feedback --- */
+.m3-complaint-section {
+    display: grid;
+    grid-template-columns: 1fr 350px;
+    gap: 32px;
+}
+
+.m3-complaint-list {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.m3-complaint-card {
+    background: white;
+    padding: 28px;
+    border-radius: 16px;
+    border: 1px solid var(--m3-surface-variant);
+}
+
+.m3-status-badge {
+    padding: 4px 12px;
+    border-radius: 12px;
+    font-size: 0.75rem;
+    font-weight: bold;
+}
+
+.m3-status-open { background: #FFEBEE; color: #C62828; }
+.m3-status-progress { background: #E3F2FD; color: #1565C0; }
+.m3-status-resolved { background: #E8F5E9; color: #2E7D32; }
+
+/* --- Form --- */
+.m3-pr-form {
+    background: var(--m3-surface-variant);
+    padding: 32px;
+    border-radius: 24px;
+    height: fit-content;
+    position: sticky;
+    top: 24px;
+}
+
+.m3-pr-input {
+    width: 100%;
+    padding: 12px;
+    border-radius: 12px;
+    border: 1px solid var(--m3-outline);
+    background: white;
+    margin-bottom: 16px;
+}
+
+.m3-pr-btn {
+    width: 100%;
+    padding: 12px;
+    border-radius: 12px;
+    border: none;
+    background: #008080;
+    color: white;
+    font-weight: bold;
+    cursor: pointer;
+    transition: opacity 0.2s;
+}
+
+.m3-pr-btn:hover { opacity: 0.9; }

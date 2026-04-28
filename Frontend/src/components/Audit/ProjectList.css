@@ -1,0 +1,160 @@
+/* ProjectList.css */
+
+.project-management {
+    padding: 32px;
+}
+
+.project-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+    gap: 24px;
+    margin-top: 24px;
+}
+
+.project-card {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    min-height: 280px;
+    padding: 24px;
+    height: 100%;
+    transition: all 0.2s ease;
+}
+
+.clickable-card {
+    cursor: pointer;
+}
+
+.clickable-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 4px 8px 3px rgba(0,0,0,0.15), 0 1px 3px rgba(0,0,0,0.3);
+}
+
+.project-card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    padding: 24px 24px 12px;
+}
+
+.project-card-header h3 {
+    margin: 0;
+    max-width: 200px;
+}
+
+.project-card-content {
+    padding: 0 24px 24px;
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.project-metric {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.progress-section {
+    margin-top: 8px;
+}
+
+.progress-header {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 8px;
+    color: var(--m3-on-surface-variant);
+}
+
+.progress-bar-container {
+    height: 8px;
+    background: var(--m3-surface-variant);
+    border-radius: 4px;
+    overflow: hidden;
+}
+
+.progress-bar-fill {
+    height: 100%;
+    background: var(--m3-primary);
+    border-radius: 4px;
+    transition: width 0.5s ease-out;
+}
+
+/* Status colors */
+.m3-status-pending .m3-status-dot {
+    background: #f9a825; /* Amber/Yellow for ongoing */
+}
+
+.m3-status-pending {
+    color: #f9a825;
+}
+
+.m3-status-inactive .m3-status-dot {
+    background: #757575; /* Gray for planned */
+}
+
+.m3-status-inactive {
+    color: #757575;
+}
+
+.m3-card-actions {
+    padding: 8px 16px;
+    border-top: 1px solid var(--m3-surface-variant);
+    display: flex;
+    justify-content: flex-end;
+    gap: 8px;
+}
+
+.m3-modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.5);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+}
+
+.m3-modal-content {
+    width: 90%;
+    max-width: 600px;
+    background: var(--m3-surface);
+    padding: 24px;
+    border-radius: 16px;
+}
+
+/* Detail Modal Styles */
+.detail-modal {
+    max-width: 650px !important;
+    padding: 32px !important;
+}
+
+.detail-modal .modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 32px;
+    border-bottom: 1px solid var(--m3-surface-variant);
+    padding-bottom: 16px;
+}
+
+.detail-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 24px;
+}
+
+.detail-item label {
+    display: block;
+    margin-bottom: 8px;
+    letter-spacing: 0.1em;
+}
+
+.detail-item p {
+    margin: 0;
+    color: var(--m3-on-surface);
+}

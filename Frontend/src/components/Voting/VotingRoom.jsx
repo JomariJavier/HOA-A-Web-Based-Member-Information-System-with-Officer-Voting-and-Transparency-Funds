@@ -42,11 +42,11 @@ export default function VotingRoom() {
 
     const fetchStatsAndElections = async () => {
         try {
-            const memberRes = await fetch('http://localhost:8080/api/voting/elections/stats/member-count');
+            const memberRes = await fetch('http://localhost:8081/api/voting/elections/stats/member-count');
             const memberCount = await memberRes.json();
             setTotalMembers(memberCount);
 
-            const electionRes = await fetch('http://localhost:8080/api/voting/elections');
+            const electionRes = await fetch('http://localhost:8081/api/voting/elections');
             const electionData = await electionRes.json();
             setElections(electionData);
         } catch (error) {
@@ -105,7 +105,7 @@ export default function VotingRoom() {
         }
 
         try {
-            const res = await fetch('http://localhost:8080/api/voting/elections', {
+            const res = await fetch('http://localhost:8081/api/voting/elections', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify(pollForm)
@@ -137,7 +137,7 @@ export default function VotingRoom() {
         }
 
         try {
-            const res = await fetch(`http://localhost:8080/api/voting/elections/${selectedElection.id}/candidates/${selectedCandidateId}/vote?memberId=${CURRENT_USER_MEMBER_ID}`, {
+            const res = await fetch(`http://localhost:8081/api/voting/elections/${selectedElection.id}/candidates/${selectedCandidateId}/vote?memberId=${CURRENT_USER_MEMBER_ID}`, {
                 method: 'POST'
             });
             
@@ -166,7 +166,7 @@ export default function VotingRoom() {
         if (!window.confirm(`Are you sure you want to delete "${title}"? This will wipe all votes.`)) return;
         
         try {
-            const res = await fetch(`http://localhost:8080/api/voting/elections/${id}`, {
+            const res = await fetch(`http://localhost:8081/api/voting/elections/${id}`, {
                 method: 'DELETE'
             });
             console.log(`Delete response status: ${res.status}`);

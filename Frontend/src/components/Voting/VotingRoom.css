@@ -1,253 +1,296 @@
-/* VotingRoom.css - M3 Styles specifically for Voting Subsystem */
+/* VotingRoom.css - Premium Material 3 Design for HOA Voting Subsystem */
+
+:root {
+    --m3-primary: #3F51B5;
+    --m3-on-primary: #FFFFFF;
+    --m3-primary-container: #E8EAF6;
+    --m3-on-primary-container: #1A237E;
+    
+    --m3-secondary: #5C6BC0;
+    --m3-on-secondary: #FFFFFF;
+    --m3-secondary-container: #F0F2F9;
+    
+    --m3-surface: #FCFCFF;
+    --m3-on-surface: #1B1B1F;
+    --m3-surface-variant: #F2F0F4;
+    --m3-on-surface-variant: #44464F;
+    
+    --m3-outline: #74777F;
+    --m3-error: #BA1A1A;
+    
+    --shadow-sm: 0 1px 3px rgba(0,0,0,0.12);
+    --shadow-md: 0 4px 12px rgba(0,0,0,0.08);
+    --shadow-lg: 0 8px 24px rgba(0,0,0,0.12);
+}
 
 .m3-voting-directory {
     display: flex;
     flex-direction: column;
-    gap: 24px;
+    gap: 32px;
+    animation: fadeIn 0.4s ease-out;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+/* --- Header Section --- */
+.m3-page-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid var(--m3-surface-variant);
+    padding-bottom: 24px;
 }
 
 /* --- View 1: Election List --- */
 .m3-election-list {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+    grid-template-columns: repeat(auto-fill, minmax(380px, 1fr));
     gap: 24px;
 }
 
 .m3-election-card {
-    background: var(--m3-surface);
-    border-radius: 12px;
-    padding: 24px;
+    background: white;
+    border-radius: 24px;
+    padding: 28px;
     cursor: pointer;
-    transition: transform 0.2s ease, box-shadow 0.2s ease, background 0.2s ease;
+    border: 1px solid transparent;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    position: relative;
+    overflow: hidden;
+    box-shadow: var(--shadow-sm);
 }
 
 .m3-card-active {
-    box-shadow: 0 1px 3px 0 rgba(0,0,0,0.1), 0 1px 2px 0 rgba(0,0,0,0.06); /* Level 1 */
-    border: 1px solid var(--m3-primary-container);
+    background: linear-gradient(145deg, #ffffff, #f8f9ff);
+    border-color: var(--m3-primary-container);
 }
 
 .m3-card-active:hover {
-    box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1), 0 2px 4px -1px rgba(0,0,0,0.06); /* Level 2 */
-    transform: translateY(-2px);
+    box-shadow: var(--shadow-lg);
+    transform: translateY(-4px);
+    border-color: var(--m3-primary);
 }
 
 .m3-card-concluded {
-    border: 1px solid var(--m3-outline);
-    opacity: 0.8;
+    background: var(--m3-surface-variant);
+    border-color: var(--m3-outline);
+    opacity: 0.85;
+}
+
+.m3-card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 20px;
 }
 
 .m3-chip {
-    padding: 4px 12px;
-    border-radius: 16px;
-    font-size: 12px;
-    font-weight: 500;
+    padding: 6px 14px;
+    border-radius: 20px;
+    font-size: 11px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
 }
 
 .m3-chip-primary {
-    background: var(--m3-primary-container);
-    color: var(--m3-on-primary-container);
+    background: var(--m3-primary);
+    color: white;
 }
 
 .m3-chip-outline {
+    background: white;
     border: 1px solid var(--m3-outline);
     color: var(--m3-on-surface-variant);
 }
 
 .m3-progress-container {
-    margin-top: 16px;
-    display: flex;
-    flex-direction: column;
-    gap: 8px;
+    margin-top: 24px;
+    padding: 16px;
+    background: var(--m3-surface-variant);
+    border-radius: 16px;
 }
 
 .m3-progress-bar {
-    height: 4px;
-    background: var(--m3-surface-variant);
+    height: 8px;
+    background: rgba(0,0,0,0.05);
     border-radius: 4px;
     overflow: hidden;
+    margin-bottom: 8px;
 }
 
 .m3-progress-fill {
     height: 100%;
-    background: var(--m3-primary);
-    transition: width 0.3s ease;
+    background: linear-gradient(90deg, var(--m3-primary), var(--m3-secondary));
+    border-radius: 4px;
+    transition: width 0.8s cubic-bezier(0.65, 0, 0.35, 1);
 }
 
-/* --- FABs --- */
-.m3-fab-extended {
-    position: fixed;
-    bottom: 24px;
-    right: 24px;
-    display: inline-flex;
-    align-items: center;
-    gap: 12px;
-    height: 56px;
-    padding: 0 20px;
-    border: none;
-    border-radius: 16px;
-    background: var(--m3-primary-container);
-    color: var(--m3-on-primary-container);
-    font-family: var(--font-primary);
-    font-size: 14px;
-    font-weight: 500;
-    cursor: pointer;
-    box-shadow: 0 1px 4px rgba(0,0,0,0.2);
-    transition: all 0.2s ease;
-    z-index: 100;
+/* --- View 2: Ballot --- */
+.m3-ballot-container {
+    max-width: 900px;
+    margin: 0 auto;
+    width: 100%;
 }
 
-.m3-fab-extended:hover {
-    box-shadow: 0 2px 6px 2px rgba(0,0,0,0.15), 0 1px 2px rgba(0,0,0,0.3);
-    background: #c5cbe9;
-}
-
-/* --- View 2: Identity Cards & Ballot --- */
 .m3-candidate-grid {
-    display: grid;
-    grid-template-columns: 1fr;
-    gap: 16px;
-    max-width: 800px;
-}
-
-.m3-identity-card {
-    display: flex;
-    align-items: flex-start;
-    gap: 16px;
-    padding: 24px;
-    border: 1px solid var(--m3-outline);
-    border-radius: 12px;
-    background: var(--m3-surface);
-    cursor: pointer;
-    transition: all 0.2s ease;
-}
-
-.m3-card-selected {
-    background: var(--m3-primary-container);
-    border-color: var(--m3-primary);
-}
-
-.m3-avatar-circular {
-    width: 32px;
-    height: 32px;
-    border-radius: 16px;
-    background: var(--m3-secondary-container);
-    color: var(--m3-on-secondary-container);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    flex-shrink: 0;
-}
-
-.m3-identity-info {
-    flex: 1;
-}
-
-.m3-headline-large {
-    font-family: var(--font-heading);
-    font-size: 20px;
-    font-weight: 500;
-    margin: 0 0 8px 0;
-    color: var(--m3-on-surface);
-}
-
-.m3-credentials {
-    color: var(--m3-on-surface-variant);
-    margin: 0;
-}
-
-.m3-radio-indicator {
-    width: 20px;
-    height: 20px;
-    border-radius: 10px;
-    border: 2px solid var(--m3-outline);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    flex-shrink: 0;
-}
-
-.m3-card-selected .m3-radio-indicator {
-    border-color: var(--m3-primary);
-}
-
-.m3-radio-inner {
-    width: 10px;
-    height: 10px;
-    border-radius: 5px;
-    background: transparent;
-    transition: background 0.2s;
-}
-
-.m3-radio-checked {
-    background: var(--m3-primary);
-}
-
-/* --- View 3: Admin Create Poll Form --- */
-.m3-surface-container-high {
-    background: var(--m3-surface-variant);
-    border-radius: 24px;
-    padding: 32px;
-    max-width: 800px;
-}
-
-.m3-form-row {
-    display: flex;
-    gap: 24px;
-    margin-top: 24px;
-}
-.m3-form-row > * {
-    flex: 1;
-}
-
-.m3-supporting-text {
-    font-size: 12px;
-    color: var(--m3-on-surface-variant);
-    margin-top: 4px;
-}
-
-.m3-nominee-section {
-    margin-top: 40px;
-}
-
-.m3-section-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 24px;
-}
-
-.m3-limit-text {
-    color: var(--m3-error);
-}
-
-.m3-dynamic-list {
     display: flex;
     flex-direction: column;
     gap: 16px;
 }
 
-.m3-nominee-box {
-    display: grid;
-    grid-template-columns: 1fr 2fr auto;
-    gap: 16px;
-    align-items: start;
-    background: var(--m3-surface);
-    padding: 16px;
-    border-radius: 12px;
-    border: 1px solid var(--m3-outline);
-}
-
-.m3-remove-btn {
-    margin-top: 32px; /* align with input */
-}
-
-.m3-add-nominee {
-    margin-top: 16px;
-}
-
-.m3-form-actions {
-    margin-top: 40px;
+.m3-identity-card {
     display: flex;
-    justify-content: flex-end;
-    gap: 16px;
+    align-items: center;
+    gap: 20px;
+    padding: 24px;
+    border-radius: 20px;
+    background: white;
+    border: 2px solid var(--m3-surface-variant);
+    transition: all 0.2s ease;
+    box-shadow: var(--shadow-sm);
+}
+
+.m3-identity-card:hover {
+    border-color: var(--m3-primary-container);
+    background: var(--m3-surface);
+}
+
+.m3-card-selected {
+    background: var(--m3-primary-container) !important;
+    border-color: var(--m3-primary) !important;
+    transform: scale(1.02);
+}
+
+.m3-avatar-circular {
+    width: 64px;
+    height: 64px;
+    border-radius: 32px;
+    background: var(--m3-primary);
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 24px;
+    font-weight: bold;
+    box-shadow: var(--shadow-sm);
+}
+
+.m3-identity-info h3 {
+    margin: 0 0 4px 0;
+    color: var(--m3-on-surface);
+    font-size: 1.2rem;
+}
+
+.m3-credentials {
+    font-size: 0.9rem;
+    line-height: 1.4;
+}
+
+.m3-radio-indicator {
+    margin-left: auto;
+    width: 28px;
+    height: 28px;
+    border-radius: 14px;
+    border: 2px solid var(--m3-outline);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s;
+}
+
+.m3-card-selected .m3-radio-indicator {
+    border-color: var(--m3-primary);
+    background: white;
+}
+
+.m3-radio-inner {
+    width: 14px;
+    height: 14px;
+    border-radius: 7px;
+    background: transparent;
+    transition: transform 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.m3-radio-checked {
+    background: var(--m3-primary);
+    transform: scale(1);
+}
+
+/* --- View 3: Admin Workspace --- */
+.m3-admin-form {
+    background: white;
+    border-radius: 32px;
+    padding: 40px;
+    box-shadow: var(--shadow-lg);
+    border: 1px solid var(--m3-surface-variant);
+}
+
+.m3-nominee-box {
+    display: flex;
+    align-items: flex-start;
+    gap: 20px;
+    padding: 24px;
+    background: var(--m3-surface);
+    border-radius: 20px;
+    border: 1px dashed var(--m3-outline);
+    margin-bottom: 16px;
+}
+
+.m3-nominee-box .m3-text-field {
+    flex: 1;
+}
+
+/* --- Common UI Components --- */
+.m3-fab-extended {
+    background: var(--m3-primary);
+    color: white;
+    padding: 16px 32px;
+    border-radius: 20px;
+    font-weight: 600;
+    box-shadow: 0 8px 16px rgba(63, 81, 181, 0.3);
+    transition: all 0.3s;
+}
+
+.m3-fab-extended:hover {
+    transform: translateY(-2px) scale(1.05);
+    box-shadow: 0 12px 20px rgba(63, 81, 181, 0.4);
+    background: #303F9F;
+}
+
+.m3-fab-bottom-right {
+    position: fixed;
+    bottom: 32px;
+    right: 32px;
+}
+
+.m3-icon-btn {
+    width: 40px;
+    height: 40px;
+    border-radius: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: none;
+    background: transparent;
+    cursor: pointer;
+    transition: background 0.2s;
+}
+
+.m3-icon-btn:hover {
+    background: rgba(0,0,0,0.05);
+}
+
+.m3-error-text { color: var(--m3-error); }
+
+.m3-empty-state {
+    padding: 60px;
+    text-align: center;
+    background: var(--m3-surface-variant);
+    border-radius: 32px;
+    color: var(--m3-on-surface-variant);
+    font-style: italic;
 }
