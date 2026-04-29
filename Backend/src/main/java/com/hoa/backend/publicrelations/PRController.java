@@ -75,7 +75,10 @@ public class PRController {
         complaint.setSubmitterUser(submitterUser); // populates user_id (UUID)
         complaint.setStatus("OPEN");
         
-        return complaintRepository.save(complaint);
+        Complaint saved = complaintRepository.save(complaint);
+        auditLogService.logAction(submitterUser, "COMPLAINT_SUBMITTED", "Subject: " + saved.getSubject());
+        
+        return saved;
     }
 
     @PatchMapping("/complaints/{id}/respond")

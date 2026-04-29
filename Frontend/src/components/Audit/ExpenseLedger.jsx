@@ -29,6 +29,10 @@ export default function ExpenseLedger({ isAdmin }) {
 
     useEffect(() => {
         fetchRecords();
+
+        const handleOpenModal = () => setShowAddModal(true);
+        document.addEventListener('open-transaction-modal', handleOpenModal);
+        return () => document.removeEventListener('open-transaction-modal', handleOpenModal);
     }, []);
 
     const handleAddSubmit = async (e) => {
@@ -71,17 +75,7 @@ export default function ExpenseLedger({ isAdmin }) {
     if (loading) return <div>Loading ledger...</div>;
 
     return (
-        <div className="expense-ledger">
-            <div className="ledger-actions" style={{display: 'flex', justifyContent: 'flex-end', gap: '12px', marginBottom: '16px'}}>
-                <button className="m3-tonal-btn" onClick={handleExport}>
-                    <span>⬇</span> Export to Excel/CSV
-                </button>
-                {isAdmin && (
-                    <button className="m3-filled-btn" onClick={() => setShowAddModal(true)}>
-                        <span>+</span> Record Transaction
-                    </button>
-                )}
-            </div>
+        <div className="expense-ledger animate-fade-in">
 
             <div className="m3-table-container">
                 <table className="m3-table">

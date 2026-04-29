@@ -31,20 +31,44 @@ export default function SecurityDashboard() {
         (log.details && log.details.toLowerCase().includes(filter.toLowerCase()))
     );
 
+    const handleExport = async () => {
+        try {
+            const response = await fetchWithAuth('http://localhost:8081/api/audit/export');
+            if (response.ok) {
+                const blob = await response.blob();
+                const url = window.URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = 'system_audit_logs.txt';
+                a.click();
+            } else {
+                alert("Failed to export logs.");
+            }
+        } catch (error) {
+            console.error("Error exporting logs:", error);
+            alert("Error exporting logs.");
+        }
+    };
+
     if (loading) return <div className="m3-body-medium">Loading security logs...</div>;
 
     return (
         <div className="security-dashboard animate-fade-in">
             <div style={{display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '24px'}}>
                 <h2 className="m3-title-large">System Access & Audit Logs</h2>
-                <div className="m3-text-field" style={{margin: 0, width: '300px'}}>
-                    <input 
-                        type="text" 
-                        className="m3-input" 
-                        placeholder="Filter by user, action or detail..."
-                        value={filter}
-                        onChange={e => setFilter(e.target.value)}
-                    />
+                <div style={{display: 'flex', gap: '12px', alignItems: 'center'}}>
+                    <div className="m3-text-field" style={{margin: 0, width: '300px'}}>
+                        <input 
+                            type="text" 
+                            className="m3-input" 
+                            placeholder="Filter by user, action or detail..."
+                            value={filter}
+                            onChange={e => setFilter(e.target.value)}
+                        />
+                    </div>
+                    <button className="m3-outlined-btn" onClick={handleExport}>
+                        Export Logs (.txt)
+                    </button>
                 </div>
             </div>
 

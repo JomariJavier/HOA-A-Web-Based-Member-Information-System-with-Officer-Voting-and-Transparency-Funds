@@ -23,6 +23,8 @@ function AppContent() {
 
   const isAdmin = user.role === 'ADMIN' || user.role === 'SUPERADMIN';
 
+  const [mainView, subView] = currentView.split(':');
+
   return (
     <BaseLayout 
       currentView={currentView} 
@@ -30,11 +32,11 @@ function AppContent() {
       isAdmin={isAdmin}
       userName={user.username}
     >
-      {currentView === 'Dashboard' && <MainDashboard onNavigate={setCurrentView} />}
-      {currentView === 'PIS' && isAdmin && <MemberHub />}
-      {currentView === 'Voting' && <VotingRoom />}
-      {currentView === 'Project' && <FinancialManagement />}
-      {currentView === 'PR' && <PRRoom />}
+      {mainView === 'Dashboard' && <MainDashboard onNavigate={setCurrentView} subView={subView} />}
+      {mainView === 'PIS' && isAdmin && <MemberHub subView={subView} />}
+      {mainView === 'Voting' && <VotingRoom subView={subView} />}
+      {mainView === 'Project' && <FinancialManagement subView={subView} />}
+      {mainView === 'PR' && <PRRoom subView={subView} />}
     </BaseLayout>
   );
 }

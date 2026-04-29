@@ -6,25 +6,85 @@ export default function Login() {
     const { login } = useAuth();
     const [mode, setMode] = useState('choice'); // 'choice', 'member', 'admin'
     const [credentials, setCredentials] = useState({ username: '', password: '' });
-    const [error, setError] = useState('');
+    const [errors, setErrors] = useState({ username: '', password: '', general: '' });
     const [loading, setLoading] = useState(false);
+    const usernameRef = React.useRef(null);
+
+    React.useEffect(() => {
+        if (mode !== 'choice' && usernameRef.current) {
+            usernameRef.current.focus();
+        }
+    }, [mode]);
 
     const handleChange = (e) => {
         const { name, value } = e.target;
         setCredentials(prev => ({ ...prev, [name]: value }));
+        // Clear field-specific error when user types
+        if (errors[name]) {
+            setErrors(prev => ({ ...prev, [name]: '', general: '' }));
+        }
+    };
+
+    const validate = () => {
+        const newErrors = { username: '', password: '', general: '' };
+        let isValid = true;
+
+        // OWASP: Trim inputs and check for empty values
+        const cleanUsername = credentials.username.trim();
+
+        // 1. Data Type & Format: Use a whitelist regex (alphanumeric + common symbols)
+        // This prevents many injection attempts at the UI layer.
+        const usernameRegex = /^[a-zA-Z0-9._@-]+$/;
+
+        if (!cleanUsername) {
+            newErrors.username = 'Please enter your username.';
+            isValid = false;
+        } else if (cleanUsername.length < 3) {
+            newErrors.username = 'Username is too short (min 3 characters).';
+            isValid = false;
+        } else if (cleanUsername.length > 50) {
+            newErrors.username = 'Username is too long (max 50 characters).';
+            isValid = false;
+        } else if (!usernameRegex.test(cleanUsername)) {
+            newErrors.username = 'Username contains invalid characters.';
+            isValid = false;
+        }
+
+        if (!credentials.password) {
+            newErrors.password = 'Please enter your password.';
+            isValid = false;
+        } else if (credentials.password.length < 4) {
+            newErrors.password = 'Password must be at least 4 characters.';
+            isValid = false;
+        } else if (credentials.password.length > 100) {
+            newErrors.password = 'Password exceeds maximum length.';
+            isValid = false;
+        }
+
+        setErrors(newErrors);
+        return isValid;
     };
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        setError('');
+        setErrors({ username: '', password: '', general: '' });
+
+        if (!validate()) return;
+
+        // OWASP: Sanitize before sending (trimming)
+        const sanitizedUsername = credentials.username.trim();
+
         setLoading(true);
         try {
-            const result = await login(credentials.username, credentials.password);
+            const result = await login(sanitizedUsername, credentials.password);
             if (!result.success) {
-                setError(result.message);
+                // OWASP: Use a generic error message for authentication failures
+                // to prevent user enumeration (though we trust the backend's result.message for now,
+                // we can override it here if it's too specific).
+                setErrors(prev => ({ ...prev, general: result.message || 'Invalid username or password. Please try again.' }));
             }
         } catch (err) {
-            setError('Could not connect to the server. Please try again later.');
+            setErrors(prev => ({ ...prev, general: 'Security/Connection error. Access denied.' }));
         } finally {
             setLoading(false);
         }
@@ -76,41 +136,45 @@ export default function Login() {
                     <div className="m3-input-group">
                         <label className={mode === 'member' ? 'floating-label' : 'm3-form-label'}>Username</label>
                         <input 
+                            ref={usernameRef}
                             type="text" 
                             name="username" 
                             value={credentials.username} 
                             onChange={handleChange} 
-                            required 
-                            className={mode === 'member' ? 'pill-input' : 'm3-large-input'} 
+                            className={`${mode === 'member' ? 'pill-input' : 'm3-large-input'} ${errors.username ? 'm3-input-error' : ''}`} 
                             placeholder="username"
                         />
+                        {errors.username && <span className="m3-error-text m3-body-small" style={{marginTop: '4px', display: 'block'}}>{errors.username}</span>}
                     </div>
 
-                    <div className="m3-input-group">
+                    <div className="m3-input-group" style={{marginTop: '16px'}}>
                         <label className={mode === 'member' ? 'floating-label' : 'm3-form-label'}>Password</label>
                         <input 
                             type="password" 
                             name="password" 
                             value={credentials.password} 
                             onChange={handleChange} 
-                            required 
-                            className={mode === 'member' ? 'pill-input' : 'm3-large-input'} 
+                            className={`${mode === 'member' ? 'pill-input' : 'm3-large-input'} ${errors.password ? 'm3-input-error' : ''}`} 
                             placeholder="••••••••"
                         />
+                        {errors.password && <span className="m3-error-text m3-body-small" style={{marginTop: '4px', display: 'block'}}>{errors.password}</span>}
                     </div>
 
-                    {error && (
-                        <div className="m3-error-container">
-                            <span className="m3-body-small">{error}</span>
+                    {errors.general && (
+                        <div className="m3-error-container" style={{marginTop: '20px', padding: '12px', background: 'var(--m3-error-container)', borderRadius: '8px', borderLeft: '4px solid var(--m3-error)'}}>
+                            <span className="m3-on-error-container m3-body-medium" style={{display: 'flex', alignItems: 'center', gap: '8px'}}>
+                                ⚠️ {errors.general}
+                            </span>
                         </div>
                     )}
 
                     <button 
                         type="submit" 
                         className={mode === 'member' ? 'm3-filled-btn pill-btn' : 'm3-filled-btn standard-btn'}
+                        style={{marginTop: '24px', width: '100%'}}
                         disabled={loading}
                     >
-                        {loading ? 'Verifying...' : 'Log In'}
+                        {loading ? 'Verifying Identity...' : 'Log In'}
                     </button>
                 </form>
 

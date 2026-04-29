@@ -125,18 +125,14 @@ export default function ProjectList({ isAdmin }) {
 
     return (
         <div className="m3-directory project-management">
-            <div className="m3-page-header">
-                <div>
-                    <h1 className="m3-display-small">Project Management</h1>
-                    <p className="m3-body-medium m3-on-surface-variant">Track and monitor community infrastructure projects</p>
-                </div>
-                {isAdmin && (
+            {isAdmin && (
+                <div style={{display: 'flex', justifyContent: 'flex-end', marginBottom: '16px'}}>
                     <button className="m3-fab-extended" onClick={() => setShowAddModal(true)}>
                         <span className="m3-fab-icon">+</span>
                         <span>Propose Project</span>
                     </button>
-                )}
-            </div>
+                </div>
+            )}
 
             {/* DETAIL MODAL (Read-Only) */}
             {showDetailModal && selectedProject && (

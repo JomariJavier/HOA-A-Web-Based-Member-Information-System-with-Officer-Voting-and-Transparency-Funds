@@ -42,15 +42,7 @@ const MemberHub = () => {
     };
 
     return (
-        <section className="m3-content-wrapper">
-            <header className="pis-header">
-                <div>
-                    <h1 className="m3-display-small">HOA Personal Information</h1>
-                    <p className="m3-body-medium m3-on-surface-variant">
-                        Manage member records, residency details, and roles within the association.
-                    </p>
-                </div>
-            </header>
+        <section className="m3-content-wrapper subsystem-directory">
 
             <main>
                 {loading && view === 'list' ? (

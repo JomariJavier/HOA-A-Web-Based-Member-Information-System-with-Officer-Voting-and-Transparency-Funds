@@ -39,56 +39,63 @@ const MainDashboard = ({ onNavigate }) => {
   }, []);
 
   return (
-    <div className="m3-content-wrapper">
+    <div className="m3-content-wrapper subsystem-dashboard animate-fade-in">
 
-      {/* HEADER */}
-      <div className="m3-page-header">
-        <h1 className="m3-display-small">Dashboard Overview</h1>
-        {isAdmin && (
-          <button className="m3-fab-extended" onClick={() => onNavigate('PIS')}>
-            <span className="m3-fab-icon">+</span>
-            Add Member
-          </button>
-        )}
+      {/* WELCOME BANNER */}
+      <div className="m3-card m3-elevated-card" style={{ marginBottom: "20px", background: "linear-gradient(135deg, var(--m3-primary-container) 0%, var(--m3-surface) 100%)", border: "none" }}>
+        <div className="m3-card-content" style={{ padding: "12px 20px", display: 'flex', justifyContent: 'space-between', alignItems: 'center', gap: '20px' }}>
+          <div>
+            <h2 className="m3-display-small" style={{ color: "var(--m3-primary)" }}>Community Dashboard</h2>
+            <p className="m3-body-large" style={{ marginTop: "4px", color: "var(--m3-on-surface-variant)" }}>
+              Here's a quick overview of what's happening in the HOA today.
+            </p>
+          </div>
+          {isAdmin && (
+            <button className="m3-fab-extended" onClick={() => onNavigate('PIS')} style={{ flexShrink: 0 }}>
+              <span className="m3-fab-icon" style={{fontSize: '20px', lineHeight: 1}}>+</span>
+              Add Member
+            </button>
+          )}
+        </div>
       </div>
 
       {/* SUMMARY CARDS */}
       <div className="m3-details-grid">
 
-        <div className="m3-card m3-elevated-card">
+        <div className="m3-card m3-elevated-card accent-card">
           <div className="m3-card-content">
-            <p className="m3-label-large">Total Members</p>
-            <h2>{loading ? "..." : stats.totalMembers}</h2>
+            <p className="m3-label-medium">TOTAL MEMBERS</p>
+            <h2 className="m3-display-small" style={{marginTop: '4px'}}>{loading ? "..." : stats.totalMembers}</h2>
           </div>
         </div>
 
-        <div className="m3-card m3-elevated-card">
+        <div className="m3-card m3-elevated-card accent-card">
           <div className="m3-card-content">
-            <p className="m3-label-large">Active Elections</p>
-            <h2>{loading ? "..." : stats.activeElections}</h2>
+            <p className="m3-label-medium">ACTIVE ELECTIONS</p>
+            <h2 className="m3-display-small" style={{marginTop: '4px'}}>{loading ? "..." : stats.activeElections}</h2>
           </div>
         </div>
 
-        <div className="m3-card m3-elevated-card">
+        <div className="m3-card m3-elevated-card accent-card">
           <div className="m3-card-content">
-            <p className="m3-label-large">Total Funds</p>
-            <h2>{loading ? "..." : `₱${(stats.totalFunds || 0).toLocaleString()}`}</h2>
+            <p className="m3-label-medium">TOTAL FUNDS</p>
+            <h2 className="m3-display-small" style={{marginTop: '4px'}}>{loading ? "..." : `₱${(stats.totalFunds || 0).toLocaleString()}`}</h2>
           </div>
         </div>
 
-        <div className="m3-card m3-elevated-card">
+        <div className="m3-card m3-elevated-card accent-card">
           <div className="m3-card-content">
-            <p className="m3-label-large">Projects</p>
-            <h2>{loading ? "..." : `${stats.ongoingProjects} Ongoing`}</h2>
+            <p className="m3-label-medium">ONGOING PROJECTS</p>
+            <h2 className="m3-display-small" style={{marginTop: '4px'}}>{loading ? "..." : stats.ongoingProjects}</h2>
           </div>
         </div>
 
       </div>
 
       {/* FUNDS TRANSPARENCY */}
-      <div className="m3-card m3-elevated-card" style={{ marginTop: "20px" }}>
-        <div className="m3-card-header">
-          <h2 className="m3-title-large">Funds Transparency</h2>
+      <div className="m3-card m3-elevated-card" style={{ marginTop: "24px" }}>
+        <div className="m3-card-header" style={{ marginBottom: "16px" }}>
+          <h2 className="m3-title-large" style={{ margin: 0 }}>Funds Transparency</h2>
         </div>
 
         <div className="m3-table-container">
@@ -104,14 +111,14 @@ const MainDashboard = ({ onNavigate }) => {
               {stats.recentTransactions.map((tx, index) => (
                 <tr key={index} className="m3-table-row">
                   <td>{new Date(tx.date).toLocaleDateString()}</td>
-                  <td>{tx.description || tx.category}</td>
-                  <td style={{color: tx.type === 'INCOME' ? 'green' : 'red'}}>
+                  <td style={{fontWeight: '500'}}>{tx.description || tx.category}</td>
+                  <td style={{color: tx.type === 'INCOME' ? 'var(--accent-funds)' : 'var(--m3-error)', fontWeight: 'bold'}}>
                     {tx.type === 'INCOME' ? '+' : '-'} ₱{(tx.amount || 0).toLocaleString()}
                   </td>
                 </tr>
               ))}
               {stats.recentTransactions.length === 0 && !loading && (
-                <tr><td colSpan="3" style={{padding: '20px', textAlign: 'center'}}>No recent transactions</td></tr>
+                <tr><td colSpan="3" style={{padding: '32px', textAlign: 'center', color: 'var(--m3-on-surface-variant)'}}>No recent transactions found.</td></tr>
               )}
             </tbody>
           </table>
@@ -119,9 +126,9 @@ const MainDashboard = ({ onNavigate }) => {
       </div>
 
       {/* ACTIVITY LOGS */}
-      <div className="m3-card m3-elevated-card" style={{ marginTop: "20px" }}>
-        <div className="m3-card-header">
-          <h2 className="m3-title-large">Recent Activity Logs</h2>
+      <div className="m3-card m3-elevated-card" style={{ marginTop: "24px" }}>
+        <div className="m3-card-header" style={{ marginBottom: "16px" }}>
+          <h2 className="m3-title-large" style={{ margin: 0 }}>Recent Activity Logs</h2>
         </div>
 
         <div className="m3-table-container">
@@ -136,27 +143,16 @@ const MainDashboard = ({ onNavigate }) => {
             <tbody>
               {stats.recentLogs.map((log, index) => (
                 <tr key={index} className="m3-table-row">
-                  <td>{log.recordedBy?.username || "System"}</td>
-                  <td>{log.category || log.type}</td>
-                  <td>{new Date(log.date).toLocaleDateString()}</td>
+                  <td style={{fontWeight: '500'}}>{log.recordedBy?.username || "System"}</td>
+                  <td><span className="m3-badge m3-badge-tonal">{log.category || log.type}</span></td>
+                  <td style={{color: 'var(--m3-on-surface-variant)'}}>{new Date(log.date).toLocaleDateString()}</td>
                 </tr>
               ))}
               {stats.recentLogs.length === 0 && !loading && (
-                <tr><td colSpan="3" style={{padding: '20px', textAlign: 'center'}}>No recent activity</td></tr>
+                <tr><td colSpan="3" style={{padding: '32px', textAlign: 'center', color: 'var(--m3-on-surface-variant)'}}>No recent activity found.</td></tr>
               )}
             </tbody>
           </table>
-        </div>
-      </div>
-
-      {/* SYSTEM STATUS */}
-      <div className="m3-card m3-elevated-card" style={{ marginTop: "20px" }}>
-        <div className="m3-card-content">
-          <h2 className="m3-title-large">System Status</h2>
-          <p className="m3-body-medium" style={{ color: loading ? "orange" : "green" }}>
-            ● {loading ? "Connecting..." : "Backend Connected (Port 8081)"}
-          </p>
-          <p className="m3-body-medium" style={{ color: "green" }}>● Database Connected (PostgreSQL)</p>
         </div>
       </div>
 

@@ -31,6 +31,7 @@ public class AuthController {
             String username = request.get("username");
             String password = request.get("password");
             User user = authService.registerMember(username, password);
+            auditLogService.logAction(user, "USER_REGISTERED", "Username: " + user.getUsername());
             return ResponseEntity.ok(user);
         } catch (Exception e) {
             return ResponseEntity.badRequest().body(e.getMessage());
