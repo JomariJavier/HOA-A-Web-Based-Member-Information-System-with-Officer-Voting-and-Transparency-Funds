@@ -19,8 +19,12 @@ public class AuditRecord {
     private String type; // INCOME, EXPENSE
     private String category;
     private String description;
-    private LocalDateTime date;
+    private java.time.LocalDateTime date;
     private boolean isDeleted = false;
+
+    @org.hibernate.annotations.UpdateTimestamp
+    @Column(name = "updated_at")
+    private java.time.OffsetDateTime updatedAt;
 
     @ManyToOne
     @JoinColumn(name = "user_id")

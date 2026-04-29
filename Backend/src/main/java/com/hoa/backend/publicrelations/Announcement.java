@@ -16,10 +16,10 @@ public class Announcement {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(nullable = false)
+    @Column(name = "title", nullable = false)
     private String title;
 
-    @Column(nullable = false, columnDefinition = "TEXT")
+    @Column(name = "content", nullable = false, columnDefinition = "TEXT")
     private String content;
 
     @ManyToOne
@@ -27,11 +27,35 @@ public class Announcement {
     private User author;
 
     @CreationTimestamp
+    @Column(name = "published_at", updatable = false)
     private OffsetDateTime publishedAt;
 
+    @org.hibernate.annotations.UpdateTimestamp
+    @Column(name = "updated_at")
+    private OffsetDateTime updatedAt;
+
+    @Column(name = "pinned")
+    private boolean pinned = false;
+
+    @Column(name = "archived")
+    private boolean archived = false;
+
+    @Column(name = "is_pinned")
     private boolean isPinned = false;
+
+    @Column(name = "is_archived")
     private boolean isArchived = false;
 
+    @PrePersist
+    @PreUpdate
+    public void syncBooleans() {
+        this.isPinned = this.pinned;
+        this.isArchived = this.archived;
+    }
+
+    @Column(name = "category")
     private String category; // e.g., 'Maintenance', 'Security', 'Events'
+
+    @Column(name = "image_url")
     private String imageUrl; // Optional header image
 }

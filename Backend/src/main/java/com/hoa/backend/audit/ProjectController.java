@@ -13,6 +13,15 @@ public class ProjectController {
     @Autowired
     private ProjectRepository projectRepository;
 
+    @Autowired
+    private FinanceService financeService;
+
+    @Autowired
+    private com.hoa.backend.auth.UserRepository userRepository;
+
+    @Autowired
+    private AuditLogService auditLogService;
+
     @GetMapping
     public List<Project> getAllProjects() {
         return projectRepository.findAll();
@@ -20,8 +29,29 @@ public class ProjectController {
 
     @PostMapping
     @PreAuthorize("hasRole('ADMIN')")
-    public Project createProject(@RequestBody Project project) {
-        return projectRepository.save(project);
+    public Project createProject(@RequestBody Project project, org.springframework.security.core.Authentication auth) {
+        Project saved = projectRepository.save(project);
+        
+        // Automatically create a financial expense record if there's a budget
+        if (saved.getBudget() != null && saved.getBudget().compareTo(java.math.BigDecimal.ZERO) > 0) {
+            AuditRecord record = new AuditRecord();
+            record.setAmount(saved.getBudget());
+            record.setType("EXPENSE");
+            record.setCategory("Project");
+            record.setDescription("Initial budget allocation for project: " + saved.getName());
+            
+            if (auth != null) {
+                userRepository.findByUsername(auth.getName()).ifPresent(record::setRecordedBy);
+            }
+            financeService.saveRecord(record);
+        }
+
+        if (auth != null) {
+            com.hoa.backend.auth.User admin = userRepository.findByUsername(auth.getName()).orElse(null);
+            auditLogService.logAction(admin, "PROJECT_CREATED", "Project Name: " + saved.getName() + " | Budget: " + saved.getBudget());
+        }
+
+        return saved;
     }
 
     @GetMapping("/{id}")
@@ -33,7 +63,7 @@ public class ProjectController {
 
     @PutMapping("/{id}")
     @PreAuthorize("hasRole('ADMIN')")
-    public ResponseEntity<Project> updateProject(@PathVariable Long id, @RequestBody Project projectDetails) {
+    public ResponseEntity<Project> updateProject(@PathVariable Long id, @RequestBody Project projectDetails, org.springframework.security.core.Authentication auth) {
         return projectRepository.findById(id).map(project -> {
             project.setName(projectDetails.getName());
             project.setDescription(projectDetails.getDescription());
@@ -41,14 +71,27 @@ public class ProjectController {
             project.setProgress(projectDetails.getProgress());
             project.setBudget(projectDetails.getBudget());
             project.setTimeline(projectDetails.getTimeline());
-            return ResponseEntity.ok(projectRepository.save(project));
+            Project updated = projectRepository.save(project);
+
+            if (auth != null) {
+                com.hoa.backend.auth.User admin = userRepository.findByUsername(auth.getName()).orElse(null);
+                auditLogService.logAction(admin, "PROJECT_UPDATED", "Project ID: " + id + " | Progress: " + updated.getProgress() + "%");
+            }
+
+            return ResponseEntity.ok(updated);
         }).orElse(ResponseEntity.notFound().build());
     }
 
     @DeleteMapping("/{id}")
     @PreAuthorize("hasRole('ADMIN')")
-    public ResponseEntity<Void> deleteProject(@PathVariable Long id) {
-        projectRepository.deleteById(id);
+    public ResponseEntity<Void> deleteProject(@PathVariable Long id, org.springframework.security.core.Authentication auth) {
+        projectRepository.findById(id).ifPresent(p -> {
+            projectRepository.deleteById(id);
+            if (auth != null) {
+                com.hoa.backend.auth.User admin = userRepository.findByUsername(auth.getName()).orElse(null);
+                auditLogService.logAction(admin, "PROJECT_DELETED", "Deleted project: " + p.getName());
+            }
+        });
         return ResponseEntity.noContent().build();
     }
 }

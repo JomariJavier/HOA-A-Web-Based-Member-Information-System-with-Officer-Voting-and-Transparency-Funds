@@ -108,10 +108,17 @@ export default function VotingRoom() {
         }
 
         try {
+            // Convert local datetime-local strings to ISO strings with offset for the backend
+            const payload = {
+                ...pollForm,
+                startDate: new Date(pollForm.startDate).toISOString(),
+                endDate: new Date(pollForm.endDate).toISOString()
+            };
+
             const res = await fetchWithAuth('http://localhost:8081/api/voting/elections', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify(pollForm)
+                body: JSON.stringify(payload)
             });
 
             if (!res.ok) {

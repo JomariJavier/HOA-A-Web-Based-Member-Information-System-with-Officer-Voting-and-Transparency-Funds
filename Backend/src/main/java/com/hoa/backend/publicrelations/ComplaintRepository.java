@@ -7,6 +7,6 @@ import java.util.List;
 
 @Repository
 public interface ComplaintRepository extends JpaRepository<Complaint, Long> {
-    List<Complaint> findAllByUserOrderByCreatedAtDesc(User user);
+    List<Complaint> findAllByUserOrderByCreatedAtDesc(com.hoa.backend.member.Member member);
     List<Complaint> findAllByOrderByCreatedAtDesc();
 }

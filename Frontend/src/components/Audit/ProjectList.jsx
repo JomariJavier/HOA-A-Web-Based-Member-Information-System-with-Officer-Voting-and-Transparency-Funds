@@ -60,10 +60,14 @@ export default function ProjectList({ isAdmin }) {
     const handleAddSubmit = async (e) => {
         e.preventDefault();
         try {
+            const cleanedProject = {
+                ...newProject,
+                budget: newProject.budget ? parseFloat(newProject.budget.toString().replace(/[₱,]/g, '')) : 0
+            };
             const response = await fetchWithAuth('http://localhost:8081/api/projects', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify(newProject)
+                body: JSON.stringify(cleanedProject)
             });
             if (response.ok) {
                 const savedProject = await response.json();
@@ -93,10 +97,14 @@ export default function ProjectList({ isAdmin }) {
         }
 
         try {
+            const cleanedProject = {
+                ...selectedProject,
+                budget: selectedProject.budget ? parseFloat(selectedProject.budget.toString().replace(/[₱,]/g, '')) : 0
+            };
             const response = await fetchWithAuth(`http://localhost:8081/api/projects/${selectedProject.id}`, {
                 method: 'PUT',
                 headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify(selectedProject)
+                body: JSON.stringify(cleanedProject)
             });
             
             if (response.ok) {
@@ -144,7 +152,7 @@ export default function ProjectList({ isAdmin }) {
                         <div className="detail-grid">
                             <div className="detail-item">
                                 <label className="m3-label-small">ESTIMATED BUDGET</label>
-                                <p className="m3-headline-medium">{selectedProject.budget || 'N/A'}</p>
+                                <p className="m3-headline-medium">₱{selectedProject.budget ? Number(selectedProject.budget).toLocaleString() : '0'}</p>
                             </div>
                             <div className="detail-item">
                                 <label className="m3-label-small">TIMELINE</label>
@@ -185,11 +193,11 @@ export default function ProjectList({ isAdmin }) {
                                 />
                             </div>
                             <div className="m3-text-field">
-                                <label className="m3-label-medium">Budget</label>
+                                <label className="m3-label-medium">Budget (₱)</label>
                                 <input 
-                                    type="text" 
+                                    type="number" 
                                     className="m3-input" 
-                                    placeholder="e.g. ₱50,000"
+                                    placeholder="Amount in Peso"
                                     value={newProject.budget}
                                     onChange={e => setNewProject({...newProject, budget: e.target.value})}
                                 />
@@ -251,9 +259,9 @@ export default function ProjectList({ isAdmin }) {
                                 />
                             </div>
                             <div className="m3-text-field">
-                                <label className="m3-label-medium">Budget</label>
+                                <label className="m3-label-medium">Budget (₱)</label>
                                 <input 
-                                    type="text" 
+                                    type="number" 
                                     className="m3-input" 
                                     value={selectedProject.budget}
                                     onChange={e => setSelectedProject({...selectedProject, budget: e.target.value})}
@@ -349,7 +357,7 @@ export default function ProjectList({ isAdmin }) {
                         <div className="project-card-content">
                             <div className="project-metric">
                                 <span className="m3-label-small m3-on-surface-variant">BUDGET</span>
-                                <span className="m3-title-medium">{project.budget || 'N/A'}</span>
+                                <span className="m3-title-medium">₱{project.budget ? Number(project.budget).toLocaleString() : '0'}</span>
                             </div>
                             <div className="project-metric">
                                 <span className="m3-label-small m3-on-surface-variant">TIMELINE</span>

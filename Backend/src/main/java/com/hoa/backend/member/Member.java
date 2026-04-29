@@ -36,6 +36,14 @@ public class Member {
     private String status; // 'Active', 'Inactive'
 
     // Automatically set the registration date when a record is first created
+    @org.hibernate.annotations.CreationTimestamp
+    @Column(name = "created_at", updatable = false)
+    private java.time.OffsetDateTime createdAt;
+
+    @org.hibernate.annotations.UpdateTimestamp
+    @Column(name = "updated_at")
+    private java.time.OffsetDateTime updatedAt;
+
     @PrePersist
     protected void onCreate() {
         this.dateRegistered = LocalDate.now();

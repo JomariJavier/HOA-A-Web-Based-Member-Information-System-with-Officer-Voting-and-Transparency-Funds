@@ -2,6 +2,8 @@ package com.hoa.backend.publicrelations;
 
 import com.hoa.backend.auth.User;
 import com.hoa.backend.auth.UserRepository;
+import com.hoa.backend.member.Member;
+import com.hoa.backend.member.MemberRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -20,21 +22,27 @@ public class PRController {
     @Autowired private AnnouncementRepository announcementRepository;
     @Autowired private ComplaintRepository complaintRepository;
     @Autowired private UserRepository userRepository;
+    @Autowired private MemberRepository memberRepository;
     @Autowired private AuditLogService auditLogService;
 
     // --- ANNOUNCEMENTS ---
 
     @GetMapping("/announcements")
     public List<Announcement> getAnnouncements() {
-        return announcementRepository.findAllByIsArchivedFalseOrderByIsPinnedDescPublishedAtDesc();
+        return announcementRepository.findAllActiveOrderByPinnedAndDate();
     }
 
     @PostMapping("/announcements")
     @PreAuthorize("hasAnyRole('ADMIN', 'SUPERADMIN')")
+    @jakarta.transaction.Transactional
     public Announcement createAnnouncement(@RequestBody Announcement announcement, Authentication auth) {
         User author = userRepository.findByUsername(auth.getName()).orElseThrow();
         announcement.setAuthor(author);
+        
+        System.out.println("Saving announcement: " + announcement.getTitle() + " by " + author.getUsername());
+        
         Announcement saved = announcementRepository.save(announcement);
+        
         auditLogService.logAction(author, "ANNOUNCEMENT_CREATED", "Title: " + saved.getTitle());
         return saved;
     }
@@ -48,16 +56,23 @@ public class PRController {
         if (user.getRole().equals("ADMIN") || user.getRole().equals("SUPERADMIN")) {
             return complaintRepository.findAllByOrderByCreatedAtDesc();
         } else {
-            return complaintRepository.findAllByUserOrderByCreatedAtDesc(user);
+            Member member = memberRepository.findByUsername(auth.getName()).orElseThrow();
+            return complaintRepository.findAllByUserOrderByCreatedAtDesc(member);
         }
     }
 
     @PostMapping("/complaints")
     @PreAuthorize("hasRole('MEMBER')")
     public Complaint submitComplaint(@RequestBody Complaint complaint, Authentication auth) {
-        User user = userRepository.findByUsername(auth.getName()).orElseThrow();
-        
-        complaint.setUser(user);
+        com.hoa.backend.member.Member member = memberRepository.findByUsername(auth.getName())
+            .orElseThrow(() -> new RuntimeException("Member record not found"));
+
+        // Resolve the User entity (UUID PK) to satisfy the legacy user_id NOT NULL constraint
+        User submitterUser = userRepository.findByUsername(auth.getName())
+            .orElseThrow(() -> new RuntimeException("User record not found"));
+
+        complaint.setUser(member);             // populates member_id (BigInt)
+        complaint.setSubmitterUser(submitterUser); // populates user_id (UUID)
         complaint.setStatus("OPEN");
         
         return complaintRepository.save(complaint);
@@ -89,7 +104,7 @@ public class PRController {
         for (Complaint c : complaints) {
             csv.append(c.getId()).append(",")
                .append(c.getCreatedAt()).append(",")
-               .append(c.getUser().getUsername()).append(",")
+               .append(c.getUser() != null ? c.getUser().getFullName() : "Unknown").append(",")
                .append(c.getCategory()).append(",")
                .append(c.getUrgency()).append(",")
                .append("\"").append(c.getSubject().replace("\"", "\"\"")).append("\",")

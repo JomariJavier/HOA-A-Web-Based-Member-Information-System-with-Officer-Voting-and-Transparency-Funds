@@ -36,6 +36,10 @@ public class AuditLog {
     @Column(name = "created_at", nullable = false, updatable = false)
     private OffsetDateTime createdAt;
 
+    @org.hibernate.annotations.UpdateTimestamp
+    @Column(name = "updated_at")
+    private OffsetDateTime updatedAt;
+
     public AuditLog() {}
 
     public AuditLog(User user, String action, String details, String ipAddress, String userAgent) {

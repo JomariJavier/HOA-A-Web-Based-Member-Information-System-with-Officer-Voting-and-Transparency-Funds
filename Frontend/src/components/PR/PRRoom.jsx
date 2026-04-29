@@ -13,7 +13,7 @@ export default function PRRoom() {
 
     // Form states
     const [complaintForm, setComplaintForm] = useState({ subject: '', content: '', category: 'General', urgency: 'Medium' });
-    const [announcementForm, setAnnouncementForm] = useState({ title: '', content: '', isPinned: false, category: 'General', imageUrl: '' });
+    const [announcementForm, setAnnouncementForm] = useState({ title: '', content: '', pinned: false, category: 'General', imageUrl: '' });
     const [responseForm, setResponseForm] = useState({ id: null, text: '' });
     const [showAnnounceModal, setShowAnnounceModal] = useState(false);
 
@@ -52,9 +52,12 @@ export default function PRRoom() {
                 alert("Concern submitted successfully");
                 setComplaintForm({ subject: '', content: '', category: 'General', urgency: 'Medium' });
                 fetchData();
+            } else {
+                const errorMsg = await res.text();
+                alert("Submission failed: " + errorMsg);
             }
         } catch (error) {
-            alert("Submission failed");
+            alert("Submission failed: " + error.message);
         }
     };
 
@@ -68,11 +71,14 @@ export default function PRRoom() {
             });
             if (res.ok) {
                 setShowAnnounceModal(false);
-                setAnnouncementForm({ title: '', content: '', isPinned: false, category: 'General', imageUrl: '' });
+                setAnnouncementForm({ title: '', content: '', pinned: false, category: 'General', imageUrl: '' });
                 fetchData();
+            } else {
+                const errorMsg = await res.text();
+                alert("Failed to publish: " + errorMsg);
             }
         } catch (error) {
-            alert("Failed to publish");
+            alert("Failed to publish: " + error.message);
         }
     };
 
@@ -366,8 +372,8 @@ export default function PRRoom() {
                         <div style={{display: 'flex', alignItems: 'center', gap: '8px', margin: '12px 0'}}>
                             <input 
                                 type="checkbox" 
-                                checked={announcementForm.isPinned}
-                                onChange={e => setAnnouncementForm({...announcementForm, isPinned: e.target.checked})}
+                                checked={announcementForm.pinned}
+                                onChange={e => setAnnouncementForm({...announcementForm, pinned: e.target.checked})}
                             />
                             <span className="m3-label-medium">Pin this announcement</span>
                         </div>
