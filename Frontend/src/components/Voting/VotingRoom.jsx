@@ -194,7 +194,7 @@ export default function VotingRoom() {
     };
 
     return (
-        <section className="m3-content-wrapper">
+        <section className="m3-content-wrapper subsystem-voting animate-fade-in">
             {view === 'list' && (
                 <ElectionList 
                     elections={elections} 

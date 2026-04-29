@@ -8,75 +8,88 @@ export default function VotingBallot({ election, selectedCandidateId, onSelectCa
     const canVote = !isConcluded && !hasVoted;
 
     return (
-        <div className="m3-voting-directory subsystem-voting m3-ballot-container animate-slide-up">
-            <div style={{display: 'flex', alignItems: 'center', marginBottom: '16px'}}>
-                <button className="m3-icon-btn m3-on-surface-variant" onClick={onBack} aria-label="Back">
-                    ←
-                </button>
-                <h1 className="m3-title-large" style={{margin: '0 0 0 16px'}}>{election?.title} Election</h1>
-            </div>
-
-            <div className="m3-card m3-elevated-card" style={{padding: '24px', marginBottom: '32px', borderLeft: '4px solid var(--accent-voting)'}}>
-                <p className="m3-body-large" style={{margin: 0}}>
-                    Please select exactly <strong>one</strong> candidate for the position of <strong>{election?.title}</strong>. 
-                    Your vote is anonymous and cannot be changed after submission.
-                </p>
-            </div>
-
-            <div className="m3-candidate-grid" style={{display: 'flex', flexDirection: 'column', gap: '16px'}}>
-                {election?.nominees.map(candidate => (
-                    <div 
-                        key={candidate.id} 
-                        className={`m3-identity-card m3-elevated-card ${selectedCandidateId === candidate.id ? 'm3-card-selected' : ''}`}
-                        onClick={() => canVote && onSelectCandidate(candidate.id)}
-                        style={{
-                            cursor: canVote ? 'pointer' : 'default',
-                            display: 'flex', alignItems: 'center', padding: '24px', borderRadius: '16px', gap: '20px',
-                            border: selectedCandidateId === candidate.id ? '2px solid var(--accent-voting)' : '2px solid transparent',
-                            background: selectedCandidateId === candidate.id ? 'var(--accent-voting-container)' : 'var(--m3-surface)'
-                        }}
-                    >
-                        <div className="m3-avatar-circular" style={{width: '60px', height: '60px', borderRadius: '50%', background: 'var(--accent-voting)', color: 'white', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '24px', fontWeight: 'bold'}}>
-                            {candidate.name.charAt(0)}
-                        </div>
-                        <div className="m3-identity-info" style={{flex: 1}}>
-                            <h3 className="m3-headline-small" style={{margin: '0 0 4px 0', color: selectedCandidateId === candidate.id ? 'var(--accent-voting)' : 'inherit'}}>{candidate.name}</h3>
-                            <p className="m3-body-medium m3-credentials" style={{margin: 0, color: 'var(--m3-on-surface-variant)'}}>
-                                {candidate.credentials || 'No credentials provided.'}
-                            </p>
-                        </div>
-                        {canVote && (
-                            <div className="m3-radio-indicator" style={{width: '24px', height: '24px', borderRadius: '50%', border: selectedCandidateId === candidate.id ? '2px solid var(--accent-voting)' : '2px solid var(--m3-outline)', display: 'flex', alignItems: 'center', justifyContent: 'center'}}>
-                                <div className={`m3-radio-inner ${selectedCandidateId === candidate.id ? 'm3-radio-checked' : ''}`} style={{width: '12px', height: '12px', borderRadius: '50%', background: selectedCandidateId === candidate.id ? 'var(--accent-voting)' : 'transparent'}}></div>
-                            </div>
-                        )}
-                    </div>
-                ))}
-            </div>
-
-            {canVote ? (
-                <div style={{display: 'flex', justifyContent: 'flex-end', marginTop: '32px'}}>
-                    <button 
-                        className="m3-filled-btn" 
-                        onClick={onVoteSubmit}
-                        disabled={!selectedCandidateId}
-                        style={{
-                            padding: '16px 32px', fontSize: '16px', borderRadius: '24px',
-                            background: selectedCandidateId ? 'var(--accent-voting)' : 'var(--m3-surface-variant)',
-                            color: selectedCandidateId ? 'white' : 'var(--m3-on-surface-variant)',
-                            cursor: selectedCandidateId ? 'pointer' : 'not-allowed'
-                        }}
-                    >
-                        Confirm & Submit Vote
+        <div className="m3-voting-directory subsystem-voting animate-fade-in">
+            
+            <div className="ballot-paper">
+                <div style={{marginBottom: '32px'}}>
+                    <button className="m3-text-btn" onClick={onBack} style={{paddingLeft: 0, color: 'var(--voting-primary)'}}>
+                        ← Back to Elections
                     </button>
                 </div>
-            ) : (
-                <div style={{display: 'flex', justifyContent: 'center', marginTop: '32px'}}>
-                    <div className="m3-chip m3-chip-outline" style={{padding: '12px 24px', fontSize: '15px', background: '#f5f5f5', border: '1px solid #ccc', color: '#666'}}>
-                        {hasVoted ? '✓ Your Vote is Recorded' : 'Election Concluded'}
-                    </div>
+
+                <div className="ballot-header">
+                    <h1 className="m3-display-small" style={{fontSize: '36px', color: 'var(--m3-on-surface)'}}>{election?.title}</h1>
+                    <p className="m3-body-large m3-on-surface-variant">
+                        {isConcluded 
+                            ? "This election has concluded. Results are finalized below." 
+                            : hasVoted 
+                                ? "You have already cast your vote for this election. Thank you for participating!"
+                                : "Select one candidate from the list below. Your vote is confidential and can only be cast once."
+                        }
+                    </p>
                 </div>
-            )}
+
+                <div className="candidate-selection-grid">
+                    {election?.nominees.map(candidate => {
+                        const initials = candidate.name.split(' ').map(n => n[0]).join('').toUpperCase();
+                        const isSelected = selectedCandidateId === candidate.id;
+
+                        return (
+                            <div 
+                                key={candidate.id} 
+                                className={`candidate-card-premium ${isSelected ? 'selected' : ''}`}
+                                onClick={() => canVote && onSelectCandidate(candidate.id)}
+                                style={{opacity: !canVote && !isSelected ? 0.6 : 1, cursor: canVote ? 'pointer' : 'default'}}
+                            >
+                                <div className="selection-indicator">
+                                    {(isSelected || hasVoted) && <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3"><polyline points="20 6 9 17 4 12"/></svg>}
+                                </div>
+                                
+                                <div className="candidate-avatar-large">
+                                    {initials}
+                                </div>
+
+                                <h3 className="candidate-name">{candidate.name}</h3>
+                                <p className="candidate-creds">{candidate.credentials || "No credentials provided."}</p>
+                                
+                                {isConcluded && (
+                                    <div style={{marginTop: '16px', paddingTop: '16px', borderTop: '1px solid var(--m3-surface-variant)'}}>
+                                        <span className="m3-label-medium" style={{color: 'var(--voting-primary)'}}>FINAL VOTES</span>
+                                        <p className="m3-display-small" style={{fontSize: '24px', marginTop: '4px'}}>{candidate.voteCount || 0}</p>
+                                    </div>
+                                )}
+                            </div>
+                        );
+                    })}
+                </div>
+
+                <div style={{display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '16px'}}>
+                    {canVote ? (
+                        <button 
+                            className="m3-filled-btn" 
+                            onClick={onVoteSubmit}
+                            disabled={!selectedCandidateId}
+                            style={{
+                                padding: '20px 64px', 
+                                fontSize: '18px', 
+                                borderRadius: '32px',
+                                background: selectedCandidateId ? 'var(--voting-primary)' : 'var(--m3-outline)',
+                                boxShadow: selectedCandidateId ? '0 12px 24px rgba(81, 45, 168, 0.3)' : 'none'
+                            }}
+                        >
+                            {selectedCandidateId ? 'Submit Confidential Vote' : 'Select a Candidate to Proceed'}
+                        </button>
+                    ) : (
+                        <div className="status-pill" style={{padding: '16px 32px', fontSize: '16px', background: 'var(--m3-surface-variant)', color: 'var(--m3-on-surface-variant)'}}>
+                            {hasVoted ? '✓ Your Vote has been Recorded' : '🔒 Voting Period Closed'}
+                        </div>
+                    )}
+                    <p className="m3-label-small" style={{color: 'var(--m3-on-surface-variant)'}}>
+                        Security Verification: All actions are encrypted and logged for transparency.
+                    </p>
+                </div>
+            </div>
+
         </div>
     );
 }

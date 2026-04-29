@@ -11,6 +11,7 @@ const VIEW_LABELS = {
     'Project:security':  'Community Funds › Audit Logs',
     'PR:announcements':  'Help & Support › Community News',
     'PR:feedback':       'Help & Support › Concerns & Feedback',
+    'Security':          'System Security & Audit Logs',
 };
 
 const SUBSYSTEM_CLASS = {
@@ -19,6 +20,7 @@ const SUBSYSTEM_CLASS = {
     'Voting':    'subsystem-voting',
     'Project':   'subsystem-funds',
     'PR':        'subsystem-support',
+    'Security':  'subsystem-security',
 };
 
 export default function BaseLayout({ currentView, onNavClick, isAdmin, userName, children }) {
@@ -107,6 +109,20 @@ export default function BaseLayout({ currentView, onNavClick, isAdmin, userName,
                             </div>
                         )}
                     </div>
+
+                    {isAdmin && (
+                        <div className="nav-group">
+                            <button
+                                className={`nav-item ${mainView === 'Security' ? 'active' : ''}`}
+                                onClick={() => onNavClick('Security')}
+                                aria-label="Navigate to Security and Audit Logs"
+                                aria-current={mainView === 'Security' ? 'page' : undefined}
+                            >
+                                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+                                Security & Audit
+                            </button>
+                        </div>
+                    )}
                 </nav>
             </aside>
 

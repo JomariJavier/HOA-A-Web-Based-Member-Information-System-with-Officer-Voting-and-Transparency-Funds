@@ -6,6 +6,7 @@ import Login from './components/Auth/Login';
 import MainDashboard from './components/Dashboard/MainDashboard';
 import FinancialManagement from './components/Audit/FinancialManagement';
 import PRRoom from './components/PR/PRRoom';
+import SecurityDashboard from './components/Audit/SecurityDashboard';
 import { useAuth } from './contexts/AuthContext';
 import './App.css';
 
@@ -37,6 +38,7 @@ function AppContent() {
       {mainView === 'Voting' && <VotingRoom subView={subView} />}
       {mainView === 'Project' && <FinancialManagement subView={subView} />}
       {mainView === 'PR' && <PRRoom subView={subView} />}
+      {mainView === 'Security' && isAdmin && <SecurityDashboard />}
     </BaseLayout>
   );
 }

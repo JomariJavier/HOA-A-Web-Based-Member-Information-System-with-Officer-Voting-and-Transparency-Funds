@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useAuth } from '../../contexts/AuthContext';
+import './ProjectList.css'; // Reusing glass and card styles
 
 export default function FinancialSummary() {
     const { fetchWithAuth } = useAuth();
@@ -23,49 +24,50 @@ export default function FinancialSummary() {
         fetchSummary();
     }, []);
 
-    if (loading) return <div className="m3-loading">Calculating totals...</div>;
+    if (loading) return (
+        <div style={{padding: '40px', textAlign: 'center'}}>
+            <div className="m3-loading">Synchronizing with Treasury...</div>
+        </div>
+    );
 
     const formatCurrency = (amount) => {
         return new Intl.NumberFormat('en-PH', { style: 'currency', currency: 'PHP' }).format(amount || 0);
     };
 
     return (
-        <div className="financial-summary-grid animate-fade-in" style={{display: 'flex', flexDirection: 'column', gap: '24px'}}>
-            <div className="m3-card m3-elevated-card summary-card balance-card" style={{borderLeft: '6px solid var(--accent-funds)', background: 'var(--m3-surface)'}}>
-                <div className="m3-card-content" style={{padding: '32px'}}>
-                    <span className="m3-label-medium" style={{color: 'var(--accent-funds)', fontWeight: 'bold'}}>COMMUNITY BALANCE</span>
-                    <h2 className="m3-display-medium primary-text" style={{color: 'var(--m3-on-surface)', marginTop: '8px', marginBottom: '8px'}}>{formatCurrency(summary?.communityBalance)}</h2>
-                    <p className="m3-body-large m3-on-surface-variant">Total funds available for projects</p>
+        <div className="financial-summary-grid animate-fade-in" style={{display: 'flex', flexDirection: 'column', gap: '16px', paddingTop: '8px'}}>
+            
+            {/* FLOW METRICS */}
+            <div className="project-stats-row" style={{display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '16px'}}>
+                <div className="stat-glass-card" style={{borderLeft: '4px solid #1A237E', background: 'linear-gradient(135deg, #E8EAF6 0%, #C5CAE9 100%)'}}>
+                    <span className="stat-label" style={{color: '#1A237E'}}>Current Treasury Balance</span>
+                    <span className="stat-value" style={{fontSize: '32px', color: '#1A237E'}}>{formatCurrency(summary?.communityBalance)}</span>
+                </div>
+                <div className="stat-glass-card" style={{borderLeft: '4px solid #2E7D32'}}>
+                    <span className="stat-label">Cumulative Income</span>
+                    <span className="stat-value" style={{color: '#2E7D32'}}>+ {formatCurrency(summary?.totalIncome)}</span>
                 </div>
             </div>
 
-            <div className="summary-row" style={{display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))', gap: '24px'}}>
-                <div className="m3-card m3-elevated-card summary-card" style={{borderTop: '4px solid #2E7D32'}}>
-                    <div className="m3-card-content">
-                        <span className="m3-label-medium">TOTAL INCOME</span>
-                        <h2 className="m3-title-large" style={{color: '#2E7D32', fontSize: '2rem', marginTop: '8px'}}>+ {formatCurrency(summary?.totalIncome)}</h2>
-                    </div>
-                </div>
-                <div className="m3-card m3-elevated-card summary-card" style={{borderTop: '4px solid #C62828'}}>
-                    <div className="m3-card-content">
-                        <span className="m3-label-medium">TOTAL EXPENSES</span>
-                        <h2 className="m3-title-large" style={{color: '#C62828', fontSize: '2rem', marginTop: '8px'}}>- {formatCurrency(summary?.totalExpense)}</h2>
-                    </div>
+            <div className="project-stats-row" style={{display: 'grid', gridTemplateColumns: '1fr', gap: '16px'}}>
+                <div className="stat-glass-card" style={{borderLeft: '4px solid #C62828'}}>
+                    <span className="stat-label">Cumulative Expenses</span>
+                    <span className="stat-value" style={{color: '#C62828'}}>- {formatCurrency(summary?.totalExpense)}</span>
                 </div>
             </div>
 
-            <div className="m3-card m3-outline-card transparency-disclaimer" style={{marginTop: '16px', background: 'var(--accent-funds-container)', border: 'none'}}>
-                <div className="m3-card-content" style={{display: 'flex', gap: '16px', alignItems: 'flex-start'}}>
-                    <span style={{fontSize: '24px'}}>🛡️</span>
-                    <div>
-                        <h3 className="m3-title-medium" style={{color: 'var(--accent-funds-on-container)', margin: '0 0 4px 0'}}>Transparency Promise</h3>
-                        <p className="m3-body-medium" style={{color: 'var(--accent-funds-on-container)', margin: 0, opacity: 0.9}}>
-                            Every transaction recorded here is part of an immutable audit trail. 
-                            Records are soft-deleted only for corrections, and remain accessible to auditors.
-                        </p>
-                    </div>
+            {/* TRANSPARENCY SHIELD */}
+            <div className="stat-glass-card" style={{background: 'rgba(255,255,255,0.4)', display: 'flex', flexDirection: 'row', gap: '20px', alignItems: 'center', padding: '24px'}}>
+                <div style={{fontSize: '32px'}}>🛡️</div>
+                <div>
+                    <h3 className="m3-title-medium" style={{margin: '0 0 4px 0'}}>Transparency & Accountability Protocol</h3>
+                    <p className="m3-body-medium" style={{margin: 0, opacity: 0.8}}>
+                        Every Philippine Peso is accounted for. This dashboard is fueled by an immutable ledger. 
+                        Unauthorized modifications are strictly prohibited and flagged in the system audit logs.
+                    </p>
                 </div>
             </div>
+
         </div>
     );
 }

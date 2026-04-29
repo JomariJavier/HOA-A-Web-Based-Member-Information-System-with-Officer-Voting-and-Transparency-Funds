@@ -53,59 +53,62 @@ export default function SecurityDashboard() {
     if (loading) return <div className="m3-body-medium">Loading security logs...</div>;
 
     return (
-        <div className="security-dashboard animate-fade-in">
-            <div style={{display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '24px'}}>
-                <h2 className="m3-title-large">System Access & Audit Logs</h2>
-                <div style={{display: 'flex', gap: '12px', alignItems: 'center'}}>
-                    <div className="m3-text-field" style={{margin: 0, width: '300px'}}>
-                        <input 
-                            type="text" 
-                            className="m3-input" 
-                            placeholder="Filter by user, action or detail..."
-                            value={filter}
-                            onChange={e => setFilter(e.target.value)}
-                        />
+        <section className="m3-content-wrapper subsystem-security animate-fade-in">
+            <div className="security-dashboard">
+                <div style={{display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '24px'}}>
+                    <h2 className="m3-display-small" style={{ color: "var(--m3-primary)" }}>System Access & Audit Logs</h2>
+                    <div style={{display: 'flex', gap: '12px', alignItems: 'center'}}>
+                        <div className="m3-text-field" style={{margin: 0, width: '300px'}}>
+                            <input 
+                                type="text" 
+                                className="m3-input" 
+                                style={{borderRadius: '24px', paddingLeft: '20px'}}
+                                placeholder="Filter by user, action or detail..."
+                                value={filter}
+                                onChange={e => setFilter(e.target.value)}
+                            />
+                        </div>
+                        <button className="m3-outlined-btn" onClick={handleExport} style={{borderRadius: '24px'}}>
+                            ⬇ Export Logs (.txt)
+                        </button>
                     </div>
-                    <button className="m3-outlined-btn" onClick={handleExport}>
-                        Export Logs (.txt)
-                    </button>
                 </div>
-            </div>
 
-            <div className="m3-table-container m3-surface-container-low" style={{borderRadius: '16px', overflow: 'hidden'}}>
-                <table className="m3-table">
-                    <thead>
-                        <tr>
-                            <th>Timestamp</th>
-                            <th>User</th>
-                            <th>Action</th>
-                            <th>Details</th>
-                            <th>IP Address</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {filteredLogs.map(log => (
-                            <tr key={log.id}>
-                                <td style={{whiteSpace: 'nowrap'}}>{new Date(log.createdAt).toLocaleString()}</td>
-                                <td style={{fontWeight: 'bold'}}>{log.user ? log.user.username : 'SYSTEM'}</td>
-                                <td>
-                                    <span className={`m3-badge m3-badge-tonal ${getActionClass(log.action)}`}>
-                                        {log.action}
-                                    </span>
-                                </td>
-                                <td style={{maxWidth: '300px', fontSize: '0.85rem'}}>{log.details}</td>
-                                <td className="m3-on-surface-variant" style={{fontSize: '0.8rem'}}>{log.ipAddress}</td>
+                <div className="m3-table-container m3-surface-container-low" style={{borderRadius: '24px', overflow: 'hidden', boxShadow: '0 4px 12px rgba(0,0,0,0.05)'}}>
+                    <table className="m3-table" style={{width: '100%'}}>
+                        <thead style={{background: 'var(--m3-surface-variant)'}}>
+                            <tr>
+                                <th style={{padding: '16px 24px'}}>Timestamp</th>
+                                <th style={{padding: '16px 24px'}}>User</th>
+                                <th style={{padding: '16px 24px'}}>Action</th>
+                                <th style={{padding: '16px 24px'}}>Details</th>
+                                <th style={{padding: '16px 24px'}}>IP Address</th>
                             </tr>
-                        ))}
-                    </tbody>
-                </table>
-            </div>
-            {filteredLogs.length === 0 && (
-                <div className="m3-empty-state" style={{padding: '40px'}}>
-                    <p className="m3-body-large">No logs found matching your criteria.</p>
+                        </thead>
+                        <tbody>
+                            {filteredLogs.map(log => (
+                                <tr key={log.id} style={{borderBottom: '1px solid var(--m3-surface-variant)'}}>
+                                    <td style={{whiteSpace: 'nowrap', padding: '16px 24px'}}>{new Date(log.createdAt).toLocaleString()}</td>
+                                    <td style={{fontWeight: '700', padding: '16px 24px'}}>{log.user ? log.user.username : 'SYSTEM'}</td>
+                                    <td style={{padding: '16px 24px'}}>
+                                        <span className={`m3-badge m3-badge-tonal ${getActionClass(log.action)}`} style={{padding: '4px 12px', borderRadius: '8px'}}>
+                                            {log.action}
+                                        </span>
+                                    </td>
+                                    <td style={{maxWidth: '350px', fontSize: '0.9rem', padding: '16px 24px', color: 'var(--m3-on-surface-variant)'}}>{log.details}</td>
+                                    <td className="m3-on-surface-variant" style={{fontSize: '0.85rem', padding: '16px 24px'}}>{log.ipAddress}</td>
+                                </tr>
+                            ))}
+                        </tbody>
+                    </table>
                 </div>
-            )}
-        </div>
+                {filteredLogs.length === 0 && (
+                    <div className="m3-empty-state" style={{padding: '80px', textAlign: 'center', background: 'var(--m3-surface-container-lowest)', borderRadius: '24px', marginTop: '16px'}}>
+                        <p className="m3-body-large" style={{color: 'var(--m3-on-surface-variant)'}}>No security logs found matching your current filter.</p>
+                    </div>
+                )}
+            </div>
+        </section>
     );
 }
 
