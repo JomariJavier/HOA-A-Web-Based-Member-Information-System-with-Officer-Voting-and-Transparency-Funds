@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import './Login.css';
 import { useAuth } from '../../contexts/AuthContext';
+import RegisterModal from './RegisterModal';
 
 export default function Login() {
     const { login } = useAuth();
@@ -8,6 +9,7 @@ export default function Login() {
     const [credentials, setCredentials] = useState({ username: '', password: '' });
     const [errors, setErrors] = useState({ username: '', password: '', general: '' });
     const [loading, setLoading] = useState(false);
+    const [showRegister, setShowRegister] = useState(false);
     const usernameRef = React.useRef(null);
 
     React.useEffect(() => {
@@ -181,9 +183,17 @@ export default function Login() {
                 {mode === 'member' && (
                     <footer className="login-footer">
                         <span className="m3-body-small">Not a registered member? </span>
-                        <button className="m3-text-btn m3-body-small">Contact Officer</button>
+                        <button
+                            id="btn-contact-officer"
+                            className="m3-text-btn m3-body-small"
+                            onClick={() => setShowRegister(true)}
+                        >
+                            Contact Officer
+                        </button>
                     </footer>
                 )}
+
+                {showRegister && <RegisterModal onClose={() => setShowRegister(false)} />}
             </div>
         </div>
     );

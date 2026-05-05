@@ -1,0 +1,485 @@
+/* RegisterModal.css — Premium multi-step HOA member registration modal */
+
+/* ── Overlay ─────────────────────────────────────────────────── */
+.reg-overlay {
+    position: fixed;
+    inset: 0;
+    z-index: 9999;
+    background: rgba(15, 20, 45, 0.65);
+    backdrop-filter: blur(6px);
+    -webkit-backdrop-filter: blur(6px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 16px;
+    animation: regFadeIn 0.2s ease;
+}
+
+@keyframes regFadeIn {
+    from { opacity: 0; }
+    to   { opacity: 1; }
+}
+
+/* ── Modal shell ─────────────────────────────────────────────── */
+.reg-modal {
+    width: 100%;
+    max-width: 560px;
+    max-height: 92vh;
+    overflow-y: auto;
+    background: #ffffff;
+    border-radius: 24px;
+    box-shadow:
+        0 32px 80px rgba(0, 0, 0, 0.22),
+        0 0 0 1px rgba(63, 81, 181, 0.1);
+    display: flex;
+    flex-direction: column;
+    animation: regSlideUp 0.28s cubic-bezier(0.2, 0, 0.1, 1);
+    scrollbar-width: thin;
+    scrollbar-color: #c5cae9 transparent;
+}
+.reg-modal::-webkit-scrollbar { width: 5px; }
+.reg-modal::-webkit-scrollbar-thumb { background: #c5cae9; border-radius: 8px; }
+
+@keyframes regSlideUp {
+    from { transform: translateY(28px) scale(0.97); opacity: 0; }
+    to   { transform: translateY(0) scale(1);       opacity: 1; }
+}
+
+/* ── Header ──────────────────────────────────────────────────── */
+.reg-modal-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 24px 28px 20px;
+    border-bottom: 1px solid #f0f0f5;
+    background: linear-gradient(135deg, #3f51b5 0%, #5c6bc0 100%);
+    border-radius: 24px 24px 0 0;
+    color: white;
+}
+
+.reg-modal-title-row {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+}
+
+.reg-logo {
+    font-size: 32px;
+    line-height: 1;
+    filter: drop-shadow(0 2px 4px rgba(0,0,0,0.2));
+}
+
+.reg-title {
+    margin: 0;
+    font-family: 'Poppins', sans-serif;
+    font-size: 20px;
+    font-weight: 700;
+    color: white;
+    line-height: 1.2;
+}
+
+.reg-subtitle {
+    margin: 3px 0 0;
+    font-size: 13px;
+    color: rgba(255, 255, 255, 0.8);
+    font-family: 'Inter', sans-serif;
+}
+
+.reg-close-btn {
+    background: rgba(255, 255, 255, 0.18);
+    border: none;
+    border-radius: 50%;
+    width: 34px;
+    height: 34px;
+    font-size: 14px;
+    color: white;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background 0.15s;
+    flex-shrink: 0;
+}
+.reg-close-btn:hover { background: rgba(255, 255, 255, 0.3); }
+
+/* ── Progress bar ────────────────────────────────────────────── */
+.reg-progress-bar {
+    height: 4px;
+    background: #e8eaf6;
+    position: relative;
+    overflow: hidden;
+}
+
+.reg-progress-fill {
+    height: 100%;
+    background: linear-gradient(90deg, #3f51b5, #7c4dff);
+    transition: width 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* ── Step pills ──────────────────────────────────────────────── */
+.reg-steps {
+    display: flex;
+    padding: 16px 28px 0;
+    gap: 6px;
+    overflow-x: auto;
+    scrollbar-width: none;
+}
+.reg-steps::-webkit-scrollbar { display: none; }
+
+.reg-step-pill {
+    display: flex;
+    align-items: center;
+    gap: 7px;
+    padding: 6px 14px;
+    border-radius: 20px;
+    font-size: 12px;
+    font-family: 'Inter', sans-serif;
+    font-weight: 500;
+    white-space: nowrap;
+    background: #f5f5f5;
+    color: #9e9e9e;
+    transition: all 0.2s;
+    border: 1.5px solid transparent;
+}
+
+.reg-step-pill.active {
+    background: #e8eaf6;
+    color: #3f51b5;
+    border-color: #3f51b5;
+    font-weight: 700;
+}
+
+.reg-step-pill.done {
+    background: #e8f5e9;
+    color: #388e3c;
+    border-color: #a5d6a7;
+}
+
+.reg-step-num {
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    background: currentColor;
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 11px;
+    font-weight: 700;
+    flex-shrink: 0;
+}
+
+.reg-step-pill.done .reg-step-num {
+    background: #388e3c;
+    color: white;
+}
+
+/* ── Body ────────────────────────────────────────────────────── */
+.reg-body {
+    padding: 24px 28px 28px;
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+}
+
+/* ── Step content ────────────────────────────────────────────── */
+.reg-step-content {
+    animation: regFadeIn 0.18s ease;
+}
+
+.reg-step-heading {
+    font-family: 'Poppins', sans-serif;
+    font-size: 17px;
+    font-weight: 700;
+    color: #1a1a2e;
+    margin: 0 0 4px;
+}
+
+.reg-step-desc {
+    font-size: 13px;
+    color: #78909c;
+    margin: 0 0 20px;
+    font-family: 'Inter', sans-serif;
+}
+
+/* ── Fields ──────────────────────────────────────────────────── */
+.reg-fields {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+}
+
+.reg-field-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+}
+
+.reg-field {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+
+.reg-field-label {
+    font-size: 12.5px;
+    font-weight: 600;
+    color: #546e7a;
+    font-family: 'Inter', sans-serif;
+    letter-spacing: 0.2px;
+}
+
+.reg-field input,
+.reg-field select,
+.reg-field textarea {
+    width: 100%;
+    padding: 11px 14px;
+    border: 1.5px solid #e0e0e0;
+    border-radius: 10px;
+    font-size: 14px;
+    font-family: 'Inter', sans-serif;
+    color: #1a1a2e;
+    background: #fafafa;
+    transition: all 0.15s;
+    box-sizing: border-box;
+    outline: none;
+    -webkit-appearance: none;
+    appearance: none;
+}
+
+.reg-field select {
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20' fill='%23546e7a'%3E%3Cpath fill-rule='evenodd' d='M5.23 7.21a.75.75 0 011.06.02L10 11.168l3.71-3.938a.75.75 0 111.08 1.04l-4.25 4.5a.75.75 0 01-1.08 0l-4.25-4.5a.75.75 0 01.02-1.06z'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 12px center;
+    background-size: 18px;
+    padding-right: 36px;
+    cursor: pointer;
+}
+
+.reg-field textarea {
+    resize: vertical;
+    min-height: 72px;
+}
+
+.reg-field input:focus,
+.reg-field select:focus,
+.reg-field textarea:focus {
+    border-color: #3f51b5;
+    background: white;
+    box-shadow: 0 0 0 3px rgba(63, 81, 181, 0.12);
+}
+
+.reg-field input.error,
+.reg-field select.error,
+.reg-field textarea.error {
+    border-color: #e53935;
+    background: #fff8f8;
+}
+
+.reg-field-error {
+    font-size: 11.5px;
+    color: #e53935;
+    font-family: 'Inter', sans-serif;
+    font-weight: 500;
+}
+
+/* ── Info box ────────────────────────────────────────────────── */
+.reg-info-box {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    padding: 12px 14px;
+    background: #e8eaf6;
+    border-radius: 10px;
+    font-size: 13px;
+    color: #3f51b5;
+    font-family: 'Inter', sans-serif;
+    line-height: 1.5;
+    border-left: 3px solid #3f51b5;
+}
+
+.reg-info-icon { font-size: 15px; flex-shrink: 0; margin-top: 1px; }
+
+/* ── Review table ────────────────────────────────────────────── */
+.reg-review-table {
+    border: 1.5px solid #e8eaf6;
+    border-radius: 12px;
+    overflow: hidden;
+}
+
+.reg-review-row {
+    display: grid;
+    grid-template-columns: 140px 1fr;
+    gap: 8px;
+    padding: 11px 16px;
+    align-items: start;
+    border-bottom: 1px solid #f5f5f5;
+    font-family: 'Inter', sans-serif;
+    font-size: 13.5px;
+}
+
+.reg-review-row:last-child { border-bottom: none; }
+.reg-review-row:nth-child(even) { background: #fafafa; }
+
+.reg-review-label {
+    font-weight: 600;
+    color: #546e7a;
+    font-size: 12.5px;
+    padding-top: 1px;
+}
+
+.reg-review-value {
+    color: #1a1a2e;
+    word-break: break-word;
+}
+
+/* ── Navigation buttons ──────────────────────────────────────── */
+.reg-nav-btns {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-top: 24px;
+}
+
+.reg-btn-back {
+    padding: 11px 22px;
+    border: 1.5px solid #bdbdbd;
+    border-radius: 10px;
+    background: white;
+    color: #546e7a;
+    font-size: 14px;
+    font-weight: 600;
+    font-family: 'Inter', sans-serif;
+    cursor: pointer;
+    transition: all 0.15s;
+}
+.reg-btn-back:hover { border-color: #3f51b5; color: #3f51b5; background: #f5f5ff; }
+.reg-btn-back:disabled { opacity: 0.5; cursor: not-allowed; }
+
+.reg-btn-next {
+    padding: 11px 28px;
+    border: none;
+    border-radius: 10px;
+    background: linear-gradient(135deg, #3f51b5, #5c6bc0);
+    color: white;
+    font-size: 14px;
+    font-weight: 700;
+    font-family: 'Poppins', sans-serif;
+    cursor: pointer;
+    transition: opacity 0.15s, transform 0.15s, box-shadow 0.15s;
+    box-shadow: 0 4px 14px rgba(63, 81, 181, 0.38);
+}
+.reg-btn-next:hover {
+    opacity: 0.92;
+    transform: translateY(-1px);
+    box-shadow: 0 6px 18px rgba(63, 81, 181, 0.44);
+}
+
+.reg-btn-submit {
+    padding: 12px 28px;
+    border: none;
+    border-radius: 10px;
+    background: linear-gradient(135deg, #1b5e20, #388e3c);
+    color: white;
+    font-size: 14px;
+    font-weight: 700;
+    font-family: 'Poppins', sans-serif;
+    cursor: pointer;
+    transition: opacity 0.15s, transform 0.15s, box-shadow 0.15s;
+    box-shadow: 0 4px 14px rgba(56, 142, 60, 0.4);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+.reg-btn-submit:hover {
+    opacity: 0.92;
+    transform: translateY(-1px);
+    box-shadow: 0 6px 18px rgba(56, 142, 60, 0.48);
+}
+.reg-btn-submit:disabled { opacity: 0.6; cursor: not-allowed; transform: none; }
+
+/* ── Spinner ─────────────────────────────────────────────────── */
+.reg-spinner {
+    width: 18px;
+    height: 18px;
+    border: 2.5px solid rgba(255,255,255,0.4);
+    border-top-color: white;
+    border-radius: 50%;
+    animation: regSpin 0.7s linear infinite;
+    display: inline-block;
+}
+@keyframes regSpin { to { transform: rotate(360deg); } }
+
+/* ── Server error ────────────────────────────────────────────── */
+.reg-server-error {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-top: 16px;
+    padding: 12px 16px;
+    background: #ffebee;
+    border-left: 3px solid #e53935;
+    border-radius: 8px;
+    font-size: 13px;
+    color: #b71c1c;
+    font-family: 'Inter', sans-serif;
+}
+
+/* ── Footer note ─────────────────────────────────────────────── */
+.reg-note {
+    text-align: center;
+    font-size: 11.5px;
+    color: #b0bec5;
+    font-family: 'Inter', sans-serif;
+    margin: 12px 0 0;
+}
+
+/* ── Success screen ──────────────────────────────────────────── */
+.reg-success {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    padding: 24px 16px 8px;
+    gap: 12px;
+    animation: regFadeIn 0.25s ease;
+}
+
+.reg-success-icon {
+    font-size: 64px;
+    line-height: 1;
+    filter: drop-shadow(0 4px 12px rgba(0,0,0,0.15));
+    animation: regPop 0.4s cubic-bezier(0.2, 0, 0, 1.4);
+}
+
+@keyframes regPop {
+    from { transform: scale(0.5); opacity: 0; }
+    to   { transform: scale(1);   opacity: 1; }
+}
+
+.reg-success-title {
+    font-family: 'Poppins', sans-serif;
+    font-size: 22px;
+    font-weight: 700;
+    color: #1a1a2e;
+    margin: 0;
+}
+
+.reg-success-msg {
+    font-size: 14px;
+    color: #546e7a;
+    font-family: 'Inter', sans-serif;
+    line-height: 1.6;
+    max-width: 380px;
+    margin: 0;
+}
+
+/* ── Responsive ──────────────────────────────────────────────── */
+@media (max-width: 520px) {
+    .reg-modal-header { padding: 20px 20px 16px; }
+    .reg-body { padding: 20px 20px 24px; }
+    .reg-steps { padding: 14px 20px 0; }
+    .reg-field-row { grid-template-columns: 1fr; }
+    .reg-review-row { grid-template-columns: 1fr; gap: 2px; }
+    .reg-review-label { font-size: 11px; color: #90a4ae; }
+}

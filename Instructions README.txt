@@ -74,7 +74,7 @@ Before running the code, we must prepare your local database.
 
 1. Open the "pgAdmin 4" app on your computer.
 2. Enter the password you created during Phase 1.
-3. On the left sidebar, expand "Servers" -> "PostgreSQL".
+3. On the left sidebar, expand "Servers" -> "Postgnpm installreSQL".
 4. Right-click "Databases" -> Create -> Database...
 5. Name the database EXACTLY: hoa_db
 6. Click Save. (You don't need to create tables; Spring Boot does this automatically!)
