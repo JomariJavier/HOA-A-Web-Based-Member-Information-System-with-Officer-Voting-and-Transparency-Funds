@@ -2,6 +2,7 @@ package com.hoa.backend.member;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Map;
@@ -18,6 +19,8 @@ public class RegistrationController {
     @Autowired
     private MemberRepository memberRepository;
 
+    private final BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+
     @PostMapping("/register")
     public ResponseEntity<?> submitRegistration(@RequestBody Member application) {
         try {
@@ -27,6 +30,15 @@ public class RegistrationController {
                 return ResponseEntity.badRequest()
                         .body(Map.of("error", "Username is already taken. Please choose another."));
             }
+
+            // Validate password
+            if (application.getPassword() == null || application.getPassword().isBlank()) {
+                return ResponseEntity.badRequest()
+                        .body(Map.of("error", "Password is required."));
+            }
+
+            // Hash the password before persisting
+            application.setPassword(passwordEncoder.encode(application.getPassword()));
 
             // Mark as pending — officer must approve before account is activated
             application.setStatus("Pending");

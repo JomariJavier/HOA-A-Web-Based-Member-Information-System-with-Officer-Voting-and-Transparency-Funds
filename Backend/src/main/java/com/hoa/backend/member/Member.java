@@ -34,6 +34,7 @@ public class Member {
     
     private String role; // 'Officer', 'Member'
     private String status; // 'Active', 'Inactive'
+    private String password; // BCrypt-hashed password
 
     // Automatically set the registration date when a record is first created
     @org.hibernate.annotations.CreationTimestamp

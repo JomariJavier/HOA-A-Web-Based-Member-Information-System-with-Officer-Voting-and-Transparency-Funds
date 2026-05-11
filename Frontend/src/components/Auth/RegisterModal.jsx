@@ -13,6 +13,8 @@ const INITIAL_FORM = {
     hoaAddress: '',
     familyMembers: '',
     username: '',
+    password: '',
+    confirmPassword: '',
 };
 
 export default function RegisterModal({ onClose }) {
@@ -64,6 +66,12 @@ export default function RegisterModal({ onClose }) {
             if (!form.username.trim()) newErrors.username = 'Username is required.';
             else if (!usernameRegex.test(form.username.trim()))
                 newErrors.username = 'Username must be 3-30 chars: letters, numbers, . _ - only.';
+            if (!form.password) newErrors.password = 'Password is required.';
+            else if (form.password.length < 8) newErrors.password = 'Password must be at least 8 characters.';
+            else if (!/[A-Z]/.test(form.password)) newErrors.password = 'Password must contain at least one uppercase letter.';
+            else if (!/[0-9]/.test(form.password)) newErrors.password = 'Password must contain at least one number.';
+            if (!form.confirmPassword) newErrors.confirmPassword = 'Please confirm your password.';
+            else if (form.password !== form.confirmPassword) newErrors.confirmPassword = 'Passwords do not match.';
         }
         setErrors(newErrors);
         return Object.keys(newErrors).length === 0;
@@ -76,8 +84,10 @@ export default function RegisterModal({ onClose }) {
         setLoading(true);
         setServerError('');
         try {
+            // Strip confirmPassword — never send it to the backend
+            const { confirmPassword: _confirmPassword, ...rest } = form;
             const payload = {
-                ...form,
+                ...rest,
                 fullName: form.fullName.trim(),
                 username: form.username.trim(),
                 hoaAddress: form.hoaAddress.trim(),
@@ -314,10 +324,26 @@ function StepContact({ form, errors, onChange }) {
 
 /* ── Step 3: Account Setup ───────────────────────────────────── */
 function StepAccount({ form, errors, onChange }) {
+    const [showPwd, setShowPwd] = React.useState(false);
+    const [showConfirm, setShowConfirm] = React.useState(false);
+
+    // Password strength helper
+    const strength = (() => {
+        const p = form.password;
+        if (!p) return { level: 0, label: '' };
+        let score = 0;
+        if (p.length >= 8) score++;
+        if (/[A-Z]/.test(p)) score++;
+        if (/[0-9]/.test(p)) score++;
+        if (/[^A-Za-z0-9]/.test(p)) score++;
+        const levels = ['', 'Weak', 'Fair', 'Good', 'Strong'];
+        return { level: score, label: levels[score] };
+    })();
+
     return (
         <div className="reg-step-content">
             <h3 className="reg-step-heading">Account Setup</h3>
-            <p className="reg-step-desc">Choose a username. An officer will set up your password once approved.</p>
+            <p className="reg-step-desc">Choose a username and set a password for your account.</p>
             <div className="reg-fields">
                 <Field label="Preferred Username *" error={errors.username}>
                     <input
@@ -332,10 +358,63 @@ function StepAccount({ form, errors, onChange }) {
                         autoComplete="off"
                     />
                 </Field>
-                <div className="reg-info-box">
-                    <span className="reg-info-icon">ℹ️</span>
-                    <span>Your login credentials will be provided by an HOA officer after your application is approved.</span>
-                </div>
+                <Field label="Password *" error={errors.password}>
+                    <div className="reg-pwd-wrapper">
+                        <input
+                            id="reg-password"
+                            name="password"
+                            type={showPwd ? 'text' : 'password'}
+                            value={form.password}
+                            onChange={onChange}
+                            placeholder="Min 8 chars, 1 uppercase, 1 number"
+                            className={errors.password ? 'error' : ''}
+                            autoComplete="new-password"
+                        />
+                        <button
+                            type="button"
+                            className="reg-pwd-toggle"
+                            onClick={() => setShowPwd(v => !v)}
+                            aria-label={showPwd ? 'Hide password' : 'Show password'}
+                        >
+                            {showPwd ? '🙈' : '👁️'}
+                        </button>
+                    </div>
+                    {form.password && (
+                        <div className="reg-pwd-strength">
+                            <div className="reg-pwd-strength-bar">
+                                {[1,2,3,4].map(i => (
+                                    <div
+                                        key={i}
+                                        className={`reg-pwd-strength-seg ${strength.level >= i ? `level-${strength.level}` : ''}`}
+                                    />
+                                ))}
+                            </div>
+                            <span className={`reg-pwd-strength-label level-${strength.level}`}>{strength.label}</span>
+                        </div>
+                    )}
+                </Field>
+                <Field label="Confirm Password *" error={errors.confirmPassword}>
+                    <div className="reg-pwd-wrapper">
+                        <input
+                            id="reg-confirmPassword"
+                            name="confirmPassword"
+                            type={showConfirm ? 'text' : 'password'}
+                            value={form.confirmPassword}
+                            onChange={onChange}
+                            placeholder="Re-enter your password"
+                            className={errors.confirmPassword ? 'error' : ''}
+                            autoComplete="new-password"
+                        />
+                        <button
+                            type="button"
+                            className="reg-pwd-toggle"
+                            onClick={() => setShowConfirm(v => !v)}
+                            aria-label={showConfirm ? 'Hide password' : 'Show password'}
+                        >
+                            {showConfirm ? '🙈' : '👁️'}
+                        </button>
+                    </div>
+                </Field>
             </div>
         </div>
     );
@@ -353,6 +432,7 @@ function StepReview({ form }) {
         ['Email', form.email || '—'],
         ['Family Members', form.familyMembers || '—'],
         ['Username', form.username],
+        ['Password', '••••••••'],
     ];
 
     return (
