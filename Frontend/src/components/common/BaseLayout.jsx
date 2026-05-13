@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useAuth } from '../../contexts/AuthContext';
 
 const VIEW_LABELS = {
@@ -25,18 +25,30 @@ const SUBSYSTEM_CLASS = {
 
 export default function BaseLayout({ currentView, onNavClick, isAdmin, userName, children }) {
     const { user, logout } = useAuth();
+    const [isSidebarOpen, setIsSidebarOpen] = useState(false);
+    
     const mainView = currentView.split(':')[0];
     const breadcrumb = VIEW_LABELS[currentView] || currentView;
     const subsystemClass = SUBSYSTEM_CLASS[mainView] || '';
 
+    const handleNavClick = (view) => {
+        onNavClick(view);
+        setIsSidebarOpen(false); // Close sidebar on mobile after clicking
+    };
+
     return (
         <div className="app-layout">
-            <aside className="app-sidebar" role="navigation" aria-label="Main navigation">
+            {/* Mobile Overlay */}
+            {isSidebarOpen && (
+                <div className="sidebar-overlay" onClick={() => setIsSidebarOpen(false)} aria-hidden="true" />
+            )}
+
+            <aside className={`app-sidebar ${isSidebarOpen ? 'open' : ''}`} role="navigation" aria-label="Main navigation">
                 <div className="sidebar-logo">🏘 HOA Portal</div>
                 <nav className="sidebar-nav">
                     <button
                         className={`nav-item ${mainView === 'Dashboard' ? 'active' : ''}`}
-                        onClick={() => onNavClick('Dashboard')}
+                        onClick={() => handleNavClick('Dashboard')}
                         aria-label="Navigate to Dashboard"
                         aria-current={mainView === 'Dashboard' ? 'page' : undefined}
                     >
@@ -48,7 +60,7 @@ export default function BaseLayout({ currentView, onNavClick, isAdmin, userName,
                         <div className="nav-group">
                             <button
                                 className={`nav-item ${mainView === 'PIS' ? 'active' : ''}`}
-                                onClick={() => onNavClick('PIS')}
+                                onClick={() => handleNavClick('PIS')}
                                 aria-label="Navigate to Resident Directory"
                                 aria-current={mainView === 'PIS' ? 'page' : undefined}
                             >
@@ -61,7 +73,7 @@ export default function BaseLayout({ currentView, onNavClick, isAdmin, userName,
                     <div className="nav-group">
                         <button
                             className={`nav-item ${mainView === 'Voting' ? 'active' : ''}`}
-                            onClick={() => onNavClick('Voting')}
+                            onClick={() => handleNavClick('Voting')}
                             aria-label="Navigate to Voting and Elections"
                             aria-current={mainView === 'Voting' ? 'page' : undefined}
                         >
@@ -73,7 +85,7 @@ export default function BaseLayout({ currentView, onNavClick, isAdmin, userName,
                     <div className="nav-group">
                         <button
                             className={`nav-item ${mainView === 'Project' ? 'active' : ''}`}
-                            onClick={() => onNavClick('Project:overview')}
+                            onClick={() => handleNavClick('Project:overview')}
                             aria-label="Navigate to Community Funds"
                             aria-current={mainView === 'Project' ? 'page' : undefined}
                         >
@@ -82,11 +94,11 @@ export default function BaseLayout({ currentView, onNavClick, isAdmin, userName,
                         </button>
                         {mainView === 'Project' && (
                             <div className="sub-nav" role="group" aria-label="Community Funds sub-sections">
-                                <button className={`sub-nav-item ${currentView === 'Project:overview' ? 'active' : ''}`} onClick={() => onNavClick('Project:overview')}>Overview</button>
-                                <button className={`sub-nav-item ${currentView === 'Project:ledger' ? 'active' : ''}`} onClick={() => onNavClick('Project:ledger')}>Expense Ledger</button>
-                                <button className={`sub-nav-item ${currentView === 'Project:projects' ? 'active' : ''}`} onClick={() => onNavClick('Project:projects')}>Community Projects</button>
+                                <button className={`sub-nav-item ${currentView === 'Project:overview' ? 'active' : ''}`} onClick={() => handleNavClick('Project:overview')}>Overview</button>
+                                <button className={`sub-nav-item ${currentView === 'Project:ledger' ? 'active' : ''}`} onClick={() => handleNavClick('Project:ledger')}>Expense Ledger</button>
+                                <button className={`sub-nav-item ${currentView === 'Project:projects' ? 'active' : ''}`} onClick={() => handleNavClick('Project:projects')}>Community Projects</button>
                                 {isAdmin && (
-                                    <button className={`sub-nav-item ${currentView === 'Project:security' ? 'active' : ''}`} onClick={() => onNavClick('Project:security')}>Audit Logs</button>
+                                    <button className={`sub-nav-item ${currentView === 'Project:security' ? 'active' : ''}`} onClick={() => handleNavClick('Project:security')}>Audit Logs</button>
                                 )}
                             </div>
                         )}
@@ -95,7 +107,7 @@ export default function BaseLayout({ currentView, onNavClick, isAdmin, userName,
                     <div className="nav-group">
                         <button
                             className={`nav-item ${mainView === 'PR' ? 'active' : ''}`}
-                            onClick={() => onNavClick('PR:announcements')}
+                            onClick={() => handleNavClick('PR:announcements')}
                             aria-label="Navigate to Help and Support"
                             aria-current={mainView === 'PR' ? 'page' : undefined}
                         >
@@ -104,8 +116,8 @@ export default function BaseLayout({ currentView, onNavClick, isAdmin, userName,
                         </button>
                         {mainView === 'PR' && (
                             <div className="sub-nav" role="group" aria-label="Help and Support sub-sections">
-                                <button className={`sub-nav-item ${currentView === 'PR:announcements' ? 'active' : ''}`} onClick={() => onNavClick('PR:announcements')}>Community News</button>
-                                <button className={`sub-nav-item ${currentView === 'PR:feedback' ? 'active' : ''}`} onClick={() => onNavClick('PR:feedback')}>Concerns & Feedback</button>
+                                <button className={`sub-nav-item ${currentView === 'PR:announcements' ? 'active' : ''}`} onClick={() => handleNavClick('PR:announcements')}>Community News</button>
+                                <button className={`sub-nav-item ${currentView === 'PR:feedback' ? 'active' : ''}`} onClick={() => handleNavClick('PR:feedback')}>Concerns & Feedback</button>
                             </div>
                         )}
                     </div>
@@ -114,7 +126,7 @@ export default function BaseLayout({ currentView, onNavClick, isAdmin, userName,
                         <div className="nav-group">
                             <button
                                 className={`nav-item ${mainView === 'Security' ? 'active' : ''}`}
-                                onClick={() => onNavClick('Security')}
+                                onClick={() => handleNavClick('Security')}
                                 aria-label="Navigate to Security and Audit Logs"
                                 aria-current={mainView === 'Security' ? 'page' : undefined}
                             >
@@ -128,9 +140,18 @@ export default function BaseLayout({ currentView, onNavClick, isAdmin, userName,
 
             <main className="app-main">
                 <header className="app-top-header">
-                    <div className="breadcrumb" aria-label="Current section">{breadcrumb}</div>
+                    <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
+                        <button 
+                            className="mobile-menu-btn" 
+                            onClick={() => setIsSidebarOpen(true)}
+                            aria-label="Open navigation menu"
+                        >
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+                        </button>
+                        <div className="breadcrumb" aria-label="Current section">{breadcrumb}</div>
+                    </div>
                     <div className="user-profile" style={{ display: 'flex', gap: '12px', alignItems: 'center' }}>
-                        <span style={{ fontSize: '13px', color: 'var(--m3-on-surface-variant)' }}>
+                        <span className="m3-hide-mobile" style={{ fontSize: '13px', color: 'var(--m3-on-surface-variant)' }}>
                             {userName} &nbsp;·&nbsp; {user?.role === 'SUPERADMIN' ? 'Super Admin' : (isAdmin ? 'Admin' : 'Member')}
                         </span>
                         <button
