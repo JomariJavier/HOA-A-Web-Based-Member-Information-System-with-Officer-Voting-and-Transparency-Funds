@@ -9,7 +9,7 @@ export default function SecurityDashboard() {
 
     const fetchLogs = async () => {
         try {
-            const response = await fetchWithAuth('http://localhost:8081/api/audit/logs');
+            const response = await fetchWithAuth('/api/audit/logs');
             if (response.ok) {
                 const data = await response.json();
                 setLogs(data);
@@ -33,7 +33,7 @@ export default function SecurityDashboard() {
 
     const handleExport = async () => {
         try {
-            const response = await fetchWithAuth('http://localhost:8081/api/audit/export');
+            const response = await fetchWithAuth('/api/audit/export');
             if (response.ok) {
                 const blob = await response.blob();
                 const url = window.URL.createObjectURL(blob);

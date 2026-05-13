@@ -19,7 +19,7 @@ const MemberProfile = ({ selectedMember, onBack, onEdit, onRefresh }) => {
         console.log(`Executing status toggle to: ${newStatus} for ID: ${selectedMember.id}`);
 
         try {
-            const response = await fetchWithAuth(`http://localhost:8081/api/members/${selectedMember.id}`, {
+            const response = await fetchWithAuth(`/api/members/${selectedMember.id}`, {
                 method: 'PUT',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ ...selectedMember, status: newStatus })
@@ -54,7 +54,7 @@ const MemberProfile = ({ selectedMember, onBack, onEdit, onRefresh }) => {
         console.log(`Executing delete for ID: ${selectedMember.id}`);
 
         try {
-            const response = await fetchWithAuth(`http://localhost:8081/api/members/${selectedMember.id}`, {
+            const response = await fetchWithAuth(`/api/members/${selectedMember.id}`, {
                 method: 'DELETE'
             });
 

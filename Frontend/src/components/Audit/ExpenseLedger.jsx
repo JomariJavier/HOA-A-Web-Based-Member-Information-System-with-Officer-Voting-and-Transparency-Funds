@@ -15,7 +15,7 @@ export default function ExpenseLedger({ isAdmin }) {
 
     const fetchRecords = async () => {
         try {
-            const response = await fetchWithAuth('http://localhost:8081/api/finance/records');
+            const response = await fetchWithAuth('/api/finance/records');
             if (response.ok) {
                 const data = await response.json();
                 setRecords(data);
@@ -38,7 +38,7 @@ export default function ExpenseLedger({ isAdmin }) {
     const handleAddSubmit = async (e) => {
         e.preventDefault();
         try {
-            const response = await fetchWithAuth('http://localhost:8081/api/finance/records', {
+            const response = await fetchWithAuth('/api/finance/records', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({
@@ -57,13 +57,13 @@ export default function ExpenseLedger({ isAdmin }) {
     };
 
     const handleExport = () => {
-        window.open('http://localhost:8081/api/finance/export', '_blank');
+        window.open('/api/finance/export', '_blank');
     };
 
     const handleDelete = async (id) => {
         if (!window.confirm("Are you sure you want to delete this record? An audit trail will be kept.")) return;
         try {
-            const response = await fetchWithAuth(`http://localhost:8081/api/finance/records/${id}`, {
+            const response = await fetchWithAuth(`/api/finance/records/${id}`, {
                 method: 'DELETE'
             });
             if (response.ok) fetchRecords();

@@ -96,7 +96,7 @@ export default function RegisterModal({ onClose }) {
                 familyMembers: form.familyMembers.trim(),
             };
 
-            const res = await fetch('http://localhost:8081/api/public/register', {
+            const res = await fetch('/api/public/register', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify(payload),

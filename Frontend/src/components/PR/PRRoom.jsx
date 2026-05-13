@@ -30,10 +30,10 @@ export default function PRRoom({ subView }) {
     const fetchData = async () => {
         setLoading(true);
         try {
-            const announceRes = await fetchWithAuth('http://localhost:8081/api/pr/announcements');
+            const announceRes = await fetchWithAuth('/api/pr/announcements');
             if (announceRes.ok) setAnnouncements(await announceRes.json());
 
-            const complaintRes = await fetchWithAuth('http://localhost:8081/api/pr/complaints');
+            const complaintRes = await fetchWithAuth('/api/pr/complaints');
             if (complaintRes.ok) setComplaints(await complaintRes.json());
         } catch (error) {
             console.error("Failed to fetch PR data", error);
@@ -47,7 +47,7 @@ export default function PRRoom({ subView }) {
         if (!complaintForm.subject || !complaintForm.content) return alert("Please fill all fields");
 
         try {
-            const res = await fetchWithAuth('http://localhost:8081/api/pr/complaints', {
+            const res = await fetchWithAuth('/api/pr/complaints', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify(complaintForm)
@@ -68,7 +68,7 @@ export default function PRRoom({ subView }) {
     const handleAnnounceSubmit = async (e) => {
         e.preventDefault();
         try {
-            const res = await fetchWithAuth('http://localhost:8081/api/pr/announcements', {
+            const res = await fetchWithAuth('/api/pr/announcements', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify(announcementForm)
@@ -89,7 +89,7 @@ export default function PRRoom({ subView }) {
     const handleRespond = async (id) => {
         if (!responseForm.text) return alert("Response cannot be empty");
         try {
-            const res = await fetchWithAuth(`http://localhost:8081/api/pr/complaints/${id}/respond`, {
+            const res = await fetchWithAuth(`/api/pr/complaints/${id}/respond`, {
                 method: 'PATCH',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ response: responseForm.text, status: 'RESOLVED' })
@@ -105,7 +105,7 @@ export default function PRRoom({ subView }) {
 
     const handleExport = async () => {
         try {
-            const res = await fetchWithAuth('http://localhost:8081/api/pr/complaints/export');
+            const res = await fetchWithAuth('/api/pr/complaints/export');
             if (res.ok) {
                 const blob = await res.blob();
                 const url = window.URL.createObjectURL(blob);

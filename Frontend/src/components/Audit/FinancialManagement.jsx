@@ -54,7 +54,7 @@ export default function FinancialManagement({ subView }) {
 
                 {activeTab === 'ledger' && (
                     <div style={{display: 'flex', gap: '12px'}}>
-                        <button className="m3-outlined-btn" onClick={() => window.open('http://localhost:8081/api/finance/export', '_blank')}>
+                        <button className="m3-outlined-btn" onClick={() => window.open('/api/finance/export', '_blank')}>
                             ⬇ Export
                         </button>
                         {isAdmin && (

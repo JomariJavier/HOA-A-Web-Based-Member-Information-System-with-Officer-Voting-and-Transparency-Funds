@@ -10,7 +10,7 @@ export default function FinancialSummary() {
     useEffect(() => {
         const fetchSummary = async () => {
             try {
-                const response = await fetchWithAuth('http://localhost:8081/api/finance/summary');
+                const response = await fetchWithAuth('/api/finance/summary');
                 if (response.ok) {
                     const data = await response.json();
                     setSummary(data);

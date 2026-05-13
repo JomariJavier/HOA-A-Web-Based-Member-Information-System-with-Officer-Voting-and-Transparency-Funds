@@ -30,7 +30,7 @@ export default function MemberList() {
 
     // 1. Update the Fetch logic
     useEffect(() => {
-        fetch('http://localhost:8081/api/members')
+        fetch('/api/members')
             .then(res => res.json())
             .then(data => setMembers(data))
             .catch(err => console.error("Error fetching members:", err));
@@ -41,7 +41,7 @@ export default function MemberList() {
             const dataToSend = { ...formData };
             if (dataToSend.birthDate === '') dataToSend.birthDate = null;
 
-            const response = await fetch('http://localhost:8081/api/members', {
+            const response = await fetch('/api/members', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify(dataToSend)
@@ -59,7 +59,7 @@ export default function MemberList() {
     const handleUpdateSubmit = async (e) => {
         e.preventDefault();
         try {
-            const response = await fetch(`http://localhost:8081/api/members/${selectedMember.id}`, {
+            const response = await fetch(`/api/members/${selectedMember.id}`, {
                 method: 'PUT',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify(selectedMember)
@@ -83,7 +83,7 @@ export default function MemberList() {
 
         try {
             const updatedMember = { ...selectedMember, status: 'Inactive' };
-            const response = await fetch(`http://localhost:8081/api/members/${selectedMember.id}`, {
+            const response = await fetch(`/api/members/${selectedMember.id}`, {
                 method: 'PUT',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify(updatedMember)
@@ -103,7 +103,7 @@ export default function MemberList() {
 
         try {
             const updatedMember = { ...selectedMember, status: 'Active' };
-            const response = await fetch(`http://localhost:8081/api/members/${selectedMember.id}`, {
+            const response = await fetch(`/api/members/${selectedMember.id}`, {
                 method: 'PUT',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify(updatedMember)

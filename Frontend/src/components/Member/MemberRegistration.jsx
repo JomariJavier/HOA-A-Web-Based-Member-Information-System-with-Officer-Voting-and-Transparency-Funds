@@ -23,7 +23,7 @@ const MemberRegistration = ({ member, isEdit, onCancel, onSuccess }) => {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        const url = isEdit ? `http://localhost:8081/api/members/${member.id}` : 'http://localhost:8081/api/members';
+        const url = isEdit ? `/api/members/${member.id}` : '/api/members';
         const method = isEdit ? 'PUT' : 'POST';
 
         try {

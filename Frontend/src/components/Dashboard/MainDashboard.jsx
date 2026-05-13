@@ -16,7 +16,7 @@ const MainDashboard = ({ onNavigate }) => {
   const isAdmin = user?.role === 'ADMIN' || user?.role === 'SUPERADMIN';
 
   useEffect(() => {
-    fetchWithAuth("http://localhost:8081/api/dashboard/summary")
+    fetchWithAuth("/api/dashboard/summary")
       .then(res => {
         if (!res.ok) throw new Error(`Server error: ${res.status}`);
         return res.json();

@@ -12,7 +12,7 @@ export default function ProjectList({ isAdmin }) {
     useEffect(() => {
         const fetchProjects = async () => {
             try {
-                const response = await fetchWithAuth('http://localhost:8081/api/projects');
+                const response = await fetchWithAuth('/api/projects');
                 if (response.ok) {
                     const data = await response.json();
                     setProjects(data);
@@ -70,7 +70,7 @@ export default function ProjectList({ isAdmin }) {
                 ...newProject,
                 budget: newProject.budget ? parseFloat(newProject.budget.toString().replace(/[₱,]/g, '')) : 0
             };
-            const response = await fetchWithAuth('http://localhost:8081/api/projects', {
+            const response = await fetchWithAuth('/api/projects', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify(cleanedProject)
@@ -96,7 +96,7 @@ export default function ProjectList({ isAdmin }) {
                 ...selectedProject,
                 budget: selectedProject.budget ? parseFloat(selectedProject.budget.toString().replace(/[₱,]/g, '')) : 0
             };
-            const response = await fetchWithAuth(`http://localhost:8081/api/projects/${selectedProject.id}`, {
+            const response = await fetchWithAuth(`/api/projects/${selectedProject.id}`, {
                 method: 'PUT',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify(cleanedProject)

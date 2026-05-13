@@ -15,7 +15,7 @@ const MemberHub = () => {
     const fetchMembers = async () => {
         setLoading(true);
         try {
-            const response = await fetchWithAuth('http://localhost:8081/api/members');
+            const response = await fetchWithAuth('/api/members');
             if (response.ok) {
                 const data = await response.json();
                 setMembers(data);
