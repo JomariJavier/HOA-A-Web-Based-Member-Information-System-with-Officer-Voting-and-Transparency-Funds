@@ -119,7 +119,7 @@ export default function RegisterModal({ onClose }) {
     const progressPct = ((step) / STEPS.length) * 100;
 
     return (
-        <div className="reg-overlay" role="dialog" aria-modal="true" aria-label="Member Registration" onClick={(e) => e.target === e.currentTarget && onClose()}>
+        <div className="reg-overlay" role="dialog" aria-modal="true" aria-label="Member Registration" onMouseDown={(e) => e.target === e.currentTarget && onClose()}>
             <div className="reg-modal">
                 {/* Header */}
                 <div className="reg-modal-header">

@@ -15,14 +15,15 @@ const MemberProfile = ({ selectedMember, onBack, onEdit, onRefresh }) => {
             return;
         }
 
-        const newStatus = selectedMember.status === 'Active' ? 'Inactive' : 'Active';
+        const isActivating = selectedMember.status !== 'Active';
+        const newStatus = isActivating ? 'Active' : 'Inactive';
+        const endpoint = `/api/members/${selectedMember.id}/${isActivating ? 'activate' : 'deactivate'}`;
+
         console.log(`Executing status toggle to: ${newStatus} for ID: ${selectedMember.id}`);
 
         try {
-            const response = await fetchWithAuth(`/api/members/${selectedMember.id}`, {
-                method: 'PUT',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ ...selectedMember, status: newStatus })
+            const response = await fetchWithAuth(endpoint, {
+                method: 'POST'
             });
 
             console.log("Status toggle response status:", response.status);
@@ -32,9 +33,9 @@ const MemberProfile = ({ selectedMember, onBack, onEdit, onRefresh }) => {
                 onRefresh();
                 onBack();
             } else {
-                const errText = await response.text();
-                console.error("Status toggle error:", errText);
-                alert("Failed to update status. Server returned: " + response.status);
+                const errData = await response.json().catch(() => ({}));
+                console.error("Status toggle error:", errData);
+                alert("Failed to update status: " + (errData.error || response.statusText));
             }
         } catch (error) {
             console.error("Status toggle exception:", error);

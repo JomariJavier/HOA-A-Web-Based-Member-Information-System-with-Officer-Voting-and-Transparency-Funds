@@ -329,6 +329,14 @@
     color: #ba1a1a;
 }
 
+.m3-status-pending .m3-status-dot {
+    background: #E65100;
+}
+
+.m3-status-pending {
+    color: #E65100;
+}
+
 /* --- M3 Tonal Button --- */
 .m3-tonal-btn {
     height: 40px;

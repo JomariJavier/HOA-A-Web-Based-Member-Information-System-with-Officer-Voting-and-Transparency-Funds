@@ -36,6 +36,15 @@ public class AuthService {
             throw new RuntimeException("Invalid credentials");
         }
 
+        if (!"ACTIVE".equalsIgnoreCase(user.getStatus())) {
+            throw new RuntimeException("Account is inactive. Please contact an administrator.");
+        }
+
         return user;
+    }
+
+    public User findByUsername(String username) {
+        return userRepository.findByUsername(username)
+                .orElseThrow(() -> new RuntimeException("User not found"));
     }
 }

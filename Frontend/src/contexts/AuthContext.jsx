@@ -7,17 +7,36 @@ export const AuthProvider = ({ children }) => {
     const [loading, setLoading] = useState(true);
 
     useEffect(() => {
-        // Simple session persistence using localStorage
+        // On startup, verify the session is still valid with the backend.
+        // localStorage is only used as a hint — the backend /api/auth/me is
+        // the source of truth. This prevents stale sessions from auto-logging in.
         const storedUser = localStorage.getItem('user');
-        if (storedUser) {
-            try {
-                setUser(JSON.parse(storedUser));
-            } catch (e) {
-                console.error("Failed to parse stored user", e);
-                localStorage.removeItem('user');
-            }
+        if (!storedUser) {
+            // No stored user — go straight to login.
+            setLoading(false);
+            return;
         }
-        setLoading(false);
+
+        // We have a stored user — verify the session is still alive on the server.
+        fetch('/api/auth/me', { credentials: 'include' })
+            .then(res => {
+                if (res.ok) {
+                    return res.json().then(userData => {
+                        setUser(userData);
+                        localStorage.setItem('user', JSON.stringify(userData));
+                    });
+                } else {
+                    // Session expired or server restarted — clear and show login.
+                    localStorage.removeItem('user');
+                }
+            })
+            .catch(() => {
+                // Backend unreachable — clear session to be safe.
+                localStorage.removeItem('user');
+            })
+            .finally(() => {
+                setLoading(false);
+            });
     }, []);
 
     const login = async (username, password) => {
@@ -51,16 +70,27 @@ export const AuthProvider = ({ children }) => {
         });
 
         if (response.status === 401 || response.status === 403) {
-            // Handle unauthorized - maybe logout?
-            // logout(); 
+            // Session expired mid-session — force logout
+            setUser(null);
+            localStorage.removeItem('user');
         }
 
         return response;
     };
 
-    const logout = () => {
-        setUser(null);
-        localStorage.removeItem('user');
+    const logout = async () => {
+        try {
+            // Tell the backend to invalidate the server-side session
+            await fetch('/api/auth/logout', {
+                method: 'POST',
+                credentials: 'include'
+            });
+        } catch (e) {
+            // Ignore network errors on logout
+        } finally {
+            setUser(null);
+            localStorage.removeItem('user');
+        }
     };
 
     return (
@@ -71,3 +101,4 @@ export const AuthProvider = ({ children }) => {
 };
 
 export const useAuth = () => useContext(AuthContext);
+

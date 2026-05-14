@@ -1,24 +1,23 @@
-version: "3.8"
-
 services:
   # ==========================================
   # LOCAL DATABASE OPTION
   # Uncomment this block to run a local Postgres database in Docker
   # ==========================================
-  # db:
-  #   image: postgres:15
-  #   container_name: hoa_db
-  #   environment:
-  #     POSTGRES_USER: postgres
-  #     POSTGRES_PASSWORD: 1234
-  #     POSTGRES_DB: hoa_db
-  #   ports:
-  #     - "5432:5432"
-  #   volumes:
-  #     - postgres_data:/var/lib/postgresql/data
-  #   restart: unless-stopped
+  db:
+    image: postgres:15
+    container_name: hoa_db
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: 1234
+      POSTGRES_DB: hoa_db
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    restart: unless-stopped
 
   backend:
+    image: hoa_backend:latest
     build:
       context: ./Backend
       dockerfile: Dockerfile
@@ -33,20 +32,21 @@ services:
       # - SPRING_DATASOURCE_URL=jdbc:postgresql://192.168.X.X:5432/hoa_db
       
       # OPTION 2: Local Database running on your Windows Machine (via pgAdmin/XAMPP)
-      - SPRING_DATASOURCE_URL=jdbc:postgresql://host.docker.internal:5432/hoa_db
+      # - SPRING_DATASOURCE_URL=jdbc:postgresql://host.docker.internal:5432/hoa_db
       
       # OPTION 3: Local Database running inside Docker (if you uncommented 'db' above)
-      # - SPRING_DATASOURCE_URL=jdbc:postgresql://db:5432/hoa_db
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://db:5432/hoa_db
 
       - SPRING_DATASOURCE_USERNAME=postgres
       - SPRING_DATASOURCE_PASSWORD=1234
     ports:
       - "8081:8081"
-    # depends_on:
-    #   - db
+    depends_on:
+      - db
     restart: unless-stopped
 
   frontend:
+    image: hoa_frontend:latest
     build:
       context: ./Frontend
       dockerfile: Dockerfile
@@ -57,3 +57,6 @@ services:
     depends_on:
       - backend
     restart: unless-stopped
+
+volumes:
+  postgres_data:

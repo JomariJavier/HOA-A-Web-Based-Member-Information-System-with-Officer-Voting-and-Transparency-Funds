@@ -79,19 +79,20 @@ export default function MemberList() {
     };
 
     const handleDeactivate = async () => {
-        if (!window.confirm(`Are you sure you want to deactivate ${selectedMember.fullName}?`)) return;
+        if (!window.confirm(`Are you sure you want to deactivate ${selectedMember.fullName}? Their login access will be revoked.`)) return;
 
         try {
-            const updatedMember = { ...selectedMember, status: 'Inactive' };
-            const response = await fetch(`/api/members/${selectedMember.id}`, {
-                method: 'PUT',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify(updatedMember)
+            const response = await fetch(`/api/members/${selectedMember.id}/deactivate`, {
+                method: 'POST',
+                credentials: 'include'
             });
             if (response.ok) {
                 const data = await response.json();
                 setSelectedMember(data);
-                alert("Account deactivated successfully.");
+                alert("Account deactivated. The member can no longer log in.");
+            } else {
+                const err = await response.json();
+                alert("Deactivation failed: " + (err.error || response.statusText));
             }
         } catch (error) {
             alert("Deactivation failed: " + error.message);
@@ -99,19 +100,26 @@ export default function MemberList() {
     };
 
     const handleActivate = async () => {
-        if (!window.confirm(`Are you sure you want to reactivate ${selectedMember.fullName}?`)) return;
+        const isPending = selectedMember.status === 'Pending';
+        const confirmMsg = isPending
+            ? `Approve and activate ${selectedMember.fullName}'s account? They will be able to log in.`
+            : `Reactivate ${selectedMember.fullName}'s account?`;
+        if (!window.confirm(confirmMsg)) return;
 
         try {
-            const updatedMember = { ...selectedMember, status: 'Active' };
-            const response = await fetch(`/api/members/${selectedMember.id}`, {
-                method: 'PUT',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify(updatedMember)
+            const response = await fetch(`/api/members/${selectedMember.id}/activate`, {
+                method: 'POST',
+                credentials: 'include'
             });
             if (response.ok) {
                 const data = await response.json();
                 setSelectedMember(data);
-                alert("Account reactivated successfully!");
+                alert(isPending
+                    ? `${data.fullName}'s application approved! They can now log in.`
+                    : "Account reactivated successfully!");
+            } else {
+                const err = await response.json();
+                alert("Activation failed: " + (err.error || response.statusText));
             }
         } catch (error) {
             alert("Activation failed: " + error.message);
@@ -182,7 +190,11 @@ export default function MemberList() {
                                         </span>
                                     </td>
                                     <td>
-                                        <span className={`m3-status-indicator ${member.status === 'Active' ? 'm3-status-active' : 'm3-status-inactive'}`}>
+                                        <span className={`m3-status-indicator ${
+                                            member.status === 'Active' ? 'm3-status-active' :
+                                            member.status === 'Pending' ? 'm3-status-pending' :
+                                            'm3-status-inactive'
+                                        }`}>
                                             <span className="m3-status-dot"></span>
                                             {member.status}
                                         </span>
@@ -216,7 +228,11 @@ export default function MemberList() {
                                     <span className={`m3-role-chip ${selectedMember.role === 'Officer' ? 'm3-role-officer' : 'm3-role-member'}`}>
                                         {selectedMember.role}
                                     </span>
-                                    <span className={`m3-status-indicator ${selectedMember.status === 'Active' ? 'm3-status-active' : 'm3-status-inactive'}`}>
+                                    <span className={`m3-status-indicator ${
+                                        selectedMember.status === 'Active' ? 'm3-status-active' :
+                                        selectedMember.status === 'Pending' ? 'm3-status-pending' :
+                                        'm3-status-inactive'
+                                    }`}>
                                         <span className="m3-status-dot"></span>{selectedMember.status}
                                     </span>
                                 </div>
@@ -251,10 +267,20 @@ export default function MemberList() {
                 </div>
 
                 <div className="m3-card-actions" style={{ padding: '16px 24px', background: 'var(--m3-surface-variant)', borderRadius: '0 0 10px 10px', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                    <div>
-                        {selectedMember.status === 'Inactive' ? (
-                            <button className="m3-outlined-btn" onClick={handleActivate}>Activate Account</button>
-                        ) : (
+                    <div style={{ display: 'flex', gap: '8px' }}>
+                        {selectedMember.status === 'Pending' && (
+                            <button
+                                className="m3-filled-btn"
+                                style={{ background: 'var(--m3-tertiary, #4CAF50)', color: '#fff' }}
+                                onClick={handleActivate}
+                            >
+                                ✓ Approve &amp; Activate Account
+                            </button>
+                        )}
+                        {selectedMember.status === 'Inactive' && (
+                            <button className="m3-outlined-btn" onClick={handleActivate}>Reactivate Account</button>
+                        )}
+                        {selectedMember.status === 'Active' && (
                             <button className="m3-outlined-btn m3-error-text" onClick={handleDeactivate}>Deactivate Account</button>
                         )}
                     </div>
