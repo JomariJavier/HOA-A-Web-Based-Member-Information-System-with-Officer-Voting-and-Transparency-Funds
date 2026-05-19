@@ -38,7 +38,7 @@ echo.
 :: -------------------------------------------------------
 :: STEP 1: Check Prerequisites
 :: -------------------------------------------------------
-echo  [1/5] Checking prerequisites...
+echo  [1/4] Checking prerequisites...
 echo.
 
 :: Check Java
@@ -109,58 +109,9 @@ echo  All prerequisites satisfied!
 echo.
 
 :: -------------------------------------------------------
-:: STEP 2: Setup Database
+:: STEP 2: Install Frontend Dependencies (if needed)
 :: -------------------------------------------------------
-echo  [2/5] Setting up database...
-echo.
-
-set PGPASSWORD=%DB_PASSWORD%
-
-:: Check if hoa_db already exists
-psql -U %DB_USER% -p %DB_PORT% -h localhost -lqt 2>nul | findstr /C:"%DB_NAME%" >nul
-if errorlevel 1 (
-    echo  Database '%DB_NAME%' not found. Creating it now...
-    psql -U %DB_USER% -p %DB_PORT% -h localhost -c "CREATE DATABASE %DB_NAME%;" >nul 2>&1
-    if errorlevel 1 (
-        color 0C
-        echo.
-        echo  [ERROR] Failed to create database '%DB_NAME%'.
-        echo.
-        echo  Possible causes:
-        echo    1. PostgreSQL service is not running.
-        echo       - Open Services ^(Win+R, type services.msc^)
-        echo       - Find "postgresql-x64-XX" and click Start
-        echo    2. Wrong password in config.bat
-        echo       - Open config.bat and update DB_PASSWORD
-        echo    3. Wrong DB_USER (default is "postgres")
-        echo.
-        pause
-        exit /b 1
-    )
-    echo  [OK] Database '%DB_NAME%' created successfully!
-    echo.
-    if exist "%~dp0Database\hoa_db_dump.sql" (
-        echo  [INFO] Found 'hoa_db_dump.sql'. Importing database schema and default data...
-        set PGPASSWORD=%DB_PASSWORD%
-        psql -U %DB_USER% -p %DB_PORT% -h localhost -d %DB_NAME% -f "%~dp0Database\hoa_db_dump.sql" >nul 2>&1
-        if errorlevel 1 (
-            color 0E
-            echo  [WARN] Failed to import database dump completely, but continuing...
-        ) else (
-            echo  [OK] Database imported successfully! No manual setup required.
-        )
-    ) else (
-        echo  [INFO] No database dump found at Database\hoa_db_dump.sql.
-    )
-) else (
-    echo  [OK] Database '%DB_NAME%' already exists. Skipping creation and data import.
-)
-echo.
-
-:: -------------------------------------------------------
-:: STEP 3: Install Frontend Dependencies (if needed)
-:: -------------------------------------------------------
-echo  [3/5] Checking frontend dependencies...
+echo  [2/4] Checking frontend dependencies...
 echo.
 
 if not exist "%~dp0Frontend\node_modules" (
@@ -184,9 +135,9 @@ if not exist "%~dp0Frontend\node_modules" (
 echo.
 
 :: -------------------------------------------------------
-:: STEP 4: Start Backend (Spring Boot)
+:: STEP 3: Start Backend (Spring Boot)
 :: -------------------------------------------------------
-echo  [4/5] Starting Spring Boot backend on port %BACKEND_PORT%...
+echo  [3/4] Starting Spring Boot backend on port %BACKEND_PORT%...
 echo.
 
 :: Kill any existing process on the backend port
@@ -199,16 +150,16 @@ set SPRING_DATASOURCE_URL=jdbc:postgresql://localhost:%DB_PORT%/%DB_NAME%
 set SPRING_DATASOURCE_USERNAME=%DB_USER%
 set SPRING_DATASOURCE_PASSWORD=%DB_PASSWORD%
 
-start "HOA Backend (Spring Boot)" /min cmd /c "cd /d "%~dp0Backend" && title HOA - Backend && color 0B && echo Starting Spring Boot... && mvnw.cmd spring-boot:run && pause"
+start "HOA Backend (Spring Boot)" /D "%~dp0Backend" /min cmd /c "title HOA - Backend && color 0B && echo Starting Spring Boot... && mvnw.cmd spring-boot:run && pause"
 
 echo  [OK] Backend starting in background window (minimized).
 echo  It may take 30-60 seconds to fully start on the first run.
 echo.
 
 :: -------------------------------------------------------
-:: STEP 5: Start Frontend (Vite / React)
+:: STEP 4: Start Frontend (Vite / React)
 :: -------------------------------------------------------
-echo  [5/5] Starting React frontend on port %FRONTEND_PORT%...
+echo  [4/4] Starting React frontend on port %FRONTEND_PORT%...
 echo.
 
 :: Kill any existing process on the frontend port
@@ -216,13 +167,13 @@ for /f "tokens=5" %%p in ('netstat -aon 2^>nul ^| findstr ":%FRONTEND_PORT% "') 
     taskkill /PID %%p /F >nul 2>&1
 )
 
-start "HOA Frontend (Vite)" /min cmd /c "cd /d "%~dp0Frontend" && title HOA - Frontend && color 09 && echo Starting Vite dev server... && npm run dev && pause"
+start "HOA Frontend (Vite)" /D "%~dp0Frontend" /min cmd /c "title HOA - Frontend && color 09 && echo Starting Vite dev server... && npm run dev && pause"
 
 echo  [OK] Frontend starting in background window (minimized).
 echo.
 
 :: -------------------------------------------------------
-:: STEP 6: Smart wait - poll backend until it's ready
+:: STEP 5: Smart wait - poll backend until it's ready
 :: -------------------------------------------------------
 echo  ==========================================
 echo   Waiting for backend to come online...

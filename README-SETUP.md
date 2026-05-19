@@ -28,12 +28,18 @@ The system has been packaged to be as completely automated as possible.
 3. Change `1234` to whatever password you set when you installed PostgreSQL.
 4. Save and close `config.bat`.
 
-### Step 2: Run the Startup Script
+### Step 2: Manual Database Setup
+1. Open **pgAdmin** or your preferred PostgreSQL client.
+2. Create a new database named `hoa_db` (or the name you specified in `config.bat`).
+3. Import the database structure and default data using the provided `Database/hoa_db_dump.sql` file.
+   - **Using command prompt**: Open a terminal in the project folder and run:
+     `psql -U postgres -d hoa_db -f Database\hoa_db_dump.sql`
+   - *(Note: Replace `postgres` with your database user if different, and it may prompt for your password).*
+
+### Step 3: Run the Startup Script
 1. Double-click the file named **`START-HOA-SYSTEM.bat`**.
 2. A command prompt will open and begin the setup process. It will automatically:
    - Check if you have Java, Node.js, and PostgreSQL installed correctly.
-   - Create the `hoa_db` database for you.
-   - **Automatically import the database structure and default data from the included `Database/hoa_db_dump.sql` file.** (You do not need to manually import any SQL!).
    - Install the required Node.js modules for the React frontend (this may take a few minutes on the first run).
    - Start the Spring Boot Backend server.
    - Start the React Vite Frontend server.
